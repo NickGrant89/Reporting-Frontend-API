@@ -3,7 +3,7 @@ extends layout
 block content
     br
     h1 #{title}
-    form(method='POST', action='/device/edit/'+device.id)
+    form(method='POST', action='/devices/edit/'+device.id)
         #form-group
             label PC Name:
             input.form-control(name='pcname', type='text', value=device.pcname)

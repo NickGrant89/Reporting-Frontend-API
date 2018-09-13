@@ -21,6 +21,8 @@ html
                             a.nav-link.disabled(href='#') Disabled
                         form.form-inline.my-2.my-lg-0
         .container
+            br
+            != messages('message', locals)
             block content
             br
             hr

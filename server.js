@@ -4,6 +4,11 @@ const Joi = require('joi');  // Joi is a validator, making code smaller//
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser')
+const flash = require('connect-flash');
+const session = require('express-session');
+
+
+
 
 
 //MongoDB connetion
@@ -46,31 +51,20 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(express.static(path.join(__dirname, 'sbadmin')))
 
+//Express session Middleware
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+  }));
 
-//GET Method to display devices on page.
+  //Express message middleware
 
-app.get('/devices', function(req, res){
-
-    Device.find({}, function(err, devices){
-        if(err){
-            console.log(err)
-        }else{
-            res.render('index', {
-                title:'Devices',
-                devices: devices,
-            });
-        }
-    });
-  });
-
-//GET display add device page with form  
-
-app.get('/devices/add', (req, res) => {
-    res.render('add_device', {
-    title:'Add Device',
-             
-    });
+  app.use(require('connect-flash')());
+  app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
 });
 
 //GET display SB Admin page
@@ -82,79 +76,7 @@ app.get('/', (req, res) => {
     });
 });
 
-//Get single device page
-app.get('/device/:id', (req, res) => {
-    Device.findById(req.params.id, function(err, device){
-        res.render('device', {
-            device:device
-                     
-        });
-    });  
-});
 
-//Add submit device with form
-app.post('/devices/add', (req, res) => {
-   let device = new Device();
-   device.pcname = req.body.pcname;
-   device.ipaddress = req.body.ipaddress;
-   device.macaddress = req.body.macaddress;
-
-   device.save(function(err){
-        if(err){
-            console.log(err);
-            return;
-        }
-        else{
-            res.redirect('/devices')
-        }
-   });
-
-   console.log(req.body.pcname)
-});
-
-//Load edit form
-app.get('/device/edit/:id', (req, res) => {
-    Device.findById(req.params.id, function(err, device){
-        res.render('edit_device', {
-            title:'Edit Device',
-            device:device
-                     
-        });
-    });  
-});
-
-//Add submit device with form
-app.post('/device/edit/:id', (req, res) => {
-    let device = {};
-    device.pcname = req.body.pcname;
-    device.ipaddress = req.body.ipaddress;
-    device.macaddress = req.body.macaddress;
-
-    let query = {_id:req.params.id}
- 
-    Device.update(query, device, function(err){
-         if(err){
-             console.log(err);
-             return;
-         }
-         else{
-             res.redirect('/devices')
-         }
-    });
-    console.log(req.body.pcname)
- });
-
- //Delete edit form
-app.delete('/device/:id', (req, res) => {
-    let query = {_id:req.params.id}
-
-    Device.remove(query, function(err){
-        if(err){
-            console.log(err)
-        }
-        res.send('Success');
-    });
-});
 
 
 
@@ -239,6 +161,8 @@ app.delete('/api/devices/:id', (req, res) => {
 
 });
 
+let devices = require('./routes/devices');
+app.use('/devices', devices);
 
 //Validation 
 
