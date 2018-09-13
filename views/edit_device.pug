@@ -1,0 +1,18 @@
+extends layout
+    
+block content
+    br
+    h1 #{title}
+    form(method='POST', action='/device/edit/'+device.id)
+        #form-group
+            label PC Name:
+            input.form-control(name='pcname', type='text', value=device.pcname)
+        #form-group
+            label IP Address:
+            input.form-control(name='ipaddress', type='text' value=device.ipaddress)
+        #form-group
+            label Mac Address:
+            input.form-control(name='macaddress', type='text' value=device.macaddress)
+            br  
+        input.btn.btn-primary(type='submit', value='Submit')
+        a.btn.btn-danger(href='/devices') Cancel

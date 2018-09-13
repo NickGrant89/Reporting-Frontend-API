@@ -1,0 +1,10 @@
+extends layout
+    
+block content
+    br
+    h1 PC Name: #{device.pcname}
+    h5 IP Address: #{device.ipaddress}
+    h5 MAC Address: #{device.macaddress}
+    hr
+    a.btn.btn-primary(href='/device/edit/'+device.id) Edit
+    a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete

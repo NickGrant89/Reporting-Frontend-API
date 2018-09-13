@@ -1,0 +1,17 @@
+extends layout
+    
+block content
+    br
+    h1 #{title}
+    form(method='POST', action='/devices/add')
+        #form-group
+            label PC Name:
+            input.form-control(name='pcname', type='text')
+        #form-group
+            label IP Address:
+            input.form-control(name='ipaddress', type='text')
+        #form-group
+            label Mac Address:
+            input.form-control(name='macaddress', type='text')
+            br  
+        input.btn.btn-primary(type='submit', value='Submit')          
