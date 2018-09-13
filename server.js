@@ -5,8 +5,6 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser')
 
-//hello worl
-
 
 //MongoDB connetion
 
