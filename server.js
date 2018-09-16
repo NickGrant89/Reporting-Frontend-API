@@ -8,9 +8,6 @@ const flash = require('connect-flash');
 const session = require('express-session');
 
 
-
-
-
 //MongoDB connetion
 
 const mongoose = require('mongoose');
@@ -76,10 +73,6 @@ app.get('/', (req, res) => {
     });
 });
 
-
-
-
-
 //GET Method for devices // API Functions
 
 app.get('/api/devices', (req, res) => {
@@ -100,7 +93,7 @@ app.get('/api/devices', (req, res) => {
 
 app.get('/api/devices/:id', (req, res) => {
 
-    const device = Device.find(d => d.id === parseInt(req.params.id))
+    const device = Device.find(d => d._id === parseInt(req.params._id))
     if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
     res.send(device);
     
@@ -116,13 +109,17 @@ app.post('/api/devices', (req, res) => {
        console.log(error.details[0].message);
        return; 
    } 
+   //let device = new Device();
 
-    const device = {
-        id: devices.length +1,
-        name: req.body.name
+    const Device = {
+     
+        pcname: req.body.name
        
     };
-    devices.push(device);
+    //device.id =  devices.length +1;
+    //device.pcname = req.body.pcname;
+
+    device.push(Device);
     res.send(device);
     console.log(device , ' Created 200');
 });
@@ -161,15 +158,18 @@ app.delete('/api/devices/:id', (req, res) => {
 
 });
 
+// Route File
+
 let devices = require('./routes/devices');
+let users = require('./routes/users');
 app.use('/devices', devices);
+app.use('/users', users);
 
 //Validation 
 
 function validateDevice(device){
     const schema ={
-        name: Joi.string().min(3).required(),
-        ver: Joi.string().min(3).required()
+        pcname: Joi.string().min(3).required()
         
     };
 

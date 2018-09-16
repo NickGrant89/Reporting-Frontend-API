@@ -17,6 +17,7 @@
     "express-validator": "^5.3.0",
     "joi": "^13.6.0",
     "mongoose": "^5.2.13",
+    "passport-local": "^1.0.0",
     "pug": "^2.0.3"
   }
 }
