@@ -6,12 +6,14 @@ const path = require('path');
 const bodyParser = require('body-parser')
 const flash = require('connect-flash');
 const session = require('express-session');
+const config = require('./config/database')
+const passport = require('passport');
 
 
 //MongoDB connetion
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/devices',{ useNewUrlParser: true });
+mongoose.connect(config.database,{ useNewUrlParser: true });
 
 // Starting DB connection
 
@@ -64,6 +66,17 @@ app.use(session({
   next();
 });
 
+//Passport Config
+require('./config/passport')(passport);
+//passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('*', function(req, res, next){
+    res.locals.user = req.user || null;
+    next();
+})
+
 //GET display SB Admin page
 
 app.get('/', (req, res) => {
@@ -73,97 +86,16 @@ app.get('/', (req, res) => {
     });
 });
 
-//GET Method for devices // API Functions
 
-app.get('/api/devices', (req, res) => {
-    
-    Device.find({}, function(err, devices){
-        if(err){
-            console.log(err)
-        }else{
-    res.send(devices);
-    console.log(devices);
-        }
-    
-    })
-    
-});
-
-//GET Singel device :id
-
-app.get('/api/devices/:id', (req, res) => {
-
-    const device = Device.find(d => d._id === parseInt(req.params._id))
-    if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
-    res.send(device);
-    
-});
-
-//Post requests to add device
-
-app.post('/api/devices', (req, res) => {
-    const {error} = validateDevice(req.body);
-
-   if(error){
-       res.status('404').send(error.details[0].message)
-       console.log(error.details[0].message);
-       return; 
-   } 
-   //let device = new Device();
-
-    const Device = {
-     
-        pcname: req.body.name
-       
-    };
-    //device.id =  devices.length +1;
-    //device.pcname = req.body.pcname;
-
-    device.push(Device);
-    res.send(device);
-    console.log(device , ' Created 200');
-});
-
-//PUT Method update single device
-
-app.put('/api/devices/:id', (req, res) => {
-    const device = devices.find(d => d.id === parseInt(req.params.id))
-    if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
-
-    const {error} = validateDevice(req.body);
-
-    if(error) return res.status('404').send(error.details[0].message), console.log(error.details[0].message);
-     
- 
-
-    device.name = req.body.name;
-    device.ver = req.body.ver;
- 
-    res.send(device);
-    console.log(device, 'Updated 200!');
-});
-
-//DEL Method 
-
-app.delete('/api/devices/:id', (req, res) => {
-    const device = devices.find(d => d.id === parseInt(req.params.id))
-    if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
-
-    const index = devices.indexOf(device);
-
-    devices.splice(index, 1);
-
-    res.send(device);
-    console.log(device, 'Delete 200 ');
-
-});
 
 // Route File
 
 let devices = require('./routes/devices');
 let users = require('./routes/users');
+//let api = require('./routes/api');
 app.use('/devices', devices);
 app.use('/users', users);
+//app.use('/api', api);
 
 //Validation 
 

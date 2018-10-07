@@ -97,7 +97,7 @@ router.post('/edit/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     let query = {_id:req.params.id}
 
-    Device.remove(query, function(err){
+    Device.deleteOne(query, function(err){
         if(err){
             console.log(err)
         }
