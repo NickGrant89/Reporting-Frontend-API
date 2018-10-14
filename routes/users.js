@@ -7,11 +7,25 @@ const passport = require('passport');
 //Passport Config
 require('../config/passport')(passport);
 
-
 //Bring in Users Model
-
 let User = require('../models/user');
 
+//Get all users
+router.get('/', function(req, res){
+
+    User.find({}, function(err, users){
+        if(err){
+            console.log(err)
+        }else{
+            res.render('users', {
+                title:'Users',
+                users: users,
+            });
+        }
+    });
+  });
+
+ //Get register form 
 router.get('/register', function(req, res){
     res.render('register');
 });
@@ -20,22 +34,28 @@ router.get('/register', function(req, res){
 const { check, validationResult } = require('express-validator/check');
 
 router.post('/register', [
-  //Username
-  check('username').isLength({ min: 5}),
-  // username must be an email
-  check('email').isEmail(),
-  // password must be at least 5 chars long
-  check('password').isLength({ min: 5 })
+    //Name
+    check('name').isLength({min:3}).trim().withMessage('Name required'),
+    //Company
+    check('company').isLength({min:1}).trim().withMessage('Company required'),
+    //Username
+    check('username').isLength({ min: 6}),
+    // username must be an email
+    check('email').isEmail(),
+    // password must be at least 5 chars long
+    check('password').isLength({ min: 5 }),
+
+    //check('password2').equals('password')
 ], (req, res) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    req.flash('danger', 'Please try again', { errors: errors.array() });
+    req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
     res.redirect('/users/register');
+    
+    //res.render('register',)
 
-    res.render('register',)
-
-   return res.status(422).json({ errors: errors.array() });;
+   return { errors: errors.mapped() };
   }
 
   let user = new User();
@@ -174,7 +194,14 @@ router.post('/home/register', function(req, res){
 
 //login form
 router.get('/login', function(req, res){
-    res.render('login');
+    res.render('login2');
+})
+
+//login form
+router.get('/logout', function(req, res){
+    req.logout();
+    req.flash('success', 'You have logged out');
+    res.redirect('/users/login');
 })
 
 //login process

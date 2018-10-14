@@ -5,6 +5,10 @@ block content
     h1 PC Name: #{device.pcname}
     h5 IP Address: #{device.ipaddress}
     h5 MAC Address: #{device.macaddress}
+    h5 Company: #{device.company}
+    h5 Owner: #{owner}
     hr
-    a.btn.btn-primary(href='/devices/edit/'+device.id) Edit
-    a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
+    if user
+        if user.id == device.owner
+            a.btn.btn-primary(href='/devices/edit/'+device.id) Edit
+            a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete

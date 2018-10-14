@@ -9,6 +9,9 @@ const session = require('express-session');
 const config = require('./config/database')
 const passport = require('passport');
 
+// This calls the Device model to intergate the DB
+
+let Device = require('./models/device');
 
 //MongoDB connetion
 
@@ -29,9 +32,7 @@ db.on('error', function(err){
 
 });
 
-// This calls the Device model to intergate the DB
 
-let Device = require('./models/device');
 
 const app = express();
 app.use(express.json());
@@ -77,25 +78,41 @@ app.get('*', function(req, res, next){
     next();
 })
 
+//Access Controle
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }else{
+        req.flash('danger', 'Please sign in')
+        res.redirect('/users/login')
+    }
+}
+
 //GET display SB Admin page
 
-app.get('/', (req, res) => {
-    res.render('sbadmin', {
-    title:'One C Admin',
-             
-    });
+app.get('/', ensureAuthenticated, function(req, res){
+    
+    Device.find({}, function(err, devices){
+        if(err){
+            console.log(err)
+        }else{
+            res.render('sbadmin', {
+                title:'login',
+                devices: devices,
+            });
+        }
+    });         
 });
-
-
 
 // Route File
 
 let devices = require('./routes/devices');
 let users = require('./routes/users');
-//let api = require('./routes/api');
+let api = require('./routes/api');
+
 app.use('/devices', devices);
 app.use('/users', users);
-//app.use('/api', api);
+app.use('/api', api);
 
 //Validation 
 

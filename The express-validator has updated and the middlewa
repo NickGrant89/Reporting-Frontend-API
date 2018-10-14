@@ -48,3 +48,19 @@ app.post('/articles/add',
   });
  }
 });
+
+//GET display SB Admin page
+
+app.get('/', function(req, res){
+    
+    Device.find({}, function(err, devices){
+        if(err){
+            console.log(err)
+        }else{
+            res.render('sbadmin', {
+                title:'Admin',
+                devices: devices,
+            });
+        }
+    });         
+});

@@ -1,6 +1,3 @@
-extends layout2
-
-block content
   #page-wrapper
         .row
           .col-lg-12
@@ -13,10 +10,10 @@ block content
               .panel-heading
                 .row
                   .col-xs-3
-                    i.fa.fa-building.fa-5x
+                    i.fa.fa-comments.fa-5x
                   .col-xs-9.text-right
                     .huge 26
-                    div Company
+                    div New Comments!
               a(href="#")
                 .panel-footer
                   span.pull-left View Details
@@ -28,10 +25,10 @@ block content
               .panel-heading
                 .row
                   .col-xs-3
-                    i.fa.fa-sitemap.fa-5x
+                    i.fa.fa-tasks.fa-5x
                   .col-xs-9.text-right
                     .huge 12
-                    div Sites
+                    div New Tasks!
               a(href="#")
                 .panel-footer
                   span.pull-left View Details
@@ -43,11 +40,11 @@ block content
               .panel-heading
                 .row
                   .col-xs-3
-                    i.fa.fa-group.fa-5x
+                    i.fa.fa-shopping-cart.fa-5x
                   .col-xs-9.text-right
                     .huge 124
-                    div Users
-              a(href="/users")
+                    div New Orders!
+              a(href="#")
                 .panel-footer
                   span.pull-left View Details
                   span.pull-right
@@ -86,22 +83,18 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th PC Name
-                        th IP
-                        th MAC
-                        th Status
-                        th Date/Time Registered
+                        th Rendering engine
+                        th Browser
+                        th Platform(s)
+                        th Engine version
+                        th CSS grade
                     tbody
-                      each device, i in devices
-                        tr.odd.gradeX
-                          td
-                            a(href="/devices/"+device._id)=device.pcname
-                          td
-                            = device.ipaddress 
-                          td
-                            = device.macaddress
-                          td.center 4
-                          td.center X
+                      tr.odd.gradeX
+                        td Trident
+                        td Internet Explorer 4.0
+                        td Win 95+
+                        td.center 4
+                        td.center X
                   // /.table-responsive
                 // /.panel-body
               // /.panel

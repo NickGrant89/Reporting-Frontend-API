@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+
+let Device = require('../models/device');
+
 //GET Method for devices // API Functions
 
 router.get('/devices', (req, res) => {
@@ -85,3 +88,5 @@ router.delete('/devices/:id', (req, res) => {
     console.log(device, 'Delete 200 ');
 
 });
+
+module.exports = router;

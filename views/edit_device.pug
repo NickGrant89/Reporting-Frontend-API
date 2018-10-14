@@ -13,6 +13,9 @@ block content
         #form-group
             label Mac Address:
             input.form-control(name='macaddress', type='text' value=device.macaddress)
+        #form-group
+            label Company:
+            input.form-control(name='company', type='text' value=device.company)
             br  
         input.btn.btn-primary(type='submit', value='Submit')
         a.btn.btn-danger(href='/devices') Cancel

@@ -3,7 +3,7 @@ extends layout
 block content
     br
     h1 #{title}
-    form(method='POST', action='/devices/add')
+    form(method='POST', action='/devices/add1')
         #form-group
             label PC Name:
             input.form-control(name='pcname', type='text')
@@ -13,5 +13,8 @@ block content
         #form-group
             label Mac Address:
             input.form-control(name='macaddress', type='text')
-            br  
+        #form-group
+            label Company:
+            input.form-control(name='company', type='text')    
+            br       
         input.btn.btn-primary(type='submit', value='Submit')          
