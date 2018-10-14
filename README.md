@@ -1,3 +1,4 @@
 # OneC-Enterprise
 
-Enterprise platform for monitoing devices and reporting. damir
+Enterprise platform for monitoing devices and reporting. damirsdf
+sf
