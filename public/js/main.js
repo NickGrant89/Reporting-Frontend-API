@@ -6,7 +6,7 @@ $(document).ready(function(){
         if(delDevice == true){
             $.ajax({
                 type:'DELETE',
-                url: '/device/'+id,
+                url: '/devices/'+id,
                 success: function(response){
                  alert('Device Deleted');
                  window.location.href='/devices'
