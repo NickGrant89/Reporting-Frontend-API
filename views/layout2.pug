@@ -282,7 +282,7 @@ html(lang="en")
 								// /.nav-second-level
 					// /.sidebar-collapse
 				// /.navbar-static-side
-				!= messages('message', locals)
+			!= messages('message', locals)
 			block content
 		script(src="../vendor/jquery/jquery.min.js")
 		// Bootstrap Core JavaScript
@@ -295,6 +295,7 @@ html(lang="en")
 		script(src="../vendor/datatables-responsive/dataTables.responsive.js")
 		// Custom Theme JavaScript
 		script(src="../dist/js/sb-admin-2.js")
+		script(src='/js/main.js')
 		script.
 			$(document).ready(function() {
 			$('#dataTables-example').DataTable({

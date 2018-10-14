@@ -18,13 +18,13 @@ function ensureAuthenticated(req, res, next){
 
 //GET Method to display devices on page.
 
-router.get('/', function(req, res){
+router.get('/', ensureAuthenticated, function(req, res){
 
     Device.find({}, function(err, devices){
         if(err){
             console.log(err)
         }else{
-            res.render('index', {
+            res.render('devices', {
                 title:'Devices',
                 devices: devices,
             });
@@ -123,8 +123,12 @@ router.post('/add', (req, res) => {
 });
 
 //Load edit form
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', ensureAuthenticated,  function(req, res){
     Device.findById(req.params.id, function(err, device){
+        if(device.owner != req.user._id){
+            req.flash('danger', 'Not Authorised');
+            res.redirect('/');
+        }
         res.render('edit_device', {
             title:'Edit Device',
             device:device
@@ -157,13 +161,23 @@ router.post('/edit/:id', (req, res) => {
 
  //Delete edit form
 router.delete('/:id', (req, res) => {
+    if(!req.user._id){
+        res.status(500).send();
+    }
+
     let query = {_id:req.params.id}
 
-    Device.deleteOne(query, function(err){
-        if(err){
-            console.log(err)
+    Device.findById(req.params.id, function(err, device){
+        if(device.owner != req.user._id){
+            res.status(500).send();
+        }else{
+            Device.deleteOne(query, function(err){
+                if(err){
+                    console.log(err)
+                }
+                res.send('Success');
+            });
         }
-        res.send('Success');
     });
 });
 

@@ -8,21 +8,22 @@ block content
           .row
             .col-lg-12
               br
-              form(method='POST', action='/devices/add1')
+              form(method='POST', action='/devices/edit/'+device.id)
                 #form-group
                     label PC Name:
-                    input.form-control(name='pcname', type='text')
+                    input.form-control(name='pcname', type='text', value=device.pcname)
                 #form-group
                     label IP Address:
-                    input.form-control(name='ipaddress', type='text')
+                    input.form-control(name='ipaddress', type='text' value=device.ipaddress)
                 #form-group
                     label Mac Address:
-                    input.form-control(name='macaddress', type='text')
+                    input.form-control(name='macaddress', type='text' value=device.macaddress)
                 #form-group
                     label Company:
-                    input.form-control(name='company', type='text')    
-                    br       
+                    input.form-control(name='company', type='text' value=device.company)
+                    br  
                 input.btn.btn-primary(type='submit', value='Submit')
+                a.btn.btn-danger(href='/devices') Cancel
           // /#page-wrapper
           // /#wrapper
           // jQuery

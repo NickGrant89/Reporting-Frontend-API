@@ -96,8 +96,8 @@ app.get('/', ensureAuthenticated, function(req, res){
         if(err){
             console.log(err)
         }else{
-            res.render('sbadmin', {
-                title:'login',
+            res.render('index', {
+                title:'Dashboard',
                 devices: devices,
             });
         }
@@ -113,6 +113,11 @@ let api = require('./routes/api');
 app.use('/devices', devices);
 app.use('/users', users);
 app.use('/api', api);
+
+app.get('*', function(req, res) {
+    res.status(404).end();
+    res.redirect('/');
+  });
 
 //Validation 
 

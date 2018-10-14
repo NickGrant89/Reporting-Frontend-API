@@ -194,7 +194,7 @@ router.post('/home/register', function(req, res){
 
 //login form
 router.get('/login', function(req, res){
-    res.render('login2');
+    res.render('login');
 })
 
 //login form
