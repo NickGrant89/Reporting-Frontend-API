@@ -105,6 +105,7 @@ app.get('/', ensureAuthenticated, function(req, res){
 });
 
 // Route File
+//test
 
 let devices = require('./routes/devices');
 let users = require('./routes/users');
