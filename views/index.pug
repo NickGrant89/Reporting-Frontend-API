@@ -80,17 +80,19 @@ block content
             .col-lg-12
               .panel.panel-default
                 .panel-heading
-                  | New Devices
+                  | Sites Available
                 // /.panel-heading
                 .panel-body
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th PC Name
-                        th IP
-                        th MAC
-                        th Status
-                        th Date/Time Registered
+                        th ID
+                        th Name
+                        th Address
+                        th City
+                        th State/County
+                        th Country 
+                        th Concept
                     tbody
                       each device, i in devices
                         tr.odd.gradeX
@@ -101,6 +103,8 @@ block content
                           td
                             = device.macaddress
                           td.center 4
+                          td.center X
+                          td.center X
                           td.center X
                   // /.table-responsive
                 // /.panel-body

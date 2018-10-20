@@ -126,16 +126,7 @@ router.post('/register1', (req, res) => {
  console.log(req.body.pcname)
 });
 
-//Validation 
 
-function validateDevice(user){
-    const schema ={
-        name: Joi.string().min(3).required()
-        
-    };
-
-    return Joi.validate(user, schema);
-}
 
 //register process
 router.post('/home/register', function(req, res){

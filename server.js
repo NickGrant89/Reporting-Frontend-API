@@ -111,10 +111,12 @@ app.get('/', ensureAuthenticated, function(req, res){
 let devices = require('./routes/devices');
 let users = require('./routes/users');
 let api = require('./routes/api');
+let company = require('./routes/company');
 
 app.use('/devices', devices);
 app.use('/users', users);
 app.use('/api', api);
+app.use('/company', company);
 
 app.get('*', function(req, res) {
     res.status(404).end();

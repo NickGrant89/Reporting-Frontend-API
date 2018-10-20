@@ -33,25 +33,25 @@ block content
                         .panel-heading
                         // /.panel-heading
                         .panel-body
-                            .table-responsive
-                            table.table.table-striped.table-bordered.table-hover(width="100%")
-                                thead
-                                    tr
-                                        th ID
-                                        th Name
-                                        th Username
-                                        th Company
-                                    tbody
-                                        each user, i in users
-                                            tr
-                                                td
-                                                    =user._id
-                                                td
-                                                    =user.name 
-                                                td
-                                                    =user.username
-                                                td
-                                                    =user.company
+                            table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                              thead
+                                tr
+                                  th Name
+                                  th Email
+                                  th Company
+                                  th Company
+                                  th Date/Time Registered
+                              tbody
+                                each user, i in users
+                                  tr.odd.gradeX
+                                    td
+                                      a(href="/user/"+user._id)=user.name
+                                    td
+                                      = user.email
+                                    td
+                                      = user.company
+                                    td.center 4
+                                    td.center X
                             // /.table-responsive
                         // /.panel-body
                         // /.panel

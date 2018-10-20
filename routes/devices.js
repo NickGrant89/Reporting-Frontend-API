@@ -41,8 +41,6 @@ router.get('/add', ensureAuthenticated, function(req, res){
     });
 });
 
-
-
 //Get single device page
 router.get('/:id', (req, res) => {
     Device.findById(req.params.id, function(err, device){

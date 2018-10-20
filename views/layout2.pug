@@ -208,7 +208,18 @@ html(lang="en")
 									|  Dashboard
 							li
 								a(href="#")
-									i.fa.fa-bar-chart-o.fa-fw
+									i.fa.fa-align-justify.fa-fw
+									|  Admin Area
+									span.fa.arrow
+								ul.nav.nav-second-level
+									li
+										a(href="/company/add") New Company
+									li
+										a(href="/company/site/add") New Site
+								// /.nav-second-level
+							li
+								a(href="#")
+									i.fa.fa-building.o.fa-fw
 									|  Company
 									span.fa.arrow
 								ul.nav.nav-second-level
@@ -216,7 +227,7 @@ html(lang="en")
 										a(href="/sites") Sites
 									li
 										a(href="/users") Users
-								// /.nav-second-level
+								// /.nav-second-level	
 							li
 								a(href="tables.html")
 									i.fa.fa-table.fa-fw
