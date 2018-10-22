@@ -24,12 +24,13 @@ block content
                         th Company 
                     tbody
                       each site, i in sites
-                        if user.company == site.company 
-                          tr.odd.gradeX
-                            td
-                              a(href="/sites/"+site._id)=site.name
-                            td
-                              = site.company
+                        if user.admin == "True"  
+                          if user.site == site.name 
+                            tr.odd.gradeX
+                              td
+                                a(href="/sites/"+site._id)=site.name
+                              td
+                                = site.company
                           
                   // /.table-responsive
                 // /.panel-body
