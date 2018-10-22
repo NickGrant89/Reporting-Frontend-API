@@ -1,0 +1,43 @@
+extends layout2
+
+block content
+  #page-wrapper
+        .row
+          .col-lg-12
+            h1.page-header #{title}
+          .row
+            .col-lg-12
+              br
+            // /.col-lg-12
+          // /.row
+          .row
+            .col-lg-12
+              .panel.panel-default
+                .panel-heading
+                  | New Sites
+                // /.panel-heading
+                .panel-body
+                  table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                    thead
+                      tr
+                        th Site Name
+                        th Company 
+                    tbody
+                      each site, i in sites
+                        tr.odd.gradeX
+                          td
+                            a(href="/sites/"+site._id)=site.name
+                          td
+                            = site.name 
+                          td
+                            = site.company
+                          td.center 4
+                          td.center X
+                  // /.table-responsive
+                // /.panel-body
+              // /.panel
+            // /.col-lg-6
+          // /.row
+          // /#page-wrapper
+          // /#wrapper
+          // jQuery

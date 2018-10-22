@@ -112,11 +112,13 @@ let devices = require('./routes/devices');
 let users = require('./routes/users');
 let api = require('./routes/api');
 let company = require('./routes/company');
+let site = require('./routes/sites');
 
 app.use('/devices', devices);
 app.use('/users', users);
 app.use('/api', api);
 app.use('/company', company);
+app.use('/sites', site);
 
 app.get('*', function(req, res) {
     res.status(404).end();
