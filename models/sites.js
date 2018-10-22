@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 // Sites schema
 
 const SiteSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     company:{
         type: String,
         required: true

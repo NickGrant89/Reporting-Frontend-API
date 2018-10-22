@@ -30,7 +30,7 @@ router.post('/add', [
 
     check('phonenumber').isLength({min:3}).trim().withMessage('Company Name required'),
 
-    check('company').isLength({min:3}).trim().withMessage('Company Name required'),
+  
 ], (req, res) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);
