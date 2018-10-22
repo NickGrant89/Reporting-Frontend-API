@@ -70,7 +70,7 @@ router.post('/add', [
 
 router.get('/', function(req, res){
 
-    Company.find({}, function(err, sites){
+    Company.find({}, function(err, companies){
         if(err){
             console.log(err)
         }else{
