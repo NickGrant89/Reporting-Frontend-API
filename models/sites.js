@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 
 const SiteSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    company:{
+        type: String,
+        required: true
+    },
     name:{
         type: String,
         required: true
@@ -35,10 +39,6 @@ const SiteSchema = mongoose.Schema({
     phonenumber:{
         type: String,
         required: true
-    },
-    company:{
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Company'
     }
 });
 
