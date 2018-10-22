@@ -14,23 +14,22 @@ block content
             .col-lg-12
               .panel.panel-default
                 .panel-heading
-                  | New Sites
+                  | Companies
                 // /.panel-heading
                 .panel-body
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th Site Name
+                        th company Name
                         th Company 
                     tbody
-                      each site, i in sites
+                      each company, i in companies
                        if user
-                         if user.site == site.name
+                         if user.company == company.name
                           tr.odd.gradeX
                             td
-                              a(href="/sites/"+site._id)=site.name
-                            td
-                              = site.company
+                              a(href="/sites/"+company._id)=company.name
+                       
                           
                   // /.table-responsive
                 // /.panel-body

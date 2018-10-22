@@ -38,8 +38,10 @@ router.post('/register', [
     check('name').isLength({min:3}).trim().withMessage('Name required'),
     //Company
     check('company').isLength({min:1}).trim().withMessage('Company required'),
+    //Company
+    check('site').isLength({min:1}).trim().withMessage('Site required'),
     //Username
-    check('username').isLength({ min: 6}),
+    check('username').isLength({ min: 1}),
     // username must be an email
     check('email').isEmail(),
     // password must be at least 5 chars long
@@ -62,6 +64,7 @@ router.post('/register', [
   user.name = req.body.name;
   user.email = req.body.email;
   user.company = req.body.company;
+  user.site = req.body.site;
   user.username = req.body.username;
   user.password = req.body.password;
   user.password2 = req.body.password2;
@@ -94,6 +97,7 @@ router.post('/register1', (req, res) => {
     user.name = req.body.name;
     user.email = req.body.email;
     user.company = req.body.company;
+    user.site = req.body.site;
     user.username = req.body.username;
     user.password = req.body.password;
     user.password2 = req.body.password2;
@@ -123,8 +127,7 @@ router.post('/register1', (req, res) => {
     });
  
 
- console.log(req.body.pcname)
-});
+ });
 
 
 
@@ -133,6 +136,7 @@ router.post('/home/register', function(req, res){
     const name = req.body.name;
     const email = req.body.email;
     const company = req.body.company;
+    const site = req.body.site;
     const username = req.body.username;
     const password = req.body.password;
     const password2 = req.body.password2;
