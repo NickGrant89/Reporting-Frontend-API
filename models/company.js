@@ -39,6 +39,7 @@ const CompanySchema = mongoose.Schema({
         type: String,
         required: true
     }
+    
 });
 
 

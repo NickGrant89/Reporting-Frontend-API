@@ -26,7 +26,9 @@ let deviceSchema = mongoose.Schema({
         type: String,
         required: true
     }
-
+    
 });
+
+
 
 let Device = module.exports = mongoose.model('device', deviceSchema);

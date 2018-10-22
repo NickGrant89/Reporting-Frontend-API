@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 // Sites schema
 
 const SiteSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    name:{
+    sitename:{
         type: String,
         required: true
     },
@@ -37,9 +36,10 @@ const SiteSchema = mongoose.Schema({
         required: true
     },
     company:{
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Company'
+        type: String, 
+        required: true
     }
+    
 });
 
 
