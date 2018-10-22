@@ -5,6 +5,9 @@ block content
     h1 #{title}
     form(method='POST', action='/users/register')
         #form-group
+            label Admin:
+            input.form-control(name='admin', type='text')
+        #form-group
             label Name:
             input.form-control(name='name', type='text')
         #form-group
@@ -17,7 +20,7 @@ block content
             label Site:
             input.form-control(name='site', type='text')
         #form-group
-            label UserName:
+            label Username:
             input.form-control(name='username', type='text')
         #form-group
             label Password:

@@ -24,8 +24,7 @@ block content
                         th Company 
                     tbody
                       each site, i in sites
-                       if user
-                         if user.site == site.name
+                        if user.company == site.company 
                           tr.odd.gradeX
                             td
                               a(href="/sites/"+site._id)=site.name

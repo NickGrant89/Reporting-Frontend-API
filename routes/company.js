@@ -59,12 +59,28 @@ router.post('/add', [
            return;
        }
        else{
-           req.flash('success', 'Device Added')
-           res.redirect('/company')
+           req.flash('success', 'Company Added')
+           res.redirect('/companies')
        }
   });  
 
 });
+
+//GET Method to display devices on page.
+
+router.get('/', function(req, res){
+
+    Company.find({}, function(err, sites){
+        if(err){
+            console.log(err)
+        }else{
+            res.render('companies', {
+                title:'Companies',
+                companies: companies,
+            });
+        }
+    });
+  });
 
 
 

@@ -34,6 +34,8 @@ router.get('/register', function(req, res){
 const { check, validationResult } = require('express-validator/check');
 
 router.post('/register', [
+        //Name
+    check('admin').isLength({min:3}).trim().withMessage('Admin Status required'),
     //Name
     check('name').isLength({min:3}).trim().withMessage('Name required'),
     //Company
@@ -45,7 +47,7 @@ router.post('/register', [
     // username must be an email
     check('email').isEmail(),
     // password must be at least 5 chars long
-    check('password').isLength({ min: 5 }),
+    check('password').isLength({ min: 1 }),
 
     //check('password2').equals('password')
 ], (req, res) => {
@@ -61,6 +63,7 @@ router.post('/register', [
   }
 
   let user = new User();
+  user.admin = req.body.admin;
   user.name = req.body.name;
   user.email = req.body.email;
   user.company = req.body.company;
@@ -94,6 +97,7 @@ router.post('/register', [
 router.post('/register1', (req, res) => {
     
     let user = new User();
+    user.admin = req.body.admin;
     user.name = req.body.name;
     user.email = req.body.email;
     user.company = req.body.company;
@@ -133,6 +137,7 @@ router.post('/register1', (req, res) => {
 
 //register process
 router.post('/home/register', function(req, res){
+    const admin = req.body.admin;
     const name = req.body.name;
     const email = req.body.email;
     const company = req.body.company;

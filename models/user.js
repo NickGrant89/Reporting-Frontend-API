@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 // User schema
 
 const UserSchema = mongoose.Schema({
+    admin:{
+        type: String,
+        required: true
+    },    
     name:{
         type: String,
         required: true
