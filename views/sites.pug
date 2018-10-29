@@ -29,21 +29,22 @@ block content
                         th Contact
                     tbody
                       each site, i in sites
-                        tr.odd.gradeX
-                          td
-                            a(href="/sites/"+site._id)=site.name
-                          td
-                            = site.address
-                          td
-                            = site.city
-                          td
-                            = site.county
-                          td
-                            = site.postcode
-                          td
-                            = site.country
-                          td
-                            = site.phonenumber
+                        if user.site == site.name
+                          tr.odd.gradeX
+                            td
+                              a(href="/sites/"+site._id)=site.name
+                            td
+                              = site.address
+                            td
+                              = site.city
+                            td
+                              = site.county
+                            td
+                              = site.postcode
+                            td
+                              = site.country
+                            td
+                              = site.phonenumber
                   // /.table-responsive
                 // /.panel-body
               // /.panel

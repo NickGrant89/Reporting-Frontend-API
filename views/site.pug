@@ -31,15 +31,16 @@ block content
                       
                     tbody
                     each device, i in devices 
-                      tr.odd.gradeX
-                        td
-                          a(href="/devices/"+ device._id)= device.pcname
-                        td
-                          = device.site 
-                        td
-                          = device.company
-                        td
-                          = device.ipaddress
+                      if user.site == device.site
+                        tr.odd.gradeX
+                          td
+                            a(href="/devices/"+ device._id)= device.pcname
+                          td
+                            = device.site 
+                          td
+                            = device.company
+                          td
+                            = device.ipaddress
                             
                                 
                       // /.table-responsive

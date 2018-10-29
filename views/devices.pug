@@ -29,20 +29,20 @@ block content
                        
                     tbody
                       each device, i in devices
-                        //-if user.site == device.site   
-                        tr.odd.gradeX
-                          td
-                            a(href="/devices/"+device._id)=device.pcname
-                          td
-                            = device.ipaddress 
-                          td
-                            = device.macaddress
-                          td
-                            = device.site
-                          td
-                            = device.company
-                          td
-                            = device.status
+                        if user.site == device.site   
+                          tr.odd.gradeX
+                            td
+                              a(href="/devices/"+device._id)=device.pcname
+                            td
+                              = device.ipaddress 
+                            td
+                              = device.macaddress
+                            td
+                              = device.site
+                            td
+                              = device.company
+                            td
+                              = device.status
                          
                   // /.table-responsive
                 // /.panel-body

@@ -14,23 +14,24 @@ block content
               .col-lg-4
                 a.btn.btn-primary(href='/sites/add') Add Site |
                 a.btn.btn-primary(href='/users/register/') | Add User |
-          .row
-            .col-lg-12
-              .panel.panel-default
-                .panel-heading
-                  | Sites
-                // /.panel-heading
-                .panel-body
-                  table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
-                    thead
-                      tr
-                        th Site Name
-                        th Company
-                        th Contact 
-                        th Status
-                      
-                    tbody
-                    each site, i in sites 
+        .row
+          .col-lg-12
+            .panel.panel-default
+              .panel-heading
+                | Sites
+              // /.panel-heading
+              .panel-body
+                table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                  thead
+                    tr
+                      th Site Name
+                      th Company
+                      th Contact 
+                      th Status
+                    
+                  tbody
+                  each site, i in sites 
+                    if site.company == company.name
                       tr.odd.gradeX
                         td
                           a(href="/sites/"+site._id)=site.name
@@ -42,8 +43,8 @@ block content
                           = site.status
                                 
                                    
-                          // /.table-responsive
-                        // /.panel-body
+                        // /.table-responsive
+                      // /.panel-body
                       // /.panel
                     // /.col-lg-6
                   // /.row  
