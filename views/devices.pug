@@ -29,7 +29,7 @@ block content
                        
                     tbody
                       each device, i in devices
-                        if user.site == device.site   
+                        if user.site == device.site || user.admin == "True" 
                           tr.odd.gradeX
                             td
                               a(href="/devices/"+device._id)=device.pcname

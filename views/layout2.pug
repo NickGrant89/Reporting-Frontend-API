@@ -72,29 +72,31 @@ html(lang="en")
 									i.fa.fa-dashboard.fa-fw
 									|  Dashboard
 							li
+								if user.admin == "True"
 								
-								a(href="/")
-									i.fa.fa-align-justify.fa-fw
-									|  Admin Area
-									span.fa.arrow
-								ul.nav.nav-second-level
-									li
-										a(href="/companies/add") New Company
-									li
-										a(href="/sites/add") New Site
-									li
-										a(href="/devices/add") New Device
-									li
-										a(href="/users/register") New User
-								// /.nav-second-level
+									a(href="/")
+										i.fa.fa-align-justify.fa-fw
+										|  Admin Area
+										span.fa.arrow
+									ul.nav.nav-second-level
+										li
+											a(href="/companies/add") New Company
+										li
+											a(href="/sites/add") New Site
+										li
+											a(href="/devices/add") New Device
+										li
+											a(href="/users/register") New User
+									// /.nav-second-level
 							li
 								a(href="#")
 									i.fa.fa-building.o.fa-fw
 									|  Company
 									span.fa.arrow
 								ul.nav.nav-second-level
-									li
-										a(href="/companies") Company
+									if user.admin == "True"
+										li
+											a(href="/companies") Company
 									li
 										a(href="/sites") Sites
 									li
