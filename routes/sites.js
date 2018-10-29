@@ -2,16 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 //User Model
-let Site = require('../models/sites');
+let Site = require('../models/site');
 
-router.get('/add', function(req, res){
-    res.render('add_site', {
-    title:'Add Site',
-             
-    });
-});
-
-// Add site
+//User devices
+let Device = require('../models/device');
 
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
@@ -67,6 +61,13 @@ router.post('/add', [
 });
 
 
+router.get('/add', function(req, res){
+    res.render('add_site', {
+    title:'Add Site',
+             
+    });
+});
+
 //GET Method to display devices on page.
 
 router.get('/', function(req, res){
@@ -83,5 +84,18 @@ router.get('/', function(req, res){
     });
   });
 
+    //Get single site page
+router.get('/:id', (req, res) => {
+    Site.findById(req.params.id, function(err, site){
+        Device.find({}, function(err, devices){
+            res.render('site', {
+                title: site.name,
+                site:site,
+                devices:devices
+
+             });
+         });
+    });  
+});
 
 module.exports = router;

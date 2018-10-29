@@ -13,11 +13,9 @@ block content
                 h5 MAC Address: #{device.macaddress}
                 h5 Company: #{device.company}
                 h5 Owner: #{owner}
-                hr
-                if user
-                    if user.id == device.owner
-                        a.btn.btn-primary(href='/devices/edit/'+device.id) Edit
-                        a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
+                hr     
+                a.btn.btn-primary(href='/devices/edit/'+device.id) Edit
+                a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
           // /#page-wrapper
           // /#wrapper
           // jQuery

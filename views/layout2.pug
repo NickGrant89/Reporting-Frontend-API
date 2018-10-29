@@ -207,15 +207,19 @@ html(lang="en")
 									i.fa.fa-dashboard.fa-fw
 									|  Dashboard
 							li
-								a
+								a(href="/")
 									i.fa.fa-align-justify.fa-fw
 									|  Admin Area
 									span.fa.arrow
 								ul.nav.nav-second-level
 									li
-										a(href="/company/add") New Company
+										a(href="/companies/add") New Company
 									li
 										a(href="/sites/add") New Site
+									li
+										a(href="/devices/add") New Device
+									li
+										a(href="/users/register") New User
 								// /.nav-second-level
 							li
 								a(href="#")
@@ -224,9 +228,13 @@ html(lang="en")
 									span.fa.arrow
 								ul.nav.nav-second-level
 									li
+										a(href="/companies") Company
+									li
 										a(href="/sites") Sites
 									li
 										a(href="/users") Users
+									li
+										a(href="/devices") Devices
 								// /.nav-second-level	
 							li
 								a(href="tables.html")

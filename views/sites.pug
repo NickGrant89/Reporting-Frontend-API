@@ -14,24 +14,36 @@ block content
             .col-lg-12
               .panel.panel-default
                 .panel-heading
-                  | New Sites
+                  | Sites
                 // /.panel-heading
                 .panel-body
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
                         th Site Name
-                        th Company 
+                        th Address 
+                        th City 
+                        th County 
+                        th Postcode 
+                        th Country 
+                        th Contact
                     tbody
                       each site, i in sites
-                        if user.admin == "True"  
-                          if user.site == site.name 
-                            tr.odd.gradeX
-                              td
-                                a(href="/sites/"+site._id)=site.name
-                              td
-                                = site.company
-                          
+                        tr.odd.gradeX
+                          td
+                            a(href="/sites/"+site._id)=site.name
+                          td
+                            = site.address
+                          td
+                            = site.city
+                          td
+                            = site.county
+                          td
+                            = site.postcode
+                          td
+                            = site.country
+                          td
+                            = site.phonenumber
                   // /.table-responsive
                 // /.panel-body
               // /.panel

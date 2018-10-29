@@ -1,0 +1,59 @@
+extends layout2
+
+block content
+  #page-wrapper
+        .row
+          .col-lg-12
+            h1.page-header #{title}
+              .row
+                .col-lg-4
+                  h4 Address: #{site.address}
+                  h4 City: #{site.city}
+                  h4 Postcode: #{site.postcode}
+                  h4 Country: #{site.county}
+                .col-lg-4
+                  h1 CONTROLS
+                  a.btn.btn-primary(href='/devices/add') Add Device
+          .row
+            .col-lg-12
+              .panel.panel-default
+                .panel-heading
+                  | Devices
+                // /.panel-heading
+                .panel-body
+                  table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                    thead
+                      tr
+                        th Device Name
+                        th Site
+                        th Company
+                        th IP Address
+                      
+                    tbody
+                    each device, i in devices 
+                      tr.odd.gradeX
+                        td
+                          a(href="/devices/"+ device._id)= device.pcname
+                        td
+                          = device.site 
+                        td
+                          = device.company
+                        td
+                          = device.ipaddress
+                            
+                                
+                      // /.table-responsive
+                    // /.panel-body
+                  // /.panel
+                // /.col-lg-6
+              // /.row  
+              // /.col-lg-4
+              // /.col-lg-4
+              // /.row
+            // /.col-lg-4
+          // /.row
+          // /.col-sm-12
+          // /.row
+          // /#page-wrapper
+          // /#wrapper
+          // jQuery

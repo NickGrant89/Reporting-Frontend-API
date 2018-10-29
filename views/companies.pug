@@ -20,15 +20,24 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th company Name
-                        th Company 
+                        th Name
+                        th Address
+                        th Contact Info
+                        th Email
                     tbody
                       each company, i in companies
-                       if user
-                         if user.company == company.name
+                          //-if user
+                        
                           tr.odd.gradeX
                             td
                               a(href="/companies/"+company._id)=company.name
+                            td
+                              = company.address 
+                            td
+                              = company.phonenumber
+                            td
+                              = company.email
+                          
                        
                           
                   // /.table-responsive

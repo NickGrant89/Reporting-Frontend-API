@@ -57,7 +57,7 @@ router.get('/:id', (req, res) => {
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
 
-router.post('/add1', [
+router.post('/add', [
     //Name
     check('pcname').isLength({min:3}).trim().withMessage('PC Name required'),
     //Company
@@ -66,6 +66,7 @@ router.post('/add1', [
     check('macaddress').isLength({ min: 6}),
     // username must be an email
     check('company').isLength({min:3}).trim().withMessage('Company Name required'),
+    check('site').isLength({ min: 1}),
 ], (req, res) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);
@@ -82,6 +83,7 @@ router.post('/add1', [
   device.ipaddress = req.body.ipaddress;
   device.macaddress = req.body.macaddress;
   device.company = req.body.company;
+  device.site = req.body.site;
   device.owner = req.user._id;
 
   device.save(function(err){
@@ -98,32 +100,11 @@ router.post('/add1', [
 });
 
 
-//Add submit device with form
-router.post('/add', (req, res) => {
-    
-      let device = new Device();
-      device.pcname = req.body.pcname;
-      device.ipaddress = req.body.ipaddress;
-      device.macaddress = req.body.macaddress;
-      device.company = req.body.company;
-   
-      device.save(function(err){
-           if(err){
-               console.log(err);
-               return;
-           }
-           else{
-               req.flash('success', 'Device Added')
-               res.redirect('/devices')
-           }
-      });
-   console.log(req.body.pcname)
-});
 
 //Load edit form
 router.get('/edit/:id', ensureAuthenticated,  function(req, res){
     Device.findById(req.params.id, function(err, device){
-        if(device.owner != req.user._id){
+        {
             req.flash('danger', 'Not Authorised');
             res.redirect('/');
         }

@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-//User Model
+//company Model
 let Company = require('../models/company');
+
+let Site = require('../models/site');
 
 router.get('/add', function(req, res){
     res.render('add_company', {
@@ -11,7 +13,23 @@ router.get('/add', function(req, res){
     });
 });
 
-// Add Company
+    //Get single company page
+    router.get('/:id', (req, res) => {
+        Company.findById(req.params.id, function(err, company){
+            Site.find({}, function(err, sites){
+                res.render('company', {
+                    title: company.name,
+                    company:company,
+                    sites:sites
+                        
+                        
+                });
+            });
+        });  
+    });
+
+    
+
 
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
@@ -29,17 +47,14 @@ router.post('/add', [
     check('country').isLength({min:3}).trim().withMessage('Company Name required'),
 
     check('phonenumber').isLength({min:3}).trim().withMessage('Company Name required'),
-
   
 ], (req, res) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
-    res.redirect('/company/add');
+    res.redirect('/companies/add');
     
-    //res.render('register',)
-
    return { errors: errors.mapped() };
   }
   let company = new Company();
@@ -66,8 +81,7 @@ router.post('/add', [
 
 });
 
-//GET Method to display devices on page.
-
+//GET Method to display all companies on page.
 router.get('/', function(req, res){
 
     Company.find({}, function(err, companies){
@@ -82,6 +96,12 @@ router.get('/', function(req, res){
     });
   });
 
-
+  //get 'add' company page/page
+  router.get('/add', function(req, res){
+    res.render('add_company', {
+    title:'Add Company',
+             
+    });
+});
 
 module.exports = router;

@@ -86,26 +86,19 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th ID
+                   
                         th Name
-                        th Address
-                        th City
-                        th State/County
-                        th Country 
-                        th Concept
+                   
+                    
                     tbody
-                      each device, i in devices
-                        tr.odd.gradeX
-                          td
-                            a(href="/devices/"+device._id)=device.pcname
-                          td
-                            = device.ipaddress 
-                          td
-                            = device.macaddress
-                          td.center 4
-                          td.center X
-                          td.center X
-                          td.center X
+                      each site, i in sites
+                        if user
+                          if user.company == site.company
+                            tr.odd.gradeX
+                              td
+                                a(href="/sites/"+site._id)=site.name
+                              td
+                                = site.company
                   // /.table-responsive
                 // /.panel-body
               // /.panel
