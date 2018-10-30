@@ -50,7 +50,7 @@ block content
                                 th IP Address
                             tbody
                               each device, i in devices 
-                                if user.site == device.site
+                                if user.site == device.site && device.site == site.name
                                   tr.odd.gradeX
                                     td
                                       a(href="/devices/"+ device._id)= device.pcname
