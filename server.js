@@ -13,6 +13,8 @@ const passport = require('passport');
 
 let Site = require('./models/site');
 
+let User = require('./models/site');
+
 //MongoDB connetion
 
 const mongoose = require('mongoose');
@@ -93,14 +95,17 @@ function ensureAuthenticated(req, res, next){
 app.get('/', function(req, res){
     
     Site.find({}, function(err, sites){
+        User.find({}, function(err, users){
         if(err){
             console.log(err)
         }else{
             res.render('index', {
                 title:'Dashboard',
                 sites: sites,
+                users:users,
             });
         }
+    });
     });         
 });
 
@@ -120,10 +125,10 @@ app.use('/api', api);
 app.use('/companies', companies);
 app.use('/sites', site);
 
-//-app.get('*', function(req, res) {
-    //res.status(404).end();
-    //res.redirect('/');
-  //});
+app.get('*', function(req, res) {
+    res.status(404).end();
+    res.redirect('/');
+  });
 
 //Validation 
 

@@ -2,79 +2,77 @@ extends layout2
 
 block content
   #page-wrapper
-        .row
-          .col-lg-12
-            .panel.panel-default
-              .panel-heading
-                | User Information
-              // /.panel-heading
-              .panel-body
-                // Nav tabs
-                ul.nav.nav-tabs
-                  li.active
-                    a(href="#home" data-toggle="tab") Users
-                  li
-                    a(href="#profile" data-toggle="tab") Roles
-                  li
-                    a(href="#messages" data-toggle="tab") Messages
-                  li
-                    a(href="#settings" data-toggle="tab") Settings
-                // Tab panes
-                .tab-content
+    .row
+        .col-lg-12
+          .panel.panel-default
+            .panel-heading
+              | User Information
+            // /.panel-heading
+            .panel-body
+              // Nav tabs
+              ul.nav.nav-tabs
+                li.active
+                  a(href="#home" data-toggle="tab") Users
+                li
+                  a(href="#profile" data-toggle="tab") Roles
+                li
+                  a(href="#messages" data-toggle="tab") Messages
+                li
+                  a(href="#settings" data-toggle="tab") Settings
+              // Tab panes
+              .tab-content
                 #home.tab-pane.fade.in.active
-                    // /.row
-                    .row
-                      .col-lg-12
-                        h1.page-header #{title}
-                      .row
-                        .col-lg-4
-                          h4 Address: #{site.address}
-                          h4 City: #{site.city}
-                          h4 Postcode: #{site.postcode}
-                          h4 Country: #{site.county}
-                        .col-lg-4
-                          h1 CONTROLS
-                          a.btn.btn-primary(href='/devices/add') Add Device
-                      .row
-                        .col-lg-12
-                          .panel.panel-default
-                            .panel-heading
-                              | Devices
-                            // /.panel-heading
-                            .panel-body
-                              table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
-                                thead
-                                  tr
-                                    th Device Name
-                                    th Site
-                                    th Company
-                                    th IP Address
-                                tbody
-                                  each device, i in devices 
-                                    if user.site == device.site
-                                      tr.odd.gradeX
-                                        td
-                                          a(href="/devices/"+ device._id)= device.pcname
-                                        td
-                                          = device.site 
-                                        td
-                                          = device.company
-                                        td
-                                          = device.ipaddress
-                            
-                                
-                        // /.table-responsive
-                      // /.panel-body
-                      // /.panel
-                // /.col-lg-6
-              // /.row  
-              // /.col-lg-4
-              // /.col-lg-4
-              // /.row
-            // /.col-lg-4
-          // /.row
-          // /.col-sm-12
-          // /.row
-          // /#page-wrapper
-          // /#wrapper
-          // jQuery
+                  .row
+                  .col-lg-12
+                    h1.page-header #{title}
+                  .row
+                    .col-lg-4
+                      h4 Address: #{site.address}
+                      h4 City: #{site.city}
+                      h4 Postcode: #{site.postcode}
+                      h4 Country: #{site.county}
+                    .col-lg-4
+                      h1 CONTROLS
+                      a.btn.btn-primary(href='/devices/add') Add Device
+                  .row
+                    .col-lg-12
+                      .panel.panel-default
+                        .panel-heading
+                          | Devices
+                        // /.panel-heading
+                        .panel-body
+                          table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                            thead
+                              tr
+                                th Device Name
+                                th Site
+                                th Company
+                                th IP Address
+                            tbody
+                              each device, i in devices 
+                                if user.site == device.site
+                                  tr.odd.gradeX
+                                    td
+                                      a(href="/devices/"+ device._id)= device.pcname
+                                    td
+                                      = device.site 
+                                    td
+                                      = device.company
+                                    td
+                                      = device.ipaddress
+
+                #profile.tab-pane.fade
+                  h4 Profile Tab
+                  p
+                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                #messages.tab-pane.fade
+                  h4 Messages Tab
+                  p
+                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                #settings.tab-pane.fade
+                  h4 Settings Tab
+                  p
+                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            // /.panel-body
+          // /.panel
+        // /.row

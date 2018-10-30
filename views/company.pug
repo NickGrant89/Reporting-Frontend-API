@@ -28,21 +28,18 @@ block content
                       th Company
                       th Contact 
                       th Status
-                    
                   tbody
-                  each site, i in sites 
-                    if site.company == company.name
-                      tr.odd.gradeX
-                        td
-                          a(href="/sites/"+site._id)=site.name
-                        td
-                          = site.company 
-                        td
-                          = site.phonenumber
-                        td
-                          = site.status
-                                
-                                   
+                    each site, i in sites 
+                      if site.company == company.name
+                        tr.odd.gradeX
+                          td
+                            a(href="/sites/"+site._id)=site.name
+                          td
+                            = site.company 
+                          td
+                            = site.phonenumber
+                          td
+                            = site.status  
                         // /.table-responsive
                       // /.panel-body
                       // /.panel
