@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 // User schema
 
 const UserSchema = mongoose.Schema({
+    admin:{
+        type: String
+    },    
     name:{
         type: String,
         required: true
@@ -12,6 +15,10 @@ const UserSchema = mongoose.Schema({
         required: true
     },
     company:{
+        type: String,
+        required: true
+    },
+    site:{
         type: String,
         required: true
     },

@@ -86,14 +86,12 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th ID
+                   
                         th Name
-                        th Address
-                        th City
-                        th State/County
-                        th Country 
-                        th Concept
+                   
+                    
                     tbody
+<<<<<<< HEAD
                       each device, i in devices
                         tr.odd.gradeX
                           td
@@ -106,6 +104,18 @@ block content
                           td.center X
                           td.center X
                           td.center X
+=======
+                      each site, i in sites
+                        if user
+                          
+                          if user.company == site.company 
+                          
+                            tr.odd.gradeX
+                              td
+                                a(href="/sites/"+site._id)=site.name
+                              td
+                                = site.company
+>>>>>>> Roles-v0.1
                   // /.table-responsive
                 // /.panel-body
               // /.panel

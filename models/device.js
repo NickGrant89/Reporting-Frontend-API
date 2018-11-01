@@ -21,6 +21,10 @@ let deviceSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    site:{
+        type: String,
+        required: true
+    },
     owner:{
 
         type: String,

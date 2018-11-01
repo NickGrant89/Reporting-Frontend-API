@@ -14,28 +14,36 @@ block content
             .col-lg-12
               .panel.panel-default
                 .panel-heading
-                  | New Devices
+                  | Devices
                 // /.panel-heading
                 .panel-body
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
                         th PC Name
-                        th IP
-                        th MAC
+                        th IP Address
+                        th MAC Address
+                        th Site
+                        th Company
                         th Status
-                        th Date/Time Registered
+                       
                     tbody
                       each device, i in devices
-                        tr.odd.gradeX
-                          td
-                            a(href="/devices/"+device._id)=device.pcname
-                          td
-                            = device.ipaddress 
-                          td
-                            = device.macaddress
-                          td.center 4
-                          td.center X
+                        if user.site == device.site || user.admin == "Super Admin"
+                          tr.odd.gradeX
+                            td
+                              a(href="/devices/"+device._id)=device.pcname
+                            td
+                              = device.ipaddress 
+                            td
+                              = device.macaddress
+                            td
+                              = device.site
+                            td
+                              = device.company
+                            td
+                              = device.status
+                      
                   // /.table-responsive
                 // /.panel-body
               // /.panel

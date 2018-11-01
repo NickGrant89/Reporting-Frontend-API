@@ -1,0 +1,57 @@
+extends layout2
+
+block content
+  #page-wrapper
+        .row
+          .col-lg-12
+            h1.page-header #{title}
+            .row
+              .col-lg-4
+                h4 Address: #{company.address}
+                h4 City: #{company.city}
+                h4 Postcode: #{company.postcode}
+                h4 Country: #{company.country}
+              .col-lg-4
+                a.btn.btn-primary(href='/sites/add') Add Site |
+                a.btn.btn-primary(href='/users/register/') | Add User |
+        .row
+          .col-lg-12
+            .panel.panel-default
+              .panel-heading
+                | Sites
+              // /.panel-heading
+              .panel-body
+                table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                  thead
+                    tr
+                      th Site Name
+                      th Company
+                      th Contact 
+                      th Status
+                  tbody
+                    each site, i in sites 
+                      if site.company == company.name || user.admin == "Super Admin"
+                        tr.odd.gradeX
+                          td
+                            a(href="/sites/"+site._id)=site.name
+                          td
+                            = site.company 
+                          td
+                            = site.phonenumber
+                          td
+                            = site.status  
+                        // /.table-responsive
+                      // /.panel-body
+                      // /.panel
+                    // /.col-lg-6
+                  // /.row  
+                  // /.col-lg-4
+                  // /.col-lg-4
+                  // /.row
+                // /.col-lg-4
+              // /.row
+              // /.col-sm-12
+              // /.row
+              // /#page-wrapper
+              // /#wrapper
+              // jQuery

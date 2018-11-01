@@ -9,7 +9,7 @@ block content
             .col-lg-6
                 .container
                 br
-                form(method='POST', action='/company/add')
+                form(method='POST', action='/companies/add')
                     #form-group
                         label Name:
                         input.form-control(name='name', type='text')
@@ -34,9 +34,6 @@ block content
                     #form-group
                         label Phone Number:
                         input.form-control(name='phonenumber', type='text')
-                    #form-group
-                        label Company:
-                        input.form-control(name='company', type='text')                      
                         br       
                     input.btn.btn-primary(type='submit', value='Submit')
           // /#page-wrapper

@@ -36,16 +36,19 @@ router.get('/register', function(req, res){
 const { check, validationResult } = require('express-validator/check');
 
 router.post('/register', [
+    
     //Name
     check('name').isLength({min:3}).trim().withMessage('Name required'),
     //Company
     check('company').isLength({min:1}).trim().withMessage('Company required'),
+    //Company
+    check('site').isLength({min:1}).trim().withMessage('Site required'),
     //Username
-    check('username').isLength({ min: 6}),
+    check('username').isLength({ min: 1}),
     // username must be an email
     check('email').isEmail(),
     // password must be at least 5 chars long
-    check('password').isLength({ min: 5 }),
+    check('password').isLength({ min: 1 }),
 
     //check('password2').equals('password')
 ], (req, res) => {
@@ -61,9 +64,11 @@ router.post('/register', [
   }
 
   let user = new User();
+  user.admin = req.body.admin;
   user.name = req.body.name;
   user.email = req.body.email;
   user.company = req.body.company;
+  user.site = req.body.site;
   user.username = req.body.username;
   user.password = req.body.password;
   user.password2 = req.body.password2;
@@ -89,6 +94,7 @@ router.post('/register', [
 
 });
 
+<<<<<<< HEAD
 //Delete edit form
 router.delete('/:id', (req, res) => {
     let query = {_id:req.params.id}
@@ -103,6 +109,8 @@ router.delete('/:id', (req, res) => {
 });
 
 
+=======
+>>>>>>> Roles-v0.1
 //login form
 router.get('/login', function(req, res){
     res.render('login');

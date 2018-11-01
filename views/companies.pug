@@ -1,0 +1,49 @@
+extends layout2
+
+block content
+  #page-wrapper
+        .row
+          .col-lg-12
+            h1.page-header #{title}
+          .row
+            .col-lg-12
+              br
+            // /.col-lg-12
+          // /.row
+          .row
+            .col-lg-12
+              .panel.panel-default
+                .panel-heading
+                  | Companies
+                // /.panel-heading
+                .panel-body
+                  table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                    thead
+                      tr
+                        th Name
+                        th Address
+                        th Contact Info
+                        th Email
+                    tbody
+                      each company, i in companies
+                          if user.company == company.name || user.admin == "Super Admin"
+                            tr.odd.gradeX
+                              td
+                                a(href="/companies/"+company._id)=company.name
+                              td
+                                = company.address 
+                              td
+                                = company.phonenumber
+                              td
+                                = company.email
+                          
+                       
+                          
+                  // /.table-responsive
+                // /.panel-body
+              // /.panel
+            // /.col-lg-6
+          // /.row
+          // /#page-wrapper
+          // /#wrapper
+          // jQuery
