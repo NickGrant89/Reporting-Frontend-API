@@ -26,7 +26,7 @@ block content
                         th Email
                     tbody
                       each company, i in companies
-                          if user.company == company.name
+                          if user.company == company.name || user.admin == "Super Admin"
                             tr.odd.gradeX
                               td
                                 a(href="/companies/"+company._id)=company.name

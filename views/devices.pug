@@ -29,7 +29,7 @@ block content
                        
                     tbody
                       each device, i in devices
-                        if user.site == device.site || user.admin == "True" 
+                        if user.site == device.site || user.admin == "Super Admin"
                           tr.odd.gradeX
                             td
                               a(href="/devices/"+device._id)=device.pcname
@@ -43,7 +43,7 @@ block content
                               = device.company
                             td
                               = device.status
-                         
+                      
                   // /.table-responsive
                 // /.panel-body
               // /.panel
