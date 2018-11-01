@@ -43,8 +43,9 @@ block content
                                   th Site
                                   th Company
                               tbody
-                                each user, i in users
-                                  if user.company == "True"
+                                if user.admin == "Super Admin"
+                                  each user, i in users
+                                  
                                     tr.odd.gradeX
                                       td
                                         = user.admin

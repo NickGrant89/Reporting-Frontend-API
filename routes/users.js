@@ -34,8 +34,7 @@ router.get('/register', function(req, res){
 const { check, validationResult } = require('express-validator/check');
 
 router.post('/register', [
-        //Name
-    check('admin').isLength({min:3}).trim().withMessage('Admin Status required'),
+    
     //Name
     check('name').isLength({min:3}).trim().withMessage('Name required'),
     //Company

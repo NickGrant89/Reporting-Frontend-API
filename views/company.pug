@@ -30,7 +30,7 @@ block content
                       th Status
                   tbody
                     each site, i in sites 
-                      if site.company == company.name
+                      if site.company == company.name || user.admin == "Super Admin"
                         tr.odd.gradeX
                           td
                             a(href="/sites/"+site._id)=site.name
