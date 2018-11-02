@@ -94,6 +94,8 @@ router.get('/', function(req, res){
             });
         }
     });
+
+  
   });
 
   //get 'add' company page/page
