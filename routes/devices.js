@@ -5,6 +5,9 @@ let Device = require('../models/device');
 //User Model
 let User = require('../models/user');
 
+let Site = require('../models/site');
+
+let Company = require('../models/company');
 //Access Controle
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
@@ -21,23 +24,32 @@ function ensureAuthenticated(req, res, next){
 router.get('/', ensureAuthenticated, function(req, res){
 
     Device.find({}, function(err, devices){
-        if(err){
-            console.log(err)
-        }else{
-            res.render('devices', {
-                title:'Devices',
-                devices: devices,
-            });
+     
+            if(err){
+                console.log(err)
+            }else{
+                res.render('devices', {
+                    title:'Devices',
+                    devices: devices,
+                    
+                });
         }
+   
     });
   });
 
 //GET display add device page with form  
 
-router.get('/add', ensureAuthenticated, function(req, res){
-    res.render('add_device', {
-    title:'Add Device',
-             
+router.get('/add', function(req, res){
+    Site.find({}, function(err, sites){
+        Company.find({}, function(err, companies){
+            res.render('add_device', {
+                title:'Add Device',
+                sites: sites,
+                companies: companies,
+
+            });
+        });
     });
 });
 

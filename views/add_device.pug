@@ -20,10 +20,14 @@ block content
                     input.form-control(name='macaddress', type='text')
                 #form-group
                     label Company:
-                    input.form-control(name='company', type='text') 
+                    select.form-control(name='company', type='text')
+                        each company, i in companies
+                            option #{company.name} 
                 #form-group
                     label Site:
-                    input.form-control(name='site', type='text')     
+                    select.form-control(name='site', type='text')
+                        each site, i in sites
+                            option #{site.name}
                     br       
                 input.btn.btn-primary(type='submit', value='Submit')
           // /#page-wrapper

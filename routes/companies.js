@@ -100,9 +100,10 @@ router.get('/', function(req, res){
 
   //get 'add' company page/page
   router.get('/add', function(req, res){
-    res.render('add_company', {
-    title:'Add Company',
-             
+    
+        res.render('add_company', {
+            title:'Add Company',
+           
     });
 });
 
