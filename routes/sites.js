@@ -7,6 +7,8 @@ let Site = require('../models/site');
 //User devices
 let Device = require('../models/device');
 
+let Company = require('../models/company');
+
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
 
@@ -62,10 +64,12 @@ router.post('/add', [
 
 
 router.get('/add', function(req, res){
+    Company.find({}, function(err, companies){
     res.render('add_site', {
     title:'Add Site',
-             
+    companies: companies,       
     });
+});
 });
 
 //GET Method to display devices on page.

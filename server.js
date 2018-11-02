@@ -13,8 +13,11 @@ const passport = require('passport');
 
 let Site = require('./models/site');
 
-let User = require('./models/site');
+let User = require('./models/user');
 
+let Company = require('./models/company');
+
+let Device = require('./models/device');
 //MongoDB connetion
 
 const mongoose = require('mongoose');
@@ -92,20 +95,48 @@ function ensureAuthenticated(req, res, next){
 
 app.get('/', function(req, res){
     
+   
+    
     Site.find({}, function(err, sites){
         User.find({}, function(err, users){
-        if(err){
-            console.log(err)
-        }else{
-            res.render('index', {
-                title:'Dashboard',
-                sites: sites,
-                users:users,
-            });
-        }
-    });
-    });         
-});
+            Company.countDocuments({}, function(err, numOfCompanies) {
+                Site.countDocuments({}, function(err, numOfSites) {
+            
+            
+            
+                if(err){
+                    console.log(err)
+                }else{
+                        res.render('index', {
+                            title:'Dashboard',
+                            sites: sites,
+                            users:users,
+                            numOfCompanies: numOfCompanies,
+                            numOfSites: numOfSites,
+                            
+                        
+
+                            })}
+                       
+                    });
+                });
+             });         
+        });
+            Device.countDocuments({}, function(err, numOfDevices) {
+                
+                
+                    if(err){
+                        console.log(err)
+                    }else{
+                            
+                                return numOfDevices;
+                            
+    
+                                }
+                            });
+                    
+            
+        });
 
 // Route File
 
@@ -135,6 +166,8 @@ app.get('*', function(req, res) {
     res.status(404).end();
     res.redirect('/');
   });
+
+  
 
 //Validation 
 

@@ -26,6 +26,7 @@ block content
                         th Email
                     tbody
                       each company, i in companies
+                        if user
                           if user.company == company.name || user.admin == "Super Admin"
                             tr.odd.gradeX
                               td

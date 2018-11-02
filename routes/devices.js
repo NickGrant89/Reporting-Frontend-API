@@ -5,9 +5,16 @@ let Device = require('../models/device');
 //User Model
 let User = require('../models/user');
 
+<<<<<<< HEAD
 
 //Access Control
 
+=======
+let Site = require('../models/site');
+
+let Company = require('../models/company');
+//Access Controle
+>>>>>>> Roles-v0.3
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         return next();
@@ -22,23 +29,32 @@ function ensureAuthenticated(req, res, next){
 router.get('/', ensureAuthenticated, function(req, res){
 
     Device.find({}, function(err, devices){
-        if(err){
-            console.log(err)
-        }else{
-            res.render('devices', {
-                title:'Devices',
-                devices: devices,
-            });
+     
+            if(err){
+                console.log(err)
+            }else{
+                res.render('devices', {
+                    title:'Devices',
+                    devices: devices,
+                    
+                });
         }
+   
     });
   });
 
 //GET display add device page with form
 
-router.get('/add', ensureAuthenticated, function(req, res){
-    res.render('add_device', {
-    title:'Add Device',
-             
+router.get('/add', function(req, res){
+    Site.find({}, function(err, sites){
+        Company.find({}, function(err, companies){
+            res.render('add_device', {
+                title:'Add Device',
+                sites: sites,
+                companies: companies,
+
+            });
+        });
     });
 });
 
@@ -46,11 +62,11 @@ router.get('/add', ensureAuthenticated, function(req, res){
 
 router.get('/:id', (req, res) => {
     Device.findById(req.params.id, function(err, device){
-        User.findById(device.owner, function(err, user){
+        
             res.render('device', {
                 device:device,
-                owner:user.name
-        });           
+                
+                   
         });
     });  
 });

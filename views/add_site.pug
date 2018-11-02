@@ -38,10 +38,14 @@ block content
                         label Phone Number:
                         input.form-control(name='phonenumber', type='text')
                     #form-group
-                        label Company:
-                        input.form-control(name='company', type='text')                      
-                        br       
+                     label Company:
+                     select.form-control(name='company', type='text')
+                        each company, i in companies
+                            option #{company.name}                 
+                    br       
                     input.btn.btn-primary(type='submit', value='Submit')
+
+                
           // /#page-wrapper
           // /#wrapper
           // jQuery
