@@ -102,6 +102,7 @@ app.get('/', function(req, res){
     Site.find({}, function(err, sites){
         User.find({}, function(err, users){
             Company.countDocuments({}, function(err, numOfCompanies) {
+                Site.countDocuments({}, function(err, numOfSites) {
             
             
             
@@ -113,13 +114,14 @@ app.get('/', function(req, res){
                             sites: sites,
                             users:users,
                             numOfCompanies: numOfCompanies,
+                            numOfSites: numOfSites,
                             
                         
 
                             })}
                        
                     });
-                
+                });
              });         
         });
             Device.countDocuments({}, function(err, numOfDevices) {
