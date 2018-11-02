@@ -56,11 +56,11 @@ router.get('/add', function(req, res){
 //Get single device page
 router.get('/:id', (req, res) => {
     Device.findById(req.params.id, function(err, device){
-        User.findById(device.owner, function(err, user){
+        
             res.render('device', {
                 device:device,
-                owner:user.name
-        });           
+                
+                   
         });
     });  
 });

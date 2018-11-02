@@ -27,7 +27,10 @@ router.get('/', function(req, res){
 
  //Get register form 
 router.get('/register', function(req, res){
-    res.render('register');
+
+    res.render('register', {
+        title:'Registration',
+       });
 });
 
 // ...rest of the initial code omitted for simplicity.

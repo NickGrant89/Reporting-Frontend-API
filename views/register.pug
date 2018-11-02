@@ -6,7 +6,10 @@ block content
     form(method='POST', action='/users/register')
         #form-group
             label Admin:
-            input.form-control(name='admin', type='text')
+            select.form-control(name='admin', type='text')
+                option User
+                option Admin
+                option Super Admin
         #form-group
             label Name:
             input.form-control(name='name', type='text')
