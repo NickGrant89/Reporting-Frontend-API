@@ -1,0 +1,10 @@
+extends layout
+    
+block content
+    br
+    h3 #{title}
+            br
+            ul.list-group
+                each device, i in devices
+                    li.list-group-item 
+                        a(href="/devices/"+device._id)=  device.pcname + " - " + device.ipaddress + " - " +device.macaddress

@@ -1,10 +1,38 @@
-extends layout
-    
+extends layout2
+
 block content
-    br
-    h1 PC Name: #{device.pcname}
-    h5 IP Address: #{device.ipaddress}
-    h5 MAC Address: #{device.macaddress}
-    hr
-    a.btn.btn-primary(href='/device/edit/'+device.id) Edit
-    a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
+  #page-wrapper
+    .row
+    .col-lg-12
+      .panel.panel-default
+        .panel-heading
+          | #{device.pcname}
+        // /.panel-heading
+        .panel-body
+          .table-responsive
+            table.table.table-striped.table-bordered.table-hover
+              thead
+                tr
+                  th IP Address
+                  th MAC Address
+                  th Site
+                  th Company
+              tbody
+                tr
+                  td #{device.ipaddress}
+                  td #{device.macaddress}
+                  td #{device.site}
+                  td #{device.company}
+            tr     
+              a.btn.btn-primary(href='/devices/edit/'+device.id) Edit
+              a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
+          // /.table-responsive
+          // /.panel-body
+          // /.panel
+          // /.col-lg-6
+
+      
+                  
+          // /#page-wrapper
+          // /#wrapper
+          // jQuery

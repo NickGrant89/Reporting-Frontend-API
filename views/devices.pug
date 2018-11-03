@@ -1,0 +1,54 @@
+extends layout2
+
+block content
+  #page-wrapper
+        .row
+          .col-lg-12
+            h1.page-header #{title}
+          .row
+            .col-lg-12
+              br
+            // /.col-lg-12
+          // /.row
+          .row
+            .col-lg-12
+              .panel.panel-default
+                .panel-heading
+                  | Devices
+                // /.panel-heading
+                .panel-body
+                  table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                    thead
+                      tr
+                        th PC Name
+                        th IP Address
+                        th MAC Address
+                        th Site
+                        th Company
+                        th Status
+                       
+                    tbody
+                      each device, i in devices
+                        if user.site == device.site || user.admin == "Super Admin"
+                          tr.odd.gradeX
+                            td
+                              a(href="/devices/"+device._id)=device.pcname
+                            td
+                              = device.ipaddress 
+                            td
+                              = device.macaddress
+                            td
+                              = device.site
+                            td
+                              = device.company
+                            td
+                              = device.status
+                      
+                  // /.table-responsive
+                // /.panel-body
+              // /.panel
+            // /.col-lg-6
+          // /.row
+          // /#page-wrapper
+          // /#wrapper
+          // jQuery
