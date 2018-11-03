@@ -34,6 +34,7 @@ block content
                     .col-lg-4
                       h1 CONTROLS
                       a.btn.btn-primary(href='/devices/add') Add Device
+                      a.btn.btn-primary(href='/sites/edit/'+ site._id) Edit Site
                   .row
                     .col-lg-12
                       .panel.panel-default
@@ -49,18 +50,19 @@ block content
                                 th Company
                                 th IP Address
                             tbody
-                              each device, i in devices 
-                                if user.site == device.site && device.site == site.name 
-                                  if user.admin == "Super Admin"
-                                  tr.odd.gradeX
-                                    td
-                                      a(href="/devices/"+ device._id)= device.pcname
-                                    td
-                                      = device.site 
-                                    td
-                                      = device.company
-                                    td
-                                      = device.ipaddress
+                              each device, i in devices
+                                if user
+                                  if user.site == device.site && device.site == site.name
+                                    if user.admin == "Super Admin"
+                                    tr.odd.gradeX
+                                      td
+                                        a(href="/devices/"+ device._id)= device.pcname
+                                      td
+                                        = device.site
+                                      td
+                                        = device.company
+                                      td
+                                        = device.ipaddress
 
                 #profile.tab-pane.fade
                   h4 Profile Tab

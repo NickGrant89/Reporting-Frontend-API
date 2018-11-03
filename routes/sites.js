@@ -4,7 +4,6 @@ const router = express.Router();
 //User Model
 let Site = require('../models/site');
 
-//User devices
 let Device = require('../models/device');
 
 let Company = require('../models/company');
@@ -32,7 +31,7 @@ router.post('/add', [
   if (!errors.isEmpty()) {
     req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
     res.redirect('/sites/add');
-    
+
     //res.render('register',)
 
    return { errors: errors.mapped() };
@@ -47,7 +46,7 @@ router.post('/add', [
   site.country = req.body.country;
   site.phonenumber = req.body.phonenumber;
   site.company = req.body.company;
-  
+
 
   site.save(function(err){
        if(err){
@@ -58,7 +57,7 @@ router.post('/add', [
            req.flash('success', 'site Added')
            res.redirect('/sites')
        }
-  });  
+  });
 
 });
 
@@ -67,7 +66,7 @@ router.get('/add', function(req, res){
     Company.find({}, function(err, companies){
     res.render('add_site', {
     title:'Add Site',
-    companies: companies,       
+    companies: companies,
     });
 });
 });
@@ -93,13 +92,51 @@ router.get('/:id', (req, res) => {
     Site.findById(req.params.id, function(err, site){
         Device.find({}, function(err, devices){
             res.render('site', {
-                title: site.name,
+                title: 'Site',
                 site:site,
                 devices:devices
 
              });
          });
-    });  
+    });
 });
+
+//Load edit form
+router.get('/edit/:id',  function(req, res){
+    Site.findById(req.params.id, function(err, sites){
+            Company.find({}, function(err, companies){
+
+        res.render('edit_site', {
+            title:'Edit Site',
+            sites: sites,
+            companies: companies,
+
+        });
+    });
+
+    });
+});
+
+//Add submit device with form
+router.post('/edit/:id', (req, res) => {
+    let site = {};
+    site.name = req.body.name;
+    site.address = req.body.address;
+    site.company = req.body.company;
+
+
+    let query = {_id:req.params.id}
+
+    Site.update(query, site, function(err){
+         if(err){
+             console.log(err);
+             return;
+         }
+         else{
+             res.redirect('/sites')
+         }
+    });
+    console.log(req.body.pcname)
+ });
 
 module.exports = router;

@@ -23,7 +23,9 @@ block content
             label Site:
             select.form-control(name='site', type='text')
                 each site, i in sites
-                    option #{site.name}
+                    each company in companies
+                        if site.company == company.name
+                            option #{site.name}
             br
 
         input.btn.btn-primary(type='submit', value='Submit')

@@ -75,9 +75,6 @@ router.post('/add', [
     check('ipaddress').isLength({min:1}).trim().withMessage('IP Address required'),
     //Username
     check('macaddress').isLength({ min: 6}),
-    // username must be an email
-    check('company').isLength({min:3}).trim().withMessage('Company Name required'),
-    check('site').isLength({ min: 1}),
 ], (req, res) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);
@@ -93,7 +90,7 @@ router.post('/add', [
   device.macaddress = req.body.macaddress;
   device.company = req.body.company;
   device.site = req.body.site;
-  device.owner = req.user._id;
+
 
 
   device.save(function(err){
@@ -109,25 +106,6 @@ router.post('/add', [
 
 });
 
-
-
-//Load edit form
-router.get('/edit/:id',  function(req, res){
-    Device.findById(req.params.id, function(err, device){
-        Site.find({}, function(err, sites){
-            Company.find({}, function(err, companies){
-
-        res.render('edit_device', {
-            title:'Edit Device',
-            device:device,
-            sites: sites,
-            companies: companies,
-
-        });
-    });
-});
-    });
-});
 
 //Add submit device with form
 router.post('/edit/:id', (req, res) => {
@@ -170,6 +148,24 @@ router.delete('/:id', (req, res) => {
                 res.send('Success');
             });
         }
+    });
+});
+
+//Load edit form
+router.get('/edit/:id',  function(req, res){
+    Device.findById(req.params.id, function(err, device){
+        Site.find({}, function(err, sites){
+            Company.find({}, function(err, companies){
+
+        res.render('edit_device', {
+            title:'Edit Device',
+            device:device,
+            sites: sites,
+            companies: companies,
+
+        });
+    });
+});
     });
 });
 

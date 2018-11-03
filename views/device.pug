@@ -23,16 +23,16 @@ block content
                   td #{device.macaddress}
                   td #{device.site}
                   td #{device.company}
-            tr     
-              a.btn.btn-primary(href='/devices/edit/'+device.id) Edit
+            tr
+              a.btn.btn-primary(href='/devices/edit/'+device._id) Edit
               a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
           // /.table-responsive
           // /.panel-body
           // /.panel
           // /.col-lg-6
 
-      
-                  
+
+
           // /#page-wrapper
           // /#wrapper
           // jQuery
