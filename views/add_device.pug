@@ -19,32 +19,17 @@ block content
                     label Mac Address:
                     input.form-control(name='macaddress', type='text')
                 #form-group
-                    label Company:
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    input.form-control(name='company', type='text')    
-                    br      
-=======
-                    input.form-control(name='company', type='text') 
-=======
+                    label Company:   
                     select.form-control(name='company', type='text')
                         each company, i in companies
                             option #{company.name} 
                         option Other
-                        
-                             
-                        
-                        
-
->>>>>>> Roles-v0.3
                 #form-group
                     label Site:
                     select.form-control(name='site', type='text')
                         each site, i in sites
                             option #{site.name}
                     br       
->>>>>>> Roles-v0.1
-                input.btn.btn-primary(type='submit', value='Submit')
           // /#page-wrapper
           // /#wrapper
           // jQuery
