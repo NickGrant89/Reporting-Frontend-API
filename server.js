@@ -94,62 +94,48 @@ function ensureAuthenticated(req, res, next){
 //GET display SB Admin page
 
 app.get('/', function(req, res){
-    
-   
-    
     Site.find({}, function(err, sites){
         User.find({}, function(err, users){
             Company.countDocuments({}, function(err, numOfCompanies) {
                 Site.countDocuments({}, function(err, numOfSites) {
-            
-            
-            
-                if(err){
-                    console.log(err)
-                }else{
-                        res.render('index', {
-                            title:'Dashboard',
-                            sites: sites,
-                            users:users,
-                            numOfCompanies: numOfCompanies,
-                            numOfSites: numOfSites,
-                            
-                        
+                    User.countDocuments({}, function(err, numOfUsers) {
+                        Device.countDocuments({}, function(err, numOfDevices) {
+                            if(err){
+                                console.log(err)
+                            }else{
+                                res.render('index', {
+                                    title:'Dashboard',
+                                    sites: sites,
+                                    users:users,
+                                    numOfCompanies: numOfCompanies,
+                                    numOfSites: numOfSites,
+                                    numOfUsers:numOfUsers,
+                                    numOfDevices:numOfDevices,
 
-                            })}
-                       
-                    });
+                                })}
+                                console.log(numOfSites);
+                                console.log(numOfCompanies);
+                                console.log(numOfUsers);
+                                console.log(numOfDevices);
+                        });        
+                    });  
                 });
-             });         
-        });
-            Device.countDocuments({}, function(err, numOfDevices) {
-                
-                
-                    if(err){
-                        console.log(err)
-                    }else{
-                            
-                                return numOfDevices;
-                            
-    
-                                }
-                            });
-                    
-            
-        });
+            });
+        });         
+    });
+});
 
 // Route File
-//test
 
 let devices = require('./routes/devices');
 let users = require('./routes/users');
-let api = require('./routes/api');
+let apiDevices = require('./routes/apiDevices');
 let companies = require('./routes/companies');
 let site = require('./routes/sites');
 
 app.use('/devices', devices);
 app.use('/users', users);
-app.use('/api', api);
+app.use('/api/v1/devices/', apiDevices);
 app.use('/companies', companies);
 app.use('/sites', site);
 

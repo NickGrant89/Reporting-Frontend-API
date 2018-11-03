@@ -49,8 +49,12 @@ router.post('/', (req, res) => {
     device.pcname = req.body.pcname;
     device.ipaddress = req.body.ipaddress;
     device.macaddress = req.body.macaddress;
-    device.company = req.body.company;
-    device.owner = req.body.owner;
+    device.status = req.body.status;
+    device.timestamp = req.body.timestamp;
+    device.deviceinfo = req.body.deviceinfo;
+    device.winver = req.body.winver;
+    device.ocslogfile = req.body.ocslogfile;
+
 
     device.save(function(err){
         if(err){
@@ -71,17 +75,19 @@ router.put('/:id', (req, res) => {
     Device.findById(req.params.id, function(err, device){
     if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
 
-    const {error} = validateDevice(req.body);
+    const {error} = req.body;
 
     if(error) return res.status('404').send(error.details[0].message), console.log(error.details[0].message);
      
- 
 
     device.pcname = req.body.pcname;
     device.ipaddress = req.body.ipaddress;
     device.macaddress = req.body.macaddress;
-    device.company = req.body.company;
-    device.owner = req.body.owner;
+    device.status = req.body.status;
+    device.timestamp = req.body.timestamp;
+    device.deviceinfo = req.body.deviceinfo;
+    device.winver = req.body.winver;
+    device.ocslogfile = req.body.ocslogfile;
  
     device.save();
     res.send(device);
@@ -112,12 +118,17 @@ function validateDevice(device){
         pcname: Joi.string().min(3).required(),
         ipaddress: Joi.string().min(3).required(),
         macaddress: Joi.string().min(3).required(),
-        company: Joi.string().min(3).required(),
-        owner: Joi.string().min(3).required(),
+        status: Joi.string().min(3).required(),
+        timestamp: Joi.string().min(3).required(),
+        deviceinfo: Joi.object(),
+        winver: Joi.string().min(3),
+        ocslogfile:Joi.string().min(3).required(),
         
     };
 
     return Joi.validate(device, schema);
 }
+
+
 
 module.exports = router;
