@@ -98,17 +98,17 @@ router.put('/:id', (req, res) => {
 //DEL Method 
 
 router.delete('/:id', (req, res) => {
-    const device = Device.find(d => d.id === parseInt(req.params.id))
+    Device.findById(req.params.id, function(err, device){
     if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
 
-    const index = Device.indexOf(device);
+    device.remove(device._id);
+/*     const index = device.indexOf(req.params.id);
 
-    devices.splice(index, 1);
+    device.splice(index, 1); */
 
-    res.send(device);
+    res.send(device + 'Delete 200');
     console.log(device, 'Delete 200 ');
-
-
+    });
 });
 
 //Validation 
