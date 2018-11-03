@@ -35,14 +35,11 @@ const CompanySchema = mongoose.Schema({
         type: String,
         required: true
     },
-<<<<<<< HEAD
     company:{
         type: String,
         required: true
     }
     
-=======
->>>>>>> Roles-v0.1
 });
 
 

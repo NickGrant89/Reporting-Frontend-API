@@ -97,7 +97,6 @@ router.post('/register', [
 
 });
 
-<<<<<<< HEAD
 //Delete edit form
 router.delete('/:id', (req, res) => {
     let query = {_id:req.params.id}
@@ -112,8 +111,6 @@ router.delete('/:id', (req, res) => {
 });
 
 
-=======
->>>>>>> Roles-v0.1
 //login form
 router.get('/login', function(req, res){
     res.render('login');
