@@ -11,8 +11,13 @@ const passport = require('passport');
 
 // This calls the Device model to intergate the DB
 
-let Device = require('./models/device');
+let Site = require('./models/site');
 
+let User = require('./models/user');
+
+let Company = require('./models/company');
+
+let Device = require('./models/device');
 //MongoDB connetion
 
 const mongoose = require('mongoose');
@@ -31,8 +36,6 @@ db.on('error', function(err){
     console.log(err);
 
 });
-
-
 
 const app = express();
 app.use(express.json());
@@ -90,19 +93,50 @@ function ensureAuthenticated(req, res, next){
 
 //GET display SB Admin page
 
-app.get('/', ensureAuthenticated, function(req, res){
+app.get('/', function(req, res){
     
-    Device.find({}, function(err, devices){
-        if(err){
-            console.log(err)
-        }else{
-            res.render('index', {
-                title:'Dashboard',
-                devices: devices,
-            });
-        }
-    });         
-});
+   
+    
+    Site.find({}, function(err, sites){
+        User.find({}, function(err, users){
+            Company.countDocuments({}, function(err, numOfCompanies) {
+                Site.countDocuments({}, function(err, numOfSites) {
+            
+            
+            
+                if(err){
+                    console.log(err)
+                }else{
+                        res.render('index', {
+                            title:'Dashboard',
+                            sites: sites,
+                            users:users,
+                            numOfCompanies: numOfCompanies,
+                            numOfSites: numOfSites,
+                            
+                        
+
+                            })}
+                       
+                    });
+                });
+             });         
+        });
+            Device.countDocuments({}, function(err, numOfDevices) {
+                
+                
+                    if(err){
+                        console.log(err)
+                    }else{
+                            
+                                return numOfDevices;
+                            
+    
+                                }
+                            });
+                    
+            
+        });
 
 // Route File
 //test
@@ -110,15 +144,21 @@ app.get('/', ensureAuthenticated, function(req, res){
 let devices = require('./routes/devices');
 let users = require('./routes/users');
 let api = require('./routes/api');
+let companies = require('./routes/companies');
+let site = require('./routes/sites');
 
 app.use('/devices', devices);
 app.use('/users', users);
 app.use('/api', api);
+app.use('/companies', companies);
+app.use('/sites', site);
 
 app.get('*', function(req, res) {
     res.status(404).end();
     res.redirect('/');
   });
+
+  
 
 //Validation 
 

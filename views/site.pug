@@ -1,12 +1,8 @@
 extends layout2
-    
+
 block content
-    #page-wrapper
-      .row
-        .col-lg-12
-          h1.page-header Users & Roles
-        
-      .row
+  #page-wrapper
+    .row
         .col-lg-12
           .panel.panel-default
             .panel-heading
@@ -26,56 +22,45 @@ block content
               // Tab panes
               .tab-content
                 #home.tab-pane.fade.in.active
-                    // /.row
-                    .row
+                  .row
+                  .col-lg-12
+                    h1.page-header #{title}
+                  .row
+                    .col-lg-4
+                      h4 Address: #{site.address}
+                      h4 City: #{site.city}
+                      h4 Postcode: #{site.postcode}
+                      h4 Country: #{site.county}
+                    .col-lg-4
+                      h1 CONTROLS
+                      a.btn.btn-primary(href='/devices/add') Add Device
+                  .row
                     .col-lg-12
-                        .panel.panel-default
+                      .panel.panel-default
                         .panel-heading
+                          | Devices
                         // /.panel-heading
                         .panel-body
-                            table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
-                              thead
-                                tr
-                                  th Admin
-                                  th Name
-                                  th Username
-                                  th Email
-                                  th Site
-                                  th Company
-                              tbody
-<<<<<<< HEAD
-                                each user, i in users
+                          table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                            thead
+                              tr
+                                th Device Name
+                                th Site
+                                th Company
+                                th IP Address
+                            tbody
+                              each device, i in devices 
+                                if user.site == device.site && device.site == site.name 
+                                  if user.admin == "Super Admin"
                                   tr.odd.gradeX
                                     td
-                                      a(href="/users/"+user._id)=user.name
+                                      a(href="/devices/"+ device._id)= device.pcname
                                     td
-                                      = user.email
+                                      = device.site 
                                     td
-                                      = user.company
-                                    td.center 4
-                                    td.center X
-=======
-                                if user.admin == "Super Admin"
-                                  each user, i in users
-                                  
-                                    tr.odd.gradeX
-                                      td
-                                        = user.admin
-                                      td
-                                        a(href="/user/"+user._id)=user.name
-                                      td
-                                        = user.username
-                                      td
-                                        = user.email
-                                      td
-                                        = user.site
-                                      td
-                                        = user.company
-                                    
->>>>>>> Roles-v0.1
-                            // /.table-responsive
-                        // /.panel-body
-                        // /.panel
+                                      = device.company
+                                    td
+                                      = device.ipaddress
 
                 #profile.tab-pane.fade
                   h4 Profile Tab
@@ -91,7 +76,4 @@ block content
                     | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             // /.panel-body
           // /.panel
-      // /.row
-    // /#page-wrapper
-    // /#wrapper
-    // jQuery
+        // /.row

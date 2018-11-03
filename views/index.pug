@@ -15,8 +15,8 @@ block content
                   .col-xs-3
                     i.fa.fa-building.fa-5x
                   .col-xs-9.text-right
-                    .huge 26
-                    div Company
+                    .huge #{numOfCompanies}
+                    div Companies
               a(href="#")
                 .panel-footer
                   span.pull-left View Details
@@ -30,7 +30,7 @@ block content
                   .col-xs-3
                     i.fa.fa-sitemap.fa-5x
                   .col-xs-9.text-right
-                    .huge 12
+                    .huge #{numOfSites}
                     div Sites
               a(href="#")
                 .panel-footer
@@ -45,9 +45,9 @@ block content
                   .col-xs-3
                     i.fa.fa-group.fa-5x
                   .col-xs-9.text-right
-                    .huge 124
-                    div Users
-              a(href="/users")
+                    .huge #{numOfDevices}
+                    div Devices
+              a(href="/devices")
                 .panel-footer
                   span.pull-left View Details
                   span.pull-right
@@ -60,8 +60,8 @@ block content
                   .col-xs-3
                     i.fa.fa-support.fa-5x
                   .col-xs-9.text-right
-                    .huge 13
-                    div Support Tickets!
+                    .huge #{numOfUserss}
+                    div Users
               a(href="#")
                 .panel-footer
                   span.pull-left View Details
@@ -80,31 +80,30 @@ block content
             .col-lg-12
               .panel.panel-default
                 .panel-heading
-                  | New Devices
+                  | Sites Available
                 // /.panel-heading
                 .panel-body
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th PC Name
-                        th IP
-                        th MAC
-                        th Status
-                        th Date/Time Registered
+                   
+                        th Name
+                   
+                    
                     tbody
-                      each device, i in devices
-                        tr.odd.gradeX
-                          td
-                            a(href="/devices/"+device._id)=device.pcname
-                          td
-                            = device.ipaddress 
-                          td
-                            = device.macaddress
-                          td.center 4
-                          td.center X
+                      each site, i in sites
+                        if user
+                          
+                          if user.company == site.company 
+                          
+                            tr.odd.gradeX
+                              td
+                                a(href="/sites/"+site._id)=site.name
+                              td
+                                = site.company
                   // /.table-responsive
                 // /.panel-body
-              // /.panel
+              // /.panel f
             // /.col-lg-6
           // /.row
           // /#page-wrapper

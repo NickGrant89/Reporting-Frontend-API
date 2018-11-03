@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 
-// User schema
+// Sites schema
 
-const UserSchema = mongoose.Schema({
-    admin:{
-        type: String
-    },    
+const SiteSchema = mongoose.Schema({
+    company:{
+        type: String,
+        required: true
+    },
     name:{
         type: String,
         required: true
@@ -14,25 +15,32 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    company:{
+    address:{
         type: String,
         required: true
     },
-    site:{
+    city:{
         type: String,
         required: true
     },
-    username:{
+    county:{
         type: String,
         required: true
     },
-    password:{
+    postcode:{
+        type: String,
+        required: true
+    },
+    country:{
+        type: String,
+        required: true
+    },
+    phonenumber:{
         type: String,
         required: true
     }
-
-
+    
 });
 
 
-let User = module.exports = mongoose.model('User', UserSchema);
+let Site = module.exports = mongoose.model('Site', SiteSchema);
