@@ -9,6 +9,10 @@ require('../config/passport')(passport);
 
 //Bring in Users Model
 let User = require('../models/user');
+//Bring in Users Model
+let Company = require('../models/company');
+//Bring in Users Model
+let Site = require('../models/site');
 
 
 
@@ -27,19 +31,25 @@ router.get('/', function(req, res){
     });
   });
 
- //Get register form 
+ //Get register form
 router.get('/register', function(req, res){
+    Company.find({}, function(err, companies){
+        Site.find({}, function(err, sites){
 
-    res.render('register', {
-        title:'Registration',
-       });
+            res.render('register', {
+                title:'Registration',
+                companies: companies,
+                sites: sites,
+            });
+        });
+    });
 });
 
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
 
 router.post('/register', [
-    
+
     //Name
     check('name').isLength({min:3}).trim().withMessage('Name required'),
     //Company
@@ -60,7 +70,7 @@ router.post('/register', [
   if (!errors.isEmpty()) {
     req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
     res.redirect('/users/register');
-    
+
     //res.render('register',)
 
    return { errors: errors.mapped() };
@@ -75,7 +85,7 @@ router.post('/register', [
   user.username = req.body.username;
   user.password = req.body.password;
   user.password2 = req.body.password2;
-  
+
   bcrypt.genSalt(10, function(errors, salt){
     bcrypt.hash(user.password, salt, function(err, hash){
         if(errors){
@@ -111,10 +121,10 @@ router.get('/logout', function(req, res){
 
 //login process
 router.post('/login', function(req, res, next){
-    passport.authenticate('local', { 
+    passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/users/login',
-        failureFlash: true 
+        failureFlash: true
     })(req, res, next);
 });
 
