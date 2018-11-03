@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 // Sites schema
 
 const SiteSchema = mongoose.Schema({
+    status:{
+        type: String,
+        required: true
+    },
     company:{
         type: String,
         required: true
@@ -39,7 +43,7 @@ const SiteSchema = mongoose.Schema({
         type: String,
         required: true
     }
-    
+
 });
 
 

@@ -20,18 +20,21 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
+                        th Status
                         th Site Name
-                        th Address 
-                        th City 
-                        th County 
-                        th Postcode 
-                        th Country 
+                        th Address
+                        th City
+                        th County
+                        th Postcode
+                        th Country
                         th Contact
                     tbody
                       each site, i in sites
                         if user
                           if user.site == site.name || user.admin == "Super Admin"
                             tr.odd.gradeX
+                              td
+                                = site.status
                               td
                                 a(href="/sites/"+site._id)=site.name
                               td

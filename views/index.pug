@@ -86,9 +86,9 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th ID
+                        th Status
                         th Name
-                        th Company
+                        th ID
                         th Contact
 
 
@@ -100,11 +100,11 @@ block content
 
                             tr.odd.gradeX
                               td
-                                = site.id
+                                = site.status
                               td
                                 a(href="/sites/"+site._id)=site.name
                               td
-                                = site.company
+                                = site.id
                               td
                                 = site.phonenumber
                   // /.table-responsive
