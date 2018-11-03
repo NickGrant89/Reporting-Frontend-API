@@ -1,11 +1,11 @@
 extends layout2
-    
+
 block content
     #page-wrapper
       .row
         .col-lg-12
           h1.page-header Users & Roles
-        
+
       .row
         .col-lg-12
           .panel.panel-default
@@ -43,21 +43,9 @@ block content
                                   th Site
                                   th Company
                               tbody
-<<<<<<< HEAD
-                                each user, i in users
-                                  tr.odd.gradeX
-                                    td
-                                      a(href="/users/"+user._id)=user.name
-                                    td
-                                      = user.email
-                                    td
-                                      = user.company
-                                    td.center 4
-                                    td.center X
-=======
                                 if user.admin == "Super Admin"
                                   each user, i in users
-                                  
+
                                     tr.odd.gradeX
                                       td
                                         = user.admin
@@ -71,8 +59,7 @@ block content
                                         = user.site
                                       td
                                         = user.company
-                                    
->>>>>>> Roles-v0.1
+
                             // /.table-responsive
                         // /.panel-body
                         // /.panel
