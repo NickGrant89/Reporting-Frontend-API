@@ -37,6 +37,7 @@ router.post('/add', [
    return { errors: errors.mapped() };
   }
   let site = new Site();
+  site.status = req.body.status;
   site.name = req.body.name;
   site.email = req.body.email;
   site.address = req.body.address;
@@ -92,7 +93,8 @@ router.get('/:id', (req, res) => {
     Site.findById(req.params.id, function(err, site){
         Device.find({}, function(err, devices){
             res.render('site', {
-                title: 'Site',
+                title: site.name,
+                status: site.status,
                 site:site,
                 devices:devices
 

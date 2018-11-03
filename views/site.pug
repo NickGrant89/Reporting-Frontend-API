@@ -19,10 +19,12 @@ block content
               .tab-content
                 #home.tab-pane.fade.in.active
                   .row
-                  .col-lg-12
-                    h1.page-header #{title}
+                    .col-lg-6
+                      h1.page-header #{title}
+                    .col-lg-6
+                      h1.page-header #{status}
                   .row
-                    .col-lg-4
+                    .col-lg-6
                       h4 Address: #{site.address}
                       h4 City: #{site.city}
                       h4 Postcode: #{site.postcode}
