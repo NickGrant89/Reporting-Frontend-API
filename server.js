@@ -113,10 +113,6 @@ app.get('/', function(req, res){
                                     numOfDevices:numOfDevices,
 
                                 })}
-                                console.log(numOfSites);
-                                console.log(numOfCompanies);
-                                console.log(numOfUsers);
-                                console.log(numOfDevices);
                         });        
                     });  
                 });
