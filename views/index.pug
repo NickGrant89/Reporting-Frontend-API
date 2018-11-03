@@ -86,21 +86,27 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                   
+                        th ID
                         th Name
-                   
-                    
+                        th Company
+                        th Contact
+
+
                     tbody
                       each site, i in sites
                         if user
-                          
-                          if user.company == site.company 
-                          
+
+                          if user.company == site.company
+
                             tr.odd.gradeX
+                              td
+                                = site.id
                               td
                                 a(href="/sites/"+site._id)=site.name
                               td
                                 = site.company
+                              td
+                                = site.phonenumber
                   // /.table-responsive
                 // /.panel-body
               // /.panel f
