@@ -142,6 +142,7 @@ app.get('/', function(req, res){
 
 let devices = require('./routes/devices');
 let users = require('./routes/users');
+<<<<<<< HEAD
 let apiDevices = require('./routes/apiDevices');
 let company = require('./routes/company');
 
@@ -149,6 +150,17 @@ app.use('/devices', devices);
 app.use('/users', users);
 app.use('/api/v1/devices', apiDevices);
 app.use('/company', company);
+=======
+let api = require('./routes/api');
+let companies = require('./routes/companies');
+let site = require('./routes/sites');
+
+app.use('/devices', devices);
+app.use('/users', users);
+app.use('/api', api);
+app.use('/companies', companies);
+app.use('/sites', site);
+>>>>>>> Roles-v0.1
 
 app.get('*', function(req, res) {
     res.status(404).end();
