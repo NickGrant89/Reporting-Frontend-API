@@ -16,23 +16,40 @@ let deviceSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    status:{
+
+        type: String,
+        required: true
+    },
+    timestamp:{
+        type: String,
+        required: true
+    },
     company:{
 
         type: String,
-        required: true
+        required: false
     },
+    
     site:{
         type: String,
-        required: true
+        required: false
     },
-    owner:{
+    deviceinfo: {
+        windowsversion: String,
+        harddrivespace: String,
+        availablememory: String,
+        exipaddress: String,
+        antivirus: String,
+        deviceuptime: String,
+        lastupdated: String,
+      },
+      supportticket: {
+        ticketref: String,
+      },
+    ocslogfile:[String]
 
-        type: String,
-        required: true
-    }
     
 });
-
-
 
 let Device = module.exports = mongoose.model('device', deviceSchema);
