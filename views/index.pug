@@ -91,20 +91,6 @@ block content
                    
                     
                     tbody
-<<<<<<< HEAD
-                      each device, i in devices
-                        tr.odd.gradeX
-                          td
-                            a(href="/devices/"+device._id)=device.pcname
-                          td
-                            = device.ipaddress 
-                          td
-                            = device.macaddress
-                          td.center F
-                          td.center X
-                          td.center X
-                          td.center X
-=======
                       each site, i in sites
                         if user
                           
@@ -115,7 +101,6 @@ block content
                                 a(href="/sites/"+site._id)=site.name
                               td
                                 = site.company
->>>>>>> Roles-v0.1
                   // /.table-responsive
                 // /.panel-body
               // /.panel f

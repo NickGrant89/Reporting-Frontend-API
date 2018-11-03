@@ -5,16 +5,10 @@ let Device = require('../models/device');
 //User Model
 let User = require('../models/user');
 
-<<<<<<< HEAD
-
-//Access Control
-
-=======
 let Site = require('../models/site');
 
 let Company = require('../models/company');
 //Access Controle
->>>>>>> Roles-v0.3
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         return next();
@@ -115,18 +109,12 @@ router.post('/add', [
 
 });
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> Roles-v0.1
 //Load edit form
-router.get('/edit/:id', ensureAuthenticated,  function(req, res){
+router.get('/edit/:id',  function(req, res){
     Device.findById(req.params.id, function(err, device){
-        {
-            req.flash('danger', 'Not Authorised');
-            res.redirect('/');
-        }
+        
         res.render('edit_device', {
             title:'Edit Device',
             device:device

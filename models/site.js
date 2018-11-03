@@ -3,15 +3,11 @@ const mongoose = require('mongoose');
 // Sites schema
 
 const SiteSchema = mongoose.Schema({
-<<<<<<< HEAD:models/sites.js
-    sitename:{
-=======
     company:{
         type: String,
         required: true
     },
     name:{
->>>>>>> Roles-v0.1:models/site.js
         type: String,
         required: true
     },
@@ -42,13 +38,6 @@ const SiteSchema = mongoose.Schema({
     phonenumber:{
         type: String,
         required: true
-<<<<<<< HEAD:models/sites.js
-    },
-    company:{
-        type: String, 
-        required: true
-=======
->>>>>>> Roles-v0.1:models/site.js
     }
     
 });
