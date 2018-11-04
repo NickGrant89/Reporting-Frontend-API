@@ -56,7 +56,7 @@ router.post('/add', [
            return;
        }
        else{
-           req.flash('success', 'site Added')
+           req.flash('success', 'Site Added')
            res.redirect('/sites')
        }
   });
