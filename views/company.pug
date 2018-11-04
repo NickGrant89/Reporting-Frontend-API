@@ -2,56 +2,91 @@ extends layout2
 
 block content
   #page-wrapper
-        .row
-          .col-lg-12
-            h1.page-header #{title}
-            .row
-              .col-lg-4
-                h4 Address: #{company.address}
-                h4 City: #{company.city}
-                h4 Postcode: #{company.postcode}
-                h4 Country: #{company.country}
-              .col-lg-4
-                a.btn.btn-primary(href='/sites/add') Add Site |
-                a.btn.btn-primary(href='/users/register/') | Add User |
-        .row
-          .col-lg-12
-            .panel.panel-default
-              .panel-heading
-                | Sites
-              // /.panel-heading
-              .panel-body
-                table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
-                  thead
-                    tr
-                      th Site Name
-                      th Company
-                      th Contact 
-                      th Status
-                  tbody
-                    each site, i in sites 
-                      if site.company == company.name || user.admin == "Super Admin"
-                        tr.odd.gradeX
-                          td
-                            a(href="/sites/"+site._id)=site.name
-                          td
-                            = site.company 
-                          td
-                            = site.phonenumber
-                          td
-                            = site.status  
-                        // /.table-responsive
-                      // /.panel-body
-                      // /.panel
-                    // /.col-lg-6
-                  // /.row  
-                  // /.col-lg-4
-                  // /.col-lg-4
-                  // /.row
-                // /.col-lg-4
-              // /.row
-              // /.col-sm-12
-              // /.row
-              // /#page-wrapper
-              // /#wrapper
-              // jQuery
+    .row
+        .col-lg-12
+          .panel.panel-default
+            .panel-heading
+              | Company Information
+            // /.panel-heading
+            .panel-body
+              // Nav tabs
+              ul.nav.nav-tabs
+                li.active
+                  a(href="#home" data-toggle="tab") Home
+                li
+                  a(href="#devices" data-toggle="tab") Devices
+                li
+                  a(href="#users" data-toggle="tab") Users
+              // Tab panes
+              .tab-content
+                #home.tab-pane.fade.in.active
+                  .row
+                    .col-lg-12
+                        .panel.panel-default
+                        .panel-heading
+                         h1 Sites
+                        // /.panel-heading
+                        .panel-body
+                        table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                            thead
+                                tr
+                                th Site Name
+                                th Company
+                                th Contact
+                                th Status
+                            tbody
+                                each site, i in sites
+                                    if user
+                                        if site.company == company.name || user.admin == "Super Admin"
+                                            tr.odd.gradeX
+                                            td
+                                                a(href="/sites/"+site._id)=site.name
+                                            td
+                                                = site.company
+                                            td
+                                                = site.phonenumber
+                                            td
+                                                = site.status
+
+                #devices.tab-pane.fade
+                    .row
+                    .col-lg-12
+                    .panel.panel-default
+                    .panel-body
+                        table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                            thead
+                                tr
+                                th Status
+                                th Site
+                                th Name
+                                th IP Address
+                                th MAC Address
+                                th Registration Date
+                            tbody
+                                each device, i in devices
+                                    if user
+                                        if device.company == company.name || user.admin == "Super Admin"
+                                            tr.odd.gradeX
+                                            td
+                                                = device.status
+                                            td
+                                                = device.site
+                                            td
+                                                a(href="/sites/"+device._id)=device.pcname
+                                            td
+                                                = device.ipaddress
+                                            td
+                                                = device.macaddress
+                                            td
+                                                = device.timestamp
+                #users.tab-pane.fade
+                  h4 Profile Tab
+                  p
+                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+                // /.panel-body
+            // /.panel
+            // /.row
+            // /.panel-body
+          // /.panel
+        // /.row
