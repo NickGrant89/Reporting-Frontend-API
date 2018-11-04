@@ -2,13 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 let Device = require('../models/device');
-//User Model
+
 let User = require('../models/user');
 
 let Site = require('../models/site');
 
 let Company = require('../models/company');
-//Access Controle
+
+//Access Control
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         return next();
