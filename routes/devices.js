@@ -81,12 +81,16 @@ router.get('/add', function(req, res){
 
 router.get('/:id', (req, res) => {
     Device.findById(req.params.id, function(err, device){
+        Site.find({}, function(err, sites){
+            Company.find({}, function(err, companies){
+                res.render('device', {
+                    device:device,
+                    sites: sites,
+                    companies: companies,
 
-            res.render('device', {
-                device:device,
-
-
+            });
         });
+    });
     });
 });
 
@@ -158,23 +162,23 @@ router.post('/edit/:id', (req, res) => {
 
  //Delete edit form
 router.delete('/:id', (req, res) => {
-    if(!req.user._id){
+    /* if(!req.user._id){
         res.status(500).send();
-    }
+    } */
 
     let query = {_id:req.params.id}
 
     Device.findById(req.params.id, function(err, device){
-        if(device.owner != req.user._id){
+        /* if(device.owner != req.user._id){
             res.status(500).send();
-        }else{
+        }else{ */
             Device.deleteOne(query, function(err){
                 if(err){
                     console.log(err)
                 }
                 res.send('Success');
             });
-        }
+        //}
     });
 });
 

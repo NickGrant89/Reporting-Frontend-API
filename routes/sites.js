@@ -35,7 +35,8 @@ router.post('/add', [
     //res.render('register',)
 
    return { errors: errors.mapped() };
-  }
+    }
+
   let site = new Site();
   site.status = req.body.status;
   site.name = req.body.name;
@@ -65,17 +66,16 @@ router.post('/add', [
 
 router.get('/add', function(req, res){
     Company.find({}, function(err, companies){
-    res.render('add_site', {
-    title:'Add Site',
-    companies: companies,
+        res.render('add_site', {
+        title:'Add Site',
+        companies: companies,
+        });
     });
-});
 });
 
 //GET Method to display devices on page.
 
 router.get('/', function(req, res){
-
     Site.find({}, function(err, sites){
         if(err){
             console.log(err)
@@ -86,19 +86,24 @@ router.get('/', function(req, res){
             });
         }
     });
-  });
+});
 
-    //Get single site page
+//Get single site page
 router.get('/:id', (req, res) => {
     Site.findById(req.params.id, function(err, site){
         Device.find({}, function(err, devices){
-            res.render('site', {
-                title: site.name,
-                status: site.status,
-                site:site,
-                devices:devices
-
-             });
+            Company.find({}, function(err, companies){
+                Site.find({}, function(err, sites){
+                    res.render('site', {
+                        title: site.name,
+                        status: site.status,
+                        site:site,
+                        devices:devices,
+                        companies: companies,
+                        sites:sites,
+                    });
+                });        
+            });    
          });
     });
 });

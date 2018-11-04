@@ -32,7 +32,52 @@ block content
                     .col-lg-4
                       h1 CONTROLS
                       a.btn.btn-primary(href='/devices/add') Add Device
-                      a.btn.btn-primary(href='/sites/edit/'+ site.id) Edit Site
+                      a.btn.btn-primary(href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit Site
+                      #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+                        .modal-dialog(role='document')
+                          .modal-content
+                            .modal-header
+                              h5#exampleModalLabel.modal-title Edit Site
+                              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×    
+                            .modal-body
+                                form(method='POST', action='/sites/edit'+site.id)
+                                  #form-group
+                                      label Status:
+                                      input.form-control(name='pcname', type='text', value=site.status)
+                                  #form-group
+                                      label Site Name:
+                                      input.form-control(name='ipaddress', type='text' value= site.name)
+                                  #form-group
+                                      label Email:
+                                      input.form-control(name='macaddress', type='text' value=site.email)
+                                  #form-group
+                                      label Address:
+                                      input.form-control(name='macaddress', type='text' value=site.address)
+                                  #form-group
+                                      label City:
+                                      input.form-control(name='macaddress', type='text' value=site.city)
+                                  #form-group
+                                      label County:
+                                      input.form-control(name='macaddress', type='text' value=site.county)
+                                  #form-group
+                                      label Phone Number:
+                                      input.form-control(name='macaddress', type='text' value=site.phonenumber)                    
+                                  #form-group
+                                      label Company:
+                                      select.form-control(name='company', type='text')
+                                          each company, i in companies
+                                              option(value= company.name) #{company.name}
+                                  #form-group
+                                      label Site:
+                                      select.form-control(name='site', type='text')
+                                          each site, i in sites
+                                              each company in companies
+                                                  if site.company == company.name
+                                                      option(value= site.name) #{site.name}
+                                  br                    
+                                  input.btn.btn-primary(type='submit', value='Submit')
+                                  a.btn.btn-danger(href='/devices/checkin') Cancel
                   .row
                     .col-lg-12
                       .panel.panel-default
