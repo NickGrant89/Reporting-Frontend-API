@@ -17,15 +17,14 @@ block content
             label Company:
             select.form-control(name='company', type='text')
                 each company, i in companies
-                    option #{company.name}
-                option Other
+                    option(value= company.name) #{company.name}
         #form-group
             label Site:
             select.form-control(name='site', type='text')
                 each site, i in sites
                     each company in companies
                         if site.company == company.name
-                            option #{site.name}
+                            option(value= site.name) #{site.name}
             br
 
         input.btn.btn-primary(type='submit', value='Submit')
