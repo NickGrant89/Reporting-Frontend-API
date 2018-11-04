@@ -37,9 +37,9 @@ router.get('/checkin', function(req, res){
             });
         }
     });
-});    
+});
         });
-    });    
+    });
 });
 
 
@@ -139,6 +139,7 @@ router.post('/add', [
 //Add submit device with form
 router.post('/edit/:id', (req, res) => {
     let device = {};
+    device.status = req.body.status,
     device.pcname = req.body.pcname;
     device.ipaddress = req.body.ipaddress;
     device.macaddress = req.body.macaddress;
@@ -148,7 +149,7 @@ router.post('/edit/:id', (req, res) => {
 
     let query = {_id:req.params.id}
 
-    Device.update(query, device, function(err){
+    Device.updateOne(query, device, function(err){
          if(err){
              console.log(err);
              return;
