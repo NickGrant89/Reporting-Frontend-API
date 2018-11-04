@@ -1,0 +1,85 @@
+extends layout2
+
+block content
+  #page-wrapper
+        .row
+          .col-lg-12
+            h1.page-header #{title}
+          .row
+            .col-lg-12
+              br
+            // /.col-lg-12
+          // /.row
+          .row
+            .col-lg-12
+              .panel.panel-default
+                .panel-heading
+                  | Devices
+                // /.panel-heading
+                .panel-body
+                  table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                    thead
+                      tr
+                        th PC Name
+                        th IP Address
+                        th MAC Address
+                        th Site
+                        th Company
+                        th Status
+                       
+                    tbody
+                      each device, i in devices
+                        tr.odd.gradeX
+                          td
+                            a(href="", data-toggle='modal', data-target='#exampleModal')=device.pcname
+                          td
+                            = device.ipaddress 
+                          td
+                            = device.macaddress
+                          td
+                            = device.site
+                          td
+                            = device.company
+                          td
+                        #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+                          .modal-dialog(role='document')
+                            .modal-content
+                              .modal-header
+                                h5#exampleModalLabel.modal-title Edit Device
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                  span(aria-hidden='true') ×    
+                              .modal-body
+                                  form(method='POST', action='/devices/edit/'+devices.id)
+                                    #form-group
+                                        label PC Name:
+                                        input.form-control(name='pcname', type='text', value=device.pcname)
+                                    #form-group
+                                        label IP Address:
+                                        input.form-control(name='ipaddress', type='text' value= devices.ipaddress)
+                                    #form-group
+                                        label Mac Address:
+                                        input.form-control(name='macaddress', type='text' value=devices.macaddress)
+                                    #form-group
+                                        label Company:
+                                        select.form-control(name='company', type='text')
+                                            each company, i in companies
+                                                option(value= company.name) #{company.name}
+                                    #form-group
+                                        label Site:
+                                        select.form-control(name='site', type='text')
+                                            each site, i in sites
+                                                each company in companies
+                                                    if site.company == company.name
+                                                        option(value= site.name) #{site.name}
+                                        br
+                                  .modal-footer
+                                    input.btn.btn-primary(type='submit', value='Submit')
+                                    a.btn.btn-danger(href='/devices') Cancel     
+                  // /.table-responsive
+                // /.panel-body
+              // /.panel
+            // /.col-lg-6
+          // /.row
+          // /#page-wrapper
+          // /#wrapper
+          // jQuery

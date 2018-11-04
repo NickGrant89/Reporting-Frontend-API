@@ -47,6 +47,12 @@ let deviceSchema = mongoose.Schema({
       supportticket: {
         ticketref: String,
       },
+      harddrivespace: {
+          totalspace: String,
+          freespace: String,
+          usedspace: String,
+
+      },
     ocslogfile:[String]
 
     
