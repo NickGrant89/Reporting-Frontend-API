@@ -49,22 +49,28 @@ block content
                                       option(value = 'Disabled') Disabled
                                   #form-group
                                       label Site Name:
-                                      input.form-control(name='ipaddress', type='text' value= site.name)
+                                      input.form-control(name='name', type='text', value= site.name)
                                   #form-group
                                       label Email:
-                                      input.form-control(name='macaddress', type='text' value=site.email)
+                                      input.form-control(name='email', type='text', value=site.email)
                                   #form-group
                                       label Address:
-                                      input.form-control(name='macaddress', type='text' value=site.address)
+                                      input.form-control(name='address', type='text', value=site.address)
                                   #form-group
                                       label City:
-                                      input.form-control(name='macaddress', type='text' value=site.city)
+                                      input.form-control(name='city', type='text', value=site.city)
                                   #form-group
                                       label County:
-                                      input.form-control(name='macaddress', type='text' value=site.county)
+                                      input.form-control(name='county', type='text', value=site.county)
+                                  #form-group
+                                    label Postcode:
+                                    input.form-control(name='postcode', type='text', value=site.postcode)
+                                  #form-group
+                                    label Country:
+                                    input.form-control(name='country', type='text', value=site.country)
                                   #form-group
                                       label Phone Number:
-                                      input.form-control(name='macaddress', type='text' value=site.phonenumber)
+                                      input.form-control(name='phonenumber', type='text', value=site.phonenumber)
                                   #form-group
                                       label Company:
                                       select.form-control(name='company', type='text')

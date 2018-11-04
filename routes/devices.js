@@ -114,6 +114,7 @@ router.post('/add', [
    return { errors: errors.mapped() };
   }
   let device = new Device();
+  device.status = req.body.status;
   device.pcname = req.body.pcname;
   device.ipaddress = req.body.ipaddress;
   device.macaddress = req.body.macaddress;

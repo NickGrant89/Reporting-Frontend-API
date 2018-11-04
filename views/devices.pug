@@ -21,30 +21,30 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
+                        th Status
                         th PC Name
                         th IP Address
                         th MAC Address
                         th Site
                         th Company
-                        th Status
-                       
                     tbody
                       each device, i in devices
                         if user.site == device.site || user.admin == "Super Admin"
                           tr.odd.gradeX
                             td
+                              = device.status
+                            td
                               a(href="/devices/"+device._id)=device.pcname
                             td
-                              = device.ipaddress 
+                              = device.ipaddress
                             td
                               = device.macaddress
                             td
                               = device.site
                             td
                               = device.company
-                            td
-                              = device.status
-                      
+
+
                   // /.table-responsive
                 // /.panel-body
               // /.panel
