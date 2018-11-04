@@ -42,15 +42,6 @@ block content
                                   option(value = 'Active') Active
                                   option(value = 'Disabled') Disabled
                             #form-group
-                                label PC Name:
-                                input.form-control(name='pcname', type='text', value=device.pcname)
-                            #form-group
-                                label IP Address:
-                                input.form-control(name='ipaddress', type='text', value= device.ipaddress)
-                            #form-group
-                                label Mac Address:
-                                input.form-control(name='macaddress', type='text', value=device.macaddress)
-                            #form-group
                                 label Company:
                                 select.form-control(name='company', type='text')
                                     each company, i in companies
@@ -62,6 +53,15 @@ block content
                                         each company in companies
                                             if site.company == company.name
                                                 option(value= site.name) #{site.name}
+                            #form-group
+                                label PC Name:
+                                input.form-control(name='pcname', type='text', value=device.pcname)
+                            #form-group
+                                label IP Address:
+                                input.form-control(name='ipaddress', type='text', value= device.ipaddress)
+                            #form-group
+                                label Mac Address:
+                                input.form-control(name='macaddress', type='text', value=device.macaddress)
                             br
                             input.btn.btn-primary(type='submit', value='Submit')
                             a.btn.btn-danger(href='/devices/checkin') Cancel

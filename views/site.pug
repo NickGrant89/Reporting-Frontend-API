@@ -48,6 +48,18 @@ block content
                                       option(value = 'Active') Active
                                       option(value = 'Disabled') Disabled
                                   #form-group
+                                      label Company:
+                                      select.form-control(name='company', type='text')
+                                          each company, i in companies
+                                              option(value= company.name) #{company.name}
+                                  #form-group
+                                      label Site:
+                                      select.form-control(name='site', type='text')
+                                          each site, i in sites
+                                              each company in companies
+                                                  if site.company == company.name
+                                                      option(value= site.name) #{site.name}
+                                  #form-group
                                       label Site Name:
                                       input.form-control(name='name', type='text', value= site.name)
                                   #form-group
@@ -71,18 +83,6 @@ block content
                                   #form-group
                                       label Phone Number:
                                       input.form-control(name='phonenumber', type='text', value=site.phonenumber)
-                                  #form-group
-                                      label Company:
-                                      select.form-control(name='company', type='text')
-                                          each company, i in companies
-                                              option(value= company.name) #{company.name}
-                                  #form-group
-                                      label Site:
-                                      select.form-control(name='site', type='text')
-                                          each site, i in sites
-                                              each company in companies
-                                                  if site.company == company.name
-                                                      option(value= site.name) #{site.name}
                                   br
                                   input.btn.btn-primary(type='submit', value='Submit')
                                   a.btn.btn-danger(href='/devices/checkin') Cancel

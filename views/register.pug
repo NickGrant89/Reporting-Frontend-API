@@ -8,17 +8,11 @@ block content
         h1 #{title}
         form(method='POST', action='/users/register')
             #form-group
-                label Admin:
+                label Role:
                 select.form-control(name='admin', type='text')
                     option User
                     option Admin
                     option Super Admin
-            #form-group
-                label Name:
-                input.form-control(name='name', type='text')
-            #form-group
-                label Email:
-                input.form-control(name='email', type='text')
             #form-group
                 label Company:
                 select.form-control(name='company', type='text')
@@ -29,6 +23,12 @@ block content
                select.form-control(name='site', type='text')
                     each site, i in sites
                         option #{site.name}
+            #form-group
+                label Name:
+                input.form-control(name='name', type='text')
+            #form-group
+                label Email:
+                input.form-control(name='email', type='text')
             #form-group
                 label Username:
                 input.form-control(name='username', type='text')
