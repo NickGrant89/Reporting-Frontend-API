@@ -14,12 +14,19 @@ block content
             table.table.table-striped.table-bordered.table-hover
               thead
                 tr
+                  th Status
                   th IP Address
                   th MAC Address
                   th Site
                   th Company
               tbody
                 tr
+                  td
+                    center
+                    if device.status == "Active"
+                        span.label.label-success #{device.status}
+                    else
+                        span.label.label-danger #{device.status}
                   td #{device.ipaddress}
                   td #{device.macaddress}
                   td #{device.site}
