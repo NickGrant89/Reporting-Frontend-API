@@ -18,7 +18,6 @@ let Site = require('../models/site');
 
 //Get all users
 router.get('/', function(req, res){
-
     User.find({}, function(err, users){
         if(err){
             console.log(err)
@@ -29,7 +28,7 @@ router.get('/', function(req, res){
             });
         }
     });
-  });
+});
 
  //Get register form
 router.get('/register', function(req, res){
@@ -87,24 +86,23 @@ router.post('/register', [
   user.password2 = req.body.password2;
 
   bcrypt.genSalt(10, function(errors, salt){
-    bcrypt.hash(user.password, salt, function(err, hash){
-        if(errors){
-            console.log(err);
-        }else{
-            user.password = hash;
-            user.save(function(err){
-                if(errors){
-                    console.log(err);
-                    return;
-                }else{
-                    req.flash('success', 'You are now registered');
-                    res.redirect('/users/login');
-                }
-            });
-        }
+        bcrypt.hash(user.password, salt, function(err, hash){
+            if(errors){
+                console.log(err);
+            }else{
+                user.password = hash;
+                user.save(function(err){
+                    if(errors){
+                        console.log(err);
+                        return;
+                    }else{
+                        req.flash('success', 'You are now registered');
+                        res.redirect('/users/login');
+                    }
+                });
+            }
+        });
     });
-});
-
 });
 
 //login form
@@ -117,7 +115,7 @@ router.get('/logout', function(req, res){
     req.logout();
     req.flash('success', 'You have logged out');
     res.redirect('/users/login');
-})
+});
 
 //login process
 router.post('/login', function(req, res, next){

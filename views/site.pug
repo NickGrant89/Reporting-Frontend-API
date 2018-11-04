@@ -14,7 +14,7 @@ block content
                 li.active
                   a(href="#home" data-toggle="tab") Information
                 li
-                  a(href="#devices" data-toggle="tab") Devices
+                  a(href="#profile" data-toggle="tab") Roles
               // Tab panes
               .tab-content
                 #home.tab-pane.fade.in.active
@@ -39,14 +39,30 @@ block content
                             .modal-header
                               h5#exampleModalLabel.modal-title Edit Site
                               button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                span(aria-hidden='true') ×
+                                span(aria-hidden='true') ×    
                             .modal-body
-                                form(method='POST', action='/sites/edit/'+site.id)
+                                form(method='POST', action='/sites/edit'+site.id)
                                   #form-group
-                                    label Status:
-                                    select.form-control(name='status', type='text')
-                                      option(value = 'Active') Active
-                                      option(value = 'Disabled') Disabled
+                                      label Status:
+                                      input.form-control(name='pcname', type='text', value=site.status)
+                                  #form-group
+                                      label Site Name:
+                                      input.form-control(name='ipaddress', type='text' value= site.name)
+                                  #form-group
+                                      label Email:
+                                      input.form-control(name='macaddress', type='text' value=site.email)
+                                  #form-group
+                                      label Address:
+                                      input.form-control(name='macaddress', type='text' value=site.address)
+                                  #form-group
+                                      label City:
+                                      input.form-control(name='macaddress', type='text' value=site.city)
+                                  #form-group
+                                      label County:
+                                      input.form-control(name='macaddress', type='text' value=site.county)
+                                  #form-group
+                                      label Phone Number:
+                                      input.form-control(name='macaddress', type='text' value=site.phonenumber)                    
                                   #form-group
                                       label Company:
                                       select.form-control(name='company', type='text')
@@ -59,31 +75,7 @@ block content
                                               each company in companies
                                                   if site.company == company.name
                                                       option(value= site.name) #{site.name}
-                                  #form-group
-                                      label Site Name:
-                                      input.form-control(name='name', type='text', value= site.name)
-                                  #form-group
-                                      label Email:
-                                      input.form-control(name='email', type='text', value=site.email)
-                                  #form-group
-                                      label Address:
-                                      input.form-control(name='address', type='text', value=site.address)
-                                  #form-group
-                                      label City:
-                                      input.form-control(name='city', type='text', value=site.city)
-                                  #form-group
-                                      label County:
-                                      input.form-control(name='county', type='text', value=site.county)
-                                  #form-group
-                                    label Postcode:
-                                    input.form-control(name='postcode', type='text', value=site.postcode)
-                                  #form-group
-                                    label Country:
-                                    input.form-control(name='country', type='text', value=site.country)
-                                  #form-group
-                                      label Phone Number:
-                                      input.form-control(name='phonenumber', type='text', value=site.phonenumber)
-                                  br
+                                  br                    
                                   input.btn.btn-primary(type='submit', value='Submit')
                                   a.btn.btn-danger(href='/devices/checkin') Cancel
                   .row
@@ -115,7 +107,7 @@ block content
                                       td
                                         = device.ipaddress
 
-                #devices.tab-pane.fade
+                #profile.tab-pane.fade
                   h4 Profile Tab
                   p
                     | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

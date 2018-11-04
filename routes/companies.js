@@ -15,23 +15,21 @@ router.get('/add', function(req, res){
     });
 });
 
-    //Get single company page
-    router.get('/:id', (req, res) => {
-        Company.findById(req.params.id, function(err, company){
-            Site.find({}, function(err, sites){
-                Device.find({}, function(err, devices){
+//Get single company page
+router.get('/:id', (req, res) => {
+    Company.findById(req.params.id, function(err, company){
+        Site.find({}, function(err, sites){
+            Device.find({}, function(err, devices){
                 res.render('company', {
                     title: company.name,
                     company:company,
                     sites:sites,
                     devices: devices,
-
-
                 });
-            });
             });
         });
     });
+});
 
 
 
@@ -81,37 +79,29 @@ router.post('/add', [
        else{
            req.flash('success', 'Company Added')
            res.redirect('/companies')
-       }
-  });
+        }
+    });
 
 });
 
 //GET Method to display all companies on page.
 router.get('/', function(req, res){
-
     Company.find({}, function(err, companies){
-
         if(err){
             console.log(err)
         }else{
             res.render('companies', {
                 title:'Companies',
                 companies: companies,
-
-            });
+           });
         }
-
     });
+});
 
-
-  });
-
-  //get 'add' company page/page
-  router.get('/add', function(req, res){
-
-        res.render('add_company', {
-            title:'Add Company',
-
+//get 'add' company page/page
+router.get('/add', function(req, res){
+    res.render('add_company', {
+        title:'Add Company',
     });
 });
 
