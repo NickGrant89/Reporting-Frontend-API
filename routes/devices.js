@@ -38,9 +38,9 @@ router.get('/checkin', function(req, res){
             });
         }
     });
-});    
+});
         });
-    });    
+    });
 });
 
 
@@ -140,6 +140,8 @@ router.post('/add', [
 //Add submit device with form
 router.post('/edit/:id', (req, res) => {
     let device = {};
+    device.pcname = req.body.pcname;
+    device.status = req.body.status;
     device.pcname = req.body.pcname;
     device.ipaddress = req.body.ipaddress;
     device.macaddress = req.body.macaddress;
