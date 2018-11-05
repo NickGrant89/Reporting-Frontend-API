@@ -35,7 +35,10 @@ block content
                           if user.site == site.name || user.admin == "Super Admin"
                             tr.odd.gradeX
                               td
-                                = site.status
+                                if site.status == "Active"
+                                  span.label.label-success #{site.status}
+                                else
+                                  span.label.label-danger #{site.status}
                               td
                                 a(href="/sites/"+site._id)=site.name
                               td
