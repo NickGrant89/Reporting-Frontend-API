@@ -14,7 +14,7 @@ block content
                 li.active
                   a(href="#home" data-toggle="tab") Information
                 li
-                  a(href="#profile" data-toggle="tab") Roles
+                  a(href="#profile" data-toggle="tab") Users
               // Tab panes
               .tab-content
                 #home.tab-pane.fade.in.active
@@ -39,43 +39,44 @@ block content
                             .modal-header
                               h5#exampleModalLabel.modal-title Edit Site
                               button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                span(aria-hidden='true') ×    
+                                span(aria-hidden='true') ×
                             .modal-body
-                                form(method='POST', action='/sites/edit'+site.id)
+                                form(method='POST', action='/sites/edit/'+site.id)
                                   #form-group
                                       label Status:
-                                      input.form-control(name='pcname', type='text', value=site.status)
-                                  #form-group
-                                      label Site Name:
-                                      input.form-control(name='ipaddress', type='text' value= site.name)
-                                  #form-group
-                                      label Email:
-                                      input.form-control(name='macaddress', type='text' value=site.email)
-                                  #form-group
-                                      label Address:
-                                      input.form-control(name='macaddress', type='text' value=site.address)
-                                  #form-group
-                                      label City:
-                                      input.form-control(name='macaddress', type='text' value=site.city)
-                                  #form-group
-                                      label County:
-                                      input.form-control(name='macaddress', type='text' value=site.county)
-                                  #form-group
-                                      label Phone Number:
-                                      input.form-control(name='macaddress', type='text' value=site.phonenumber)                    
+                                      select.form-control(name='status', type='text')
+                                          option(value = 'Active') Active
+                                          option(value = 'Disabled') Disabled
                                   #form-group
                                       label Company:
                                       select.form-control(name='company', type='text')
                                           each company, i in companies
                                               option(value= company.name) #{company.name}
                                   #form-group
-                                      label Site:
-                                      select.form-control(name='site', type='text')
-                                          each site, i in sites
-                                              each company in companies
-                                                  if site.company == company.name
-                                                      option(value= site.name) #{site.name}
-                                  br                    
+                                      label Site Name:
+                                      input.form-control(name='name', type='text' value= site.name)
+                                  #form-group
+                                      label Email:
+                                      input.form-control(name='email', type='text' value=site.email)
+                                  #form-group
+                                      label Address:
+                                      input.form-control(name='address', type='text' value=site.address)
+                                  #form-group
+                                      label City:
+                                      input.form-control(name='city', type='text' value=site.city)
+                                  #form-group
+                                      label County:
+                                      input.form-control(name='county', type='text' value=site.county)
+                                  #form-group
+                                      label Country:
+                                      input.form-control(name='country', type='text' value=site.country)
+                                  #form-group
+                                      label Postcode:
+                                      input.form-control(name='county', type='text' value=site.postcode)
+                                  #form-group
+                                      label Phone Number:
+                                      input.form-control(name='postcode', type='text' value=site.phonenumber)
+                                  br
                                   input.btn.btn-primary(type='submit', value='Submit')
                                   a.btn.btn-danger(href='/devices/checkin') Cancel
                   .row
@@ -88,6 +89,7 @@ block content
                           table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                             thead
                               tr
+                                th Device Status
                                 th Device Name
                                 th Site
                                 th Company
@@ -101,7 +103,10 @@ block content
                                       td
                                         a(href="/devices/"+ device._id)= device.pcname
                                       td
-                                        = device.site
+                                        if device.status == "Active"
+                                          span.label.label-success #{device.status}
+                                        else
+                                          span.label.label-danger #{device.status}
                                       td
                                         = device.company
                                       td

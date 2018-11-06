@@ -21,7 +21,6 @@ block content
               tbody
                 tr
                   td
-                    center
                     if device.status == "Active"
                         span.label.label-success #{device.status}
                     else
@@ -43,9 +42,10 @@ block content
                       .modal-body
                           form(method='POST', action='/devices/edit/'+device.id)
                             #form-group
-                            select.form-control(name='status', type='text')
-                                  option(value = 'Active') Active
-                                  option(value = 'Disabled') Disabled
+                                label Status:
+                                select.form-control(name='status', type='text')
+                                    option(value = 'Active') Active
+                                    option(value = 'Disabled') Disabled
                             #form-group
                                 label Company:
                                 select.form-control(name='company', type='text')

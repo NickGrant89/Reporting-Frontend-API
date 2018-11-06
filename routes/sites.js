@@ -102,8 +102,8 @@ router.get('/:id', (req, res) => {
                         companies: companies,
                         sites:sites,
                     });
-                });        
-            });    
+                });
+            });
          });
     });
 });
@@ -124,17 +124,24 @@ router.get('/edit/:id',  function(req, res){
     });
 });
 
-//Add submit device with form
+//edit submit form for site
 router.post('/edit/:id', (req, res) => {
     let site = {};
+    site.status = req.body.status;
     site.name = req.body.name;
+    site.email = req.body.email;
     site.address = req.body.address;
+    site.city = req.body.city;
+    site.county = req.body.county;
+    site.postcode = req.body.postcode;
+    site.country = req.body.country;
+    site.phonenumber = req.body.phonenumber;
     site.company = req.body.company;
 
 
     let query = {_id:req.params.id}
 
-    Site.update(query, site, function(err){
+    Site.updateOne(query, site, function(err){
          if(err){
              console.log(err);
              return;
