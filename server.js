@@ -125,6 +125,7 @@ app.get('/', function(req, res){
 
 let devices = require('./routes/devices');
 let users = require('./routes/users');
+let jwt = require('./routes/apiJWT');
 let apiDevices = require('./routes/apiDevices');
 let companies = require('./routes/companies');
 let site = require('./routes/sites');
@@ -132,6 +133,7 @@ let site = require('./routes/sites');
 app.use('/devices', devices);
 app.use('/users', users);
 app.use('/api/v1/devices/', apiDevices);
+app.use('/api/v1/auth/', jwt);
 app.use('/companies', companies);
 app.use('/sites', site);
 

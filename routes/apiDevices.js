@@ -7,6 +7,9 @@ const bodyParser = require('body-parser');
 
 // Import Device Model
 let Device = require('../models/device');
+let apiJWT = require('../routes/apiJWT');
+
+
 
 //GET Method for all Devices 
 
@@ -23,7 +26,7 @@ router.get('/', (req, res) => {
 
 //GET Singel device :id
 
-router.get('/:id', (req, res) => {
+router.get('/:id',  (req, res) => {
     Device.findById(req.params.id, function(err, device){
         if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
             res.send(device);           
