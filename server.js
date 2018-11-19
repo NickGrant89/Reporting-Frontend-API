@@ -1,5 +1,6 @@
 //Using modual
 
+const morgan = require('morgan');
 const Joi = require('joi');  // Joi is a validator, making code smaller//
 const express = require('express');
 const path = require('path');
@@ -8,6 +9,10 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const config = require('./config/database')
 const passport = require('passport');
+
+
+
+
 
 // This calls the Device model to intergate the DB
 
@@ -40,6 +45,9 @@ db.on('error', function(err){
 
 const app = express();
 app.use(express.json());
+
+//Logs all requests to the consol.
+app.use(morgan('dev'));
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -140,6 +148,7 @@ app.use('/companies', companies);
 app.use('/sites', site);
 
 
+
 /* app.get('*', function(req, res) {
     res.status(404).end();
     res.redirect('/');
@@ -157,6 +166,8 @@ function validateDevice(device){
 
     return Joi.validate(device, schema);
 }
+
+
 
 const port = process.env.Port || 3000;
 

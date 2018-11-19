@@ -5,33 +5,25 @@ const router = express.Router();
 const Joi = require('joi');  // Joi is a validator, making code smaller//
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
 const bcrypt = require('bcryptjs');
+const checkAuth = require('../middleware/check-auth');
+const morgan = require('morgan');
 
 //Bring in Users Model
 let User = require('../models/user');
 
 
-
-router.get('/helloworld', (req, res) => {
+router.get('/helloworld', checkAuth, (req, res) => {
     res.json({
         message: 'Hello World - Welcome to API Auth'
     });
 });
 
-router.post('/post', verifyToken, (req, res) => {
-    jwt.verify(req.token, 'sercretkey', function(err, authData){
-        if(err){
-            res.sendStatus(403);
-        }else{
-            res.json({
-                message: 'Post Created ...',
-                authData
-            });
-        }
+router.post('/post', checkAuth, (req, res) => {
+    res.json({
+        message: 'Post Created ...'
     });
 });
-
 
 router.post('/login', (req, res, next) => {
 
@@ -52,8 +44,19 @@ router.post('/login', (req, res, next) => {
                 });
             }
             if(result){
+                const token = jwt.sign({
+                    email: user[0].email,
+                    userId: user[0]._id
+                }, 
+                'secretkey', // Need to replace this and hide!
+                {
+                    expiresIn:"1h"
+                }
+
+                );
                 return res.status(200).json({
-                    message:'Auth Successful'
+                    message:'Auth Successful',
+                    token: token
                 });
             }
             res.status(401).json({
@@ -66,46 +69,6 @@ router.post('/login', (req, res, next) => {
             error:err
         });
     });
-
-
-    /* const user ={
-        id: req.id,
-        username:'nick',
-        email:'nick@onec.co.uk',
-        
-    }; */
-
-
-    /* jwt.sign({user}, 'sercretkey', {expiresIn: '30s'}, function(err, token){
-        if(err){
-
-        }
-        else{
-            res.json({
-                token
-            });
-        }
-    }); */
 }); 
-
-function verifyToken(req, res, next){
-    //get auth header token
-    const bearerheader = req.headers['authorization'];
-    // check if bearer is unfifined 
-    if(typeof bearerheader !== 'undefined'){
-        //Split at the space
-        const bearer = bearerheader.split(' ');
-        //get token from array
-        const bearerToken = bearer[1];
-        //set the token
-        req.token = bearerToken;
-        //Next middelwear
-        next();
-
-    }else{
-        res.sendStatus(403);
-    }
-
-}
 
 module.exports = router;

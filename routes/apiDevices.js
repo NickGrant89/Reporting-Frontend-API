@@ -1,42 +1,31 @@
 // API Devices Functions
-
 const express = require('express');
 const router = express.Router();
 const Joi = require('joi');  // Joi is a validator, making code smaller//
-const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
+const checkAuth = require('../middleware/check-auth');
 
 // Import Device Model
 let Device = require('../models/device');
 
-
-
 //GET Method for all Devices 
 
-router.get('/', verifyToken, (req, res) => {
-    jwt.verify(req.token, 'sercretkey', function(err, authData){
+router.get('/', checkAuth, (req, res) => {
+    Device.find({}, function(err, devices){
         if(err){
-            res.sendStatus(403);
+            console.log(err)
         }else{
-            Device.find({}, function(err, devices){
-                if(err){
-                    console.log(err)
-                }else{
-                    //res.send(devices);
-                    res.json({
-                        devices,
-                        authData
-                    })
-                    console.log(devices);
-                }
-            });
-        }   
+            //res.send(devices);
+            res.json({
+                devices
+            })
+            console.log(devices);
+        }
     });
 });
 
 //GET Singel device :id
 
-router.get('/:id',  (req, res) => {
+router.get('/:id', checkAuth, (req, res) => {
     Device.findById(req.params.id, function(err, device){
         if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
             res.send(device);           
@@ -46,7 +35,7 @@ router.get('/:id',  (req, res) => {
 
 //POST to add device
 
-router.post('/', (req, res) => {
+router.post('/', checkAuth, (req, res) => {
     const {error} = validateDevice(req.body);
 
     if(error){
@@ -81,7 +70,7 @@ router.post('/', (req, res) => {
 
 //PUT Method update single device
 
-router.put('/:id', (req, res) => {
+router.put('/:id', checkAuth, (req, res) => {
     Device.findById(req.params.id, function(err, device){
         if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
 
@@ -106,7 +95,7 @@ router.put('/:id', (req, res) => {
 
 //DEL Method Device
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkAuth, (req, res) => {
     Device.findById(req.params.id, function(err, device){
         if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
 
@@ -119,7 +108,7 @@ router.delete('/:id', (req, res) => {
 
 //POST Device check
 
-router.post('/checkin', function(req, res){
+router.post('/checkin', checkAuth, function(req, res){
     const {error} = validateDevice(req.body);
 
     if(error){
@@ -168,26 +157,6 @@ function validateDevice(device){
     };
 
     return Joi.validate(device, schema);
-}
-
-function verifyToken(req, res, next){
-    //get auth header token
-    const bearerheader = req.headers['authorization'];
-    // check if bearer is unfifined 
-    if(typeof bearerheader !== 'undefined'){
-        //Split at the space
-        const bearer = bearerheader.split(' ');
-        //get token from array
-        const bearerToken = bearer[1];
-        //set the token
-        req.token = bearerToken;
-        //Next middelwear
-        next();
-
-    }else{
-        res.sendStatus(403);
-    }
-
 }
 
 module.exports = router;
