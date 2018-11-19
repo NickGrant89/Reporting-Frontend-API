@@ -24,3 +24,6 @@ $(document).ready(function(){
 });
 ;
 
+function myFunction1() {
+    document.getElementById("status").value = device.status;
+}

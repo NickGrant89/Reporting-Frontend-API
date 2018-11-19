@@ -18,7 +18,8 @@ let User = require('./models/user');
 let Company = require('./models/company');
 
 let Device = require('./models/device');
-//MongoDB connetion
+
+
 
 const mongoose = require('mongoose');
 mongoose.connect(config.database,{ useNewUrlParser: true });
@@ -72,6 +73,7 @@ app.use(session({
 
 //Passport Config
 require('./config/passport')(passport);
+
 //passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -136,6 +138,7 @@ app.use('/api/v1/devices/', apiDevices);
 app.use('/api/v1/auth/', jwt);
 app.use('/companies', companies);
 app.use('/sites', site);
+
 
 /* app.get('*', function(req, res) {
     res.status(404).end();

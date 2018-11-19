@@ -29,7 +29,7 @@ router.get('/checkin', function(req, res){
             console.log(err)
         }else{
             res.render('devices_checkin', {
-                title:'Devices',
+                title:'Device Check-In',
                 devices: devices,
                 device:device,
                 sites: sites,

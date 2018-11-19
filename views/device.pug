@@ -30,7 +30,7 @@ block content
                   td #{device.site}
                   td #{device.company}
             tr
-              a.btn.btn-primary(href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
+              a.btn.btn-primary(onClick='myFunction1()', href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
               a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
               #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
                   .modal-dialog(role='document')
@@ -43,7 +43,8 @@ block content
                           form(method='POST', action='/devices/edit/'+device.id)
                             #form-group
                                 label Status:
-                                select.form-control(name='status', type='text')
+                                select.form-control(, name='status', type='text')
+                                    option(value = '', select='') Default
                                     option(value = 'Active') Active
                                     option(value = 'Disabled') Disabled
                             #form-group

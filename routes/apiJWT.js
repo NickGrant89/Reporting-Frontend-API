@@ -5,6 +5,12 @@ const router = express.Router();
 const Joi = require('joi');  // Joi is a validator, making code smaller//
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const bcrypt = require('bcryptjs');
+
+//Bring in Users Model
+let User = require('../models/user');
+
 
 
 router.get('/helloworld', (req, res) => {
@@ -26,14 +32,51 @@ router.post('/post', verifyToken, (req, res) => {
     });
 });
 
-router.post('/login', (req, res) => {
-    const user = {
-        id: 1,
-        username: 'nick',
-        email: 'nickgrant1989@live.co.uk'
-    }
 
-    jwt.sign({user}, 'sercretkey', {expiresIn: '30s'}, function(err, token){
+router.post('/login', (req, res, next) => {
+
+    User.find({email:req.body.email})
+    
+    .exec()
+    .then(user => {
+        if(user.length < 1){
+            return res.status(401).json({
+                message: 'Auth Failed'
+                
+            });
+        }
+        bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+            if(err){
+                return res.status(401).json({
+                    message:'Auth Failed'
+                });
+            }
+            if(result){
+                return res.status(200).json({
+                    message:'Auth Successful'
+                });
+            }
+            res.status(401).json({
+                message:'Auth Failed'
+            });
+        });
+    })
+    .catch(err => {
+        console.log(500).json({
+            error:err
+        });
+    });
+
+
+    /* const user ={
+        id: req.id,
+        username:'nick',
+        email:'nick@onec.co.uk',
+        
+    }; */
+
+
+    /* jwt.sign({user}, 'sercretkey', {expiresIn: '30s'}, function(err, token){
         if(err){
 
         }
@@ -42,8 +85,8 @@ router.post('/login', (req, res) => {
                 token
             });
         }
-    });
-});
+    }); */
+}); 
 
 function verifyToken(req, res, next){
     //get auth header token

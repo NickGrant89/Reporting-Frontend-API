@@ -4,23 +4,33 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');  // Joi is a validator, making code smaller//
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
 // Import Device Model
 let Device = require('../models/device');
-let apiJWT = require('../routes/apiJWT');
 
 
 
 //GET Method for all Devices 
 
-router.get('/', (req, res) => {
-    Device.find({}, function(err, devices){
+router.get('/', verifyToken, (req, res) => {
+    jwt.verify(req.token, 'sercretkey', function(err, authData){
         if(err){
-            console.log(err)
+            res.sendStatus(403);
         }else{
-            res.send(devices);
-            console.log(devices);
-        }
+            Device.find({}, function(err, devices){
+                if(err){
+                    console.log(err)
+                }else{
+                    //res.send(devices);
+                    res.json({
+                        devices,
+                        authData
+                    })
+                    console.log(devices);
+                }
+            });
+        }   
     });
 });
 
@@ -160,6 +170,24 @@ function validateDevice(device){
     return Joi.validate(device, schema);
 }
 
+function verifyToken(req, res, next){
+    //get auth header token
+    const bearerheader = req.headers['authorization'];
+    // check if bearer is unfifined 
+    if(typeof bearerheader !== 'undefined'){
+        //Split at the space
+        const bearer = bearerheader.split(' ');
+        //get token from array
+        const bearerToken = bearer[1];
+        //set the token
+        req.token = bearerToken;
+        //Next middelwear
+        next();
 
+    }else{
+        res.sendStatus(403);
+    }
+
+}
 
 module.exports = router;
