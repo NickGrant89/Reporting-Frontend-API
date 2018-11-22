@@ -44,6 +44,8 @@ router.get('/register', function(req, res){
     });
 });
 
+
+
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
 
@@ -101,6 +103,20 @@ router.post('/register', [
                     }
                 });
             }
+        });
+    });
+});
+
+router.get('/:id', (req, res) => {
+    User.findById(req.params.id, function(err, user){
+        Site.find({}, function(err, sites){
+            Company.find({}, function(err, companies){
+                res.render('user', {
+                    user:user,
+                    sites: sites,
+                    companies: companies,
+                });
+            });
         });
     });
 });

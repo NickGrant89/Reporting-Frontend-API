@@ -1,0 +1,76 @@
+extends layout2
+
+block content
+  #page-wrapper
+    .row
+    .col-lg-12
+      .panel.panel-default
+        .panel-heading
+          | #{device.pcname}
+        // /.panel-heading
+        .panel-body
+          .table-responsive
+            table.table.table-striped.table-bordered.table-hover
+              thead
+                tr
+                  th Status
+                  th IP Address
+                  th MAC Address
+                  th Site
+                  th Company
+              tbody
+                tr
+                  td
+                    if device.status == "Active"
+                        span.label.label-success #{device.status}
+                    else
+                        span.label.label-danger #{device.status}
+                  td #{device.ipaddress}
+                  td #{device.macaddress}
+                  td #{device.site}
+                  td #{device.company}
+            tr
+              a.btn.btn-primary(onClick='myFunction1()', href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
+              a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
+              #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+                  .modal-dialog(role='document')
+                    .modal-content
+                      .modal-header
+                        h5#exampleModalLabel.modal-title Edit Device
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                          span(aria-hidden='true')
+                    .modal-body
+                        form(method='POST', action='/devices/edit/'+device.id)
+                            #form-group
+                                label Status:
+                                select.form-control(, name='status', type='text')
+                                    option(value = '', select='') Default
+                                    option(value = 'Active') Active
+                                    option(value = 'Disabled') Disabled
+                            #form-group
+                                label Company:
+                                select.form-control(name='company', type='text')
+                                    each company, i in companies
+                                        option(value= company.name) #{company.name}
+                            #form-group
+                                label Site:
+                                select.form-control(name='site', type='text')
+                                    each site, i in sites
+                                        each company in companies
+                                            if site.company == company.name
+                                                option(value= site.name) #{site.name}
+                            #form-group
+                                label PC Name:
+                                input.form-control(name='pcname', type='text', value=device.pcname)
+                            #form-group
+                                label IP Address:
+                                input.form-control(name='ipaddress', type='text' value= device.ipaddress)
+                            #form-group
+                                label Mac Address:
+                                input.form-control(name='macaddress', type='text' value=device.macaddress)
+                            br
+                            input.btn.btn-primary(type='submit', value='Submit')
+                            a.btn.btn-danger(href='/devices/checkin') Cancel
+          // /#page-wrapper
+          // /#wrapper
+          // jQuery

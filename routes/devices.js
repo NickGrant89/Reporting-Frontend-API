@@ -88,7 +88,7 @@ router.get('/:id', (req, res) => {
                     device:device,
                     sites: sites,
                     companies: companies,
-
+                    title: device.pcname,
             });
         });
     });

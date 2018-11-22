@@ -29,10 +29,12 @@ block content
                       h4 City: #{site.city}
                       h4 Postcode: #{site.postcode}
                       h4 Country: #{site.county}
-                    .col-lg-4
-                      h1 CONTROLS
                       a.btn.btn-primary(href='/devices/add') Add Device
                       a.btn.btn-primary(href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit Site
+                      br
+                      br
+                    .col-lg-4
+                      h4 CONTROLS
                       #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
                         .modal-dialog(role='document')
                           .modal-content
