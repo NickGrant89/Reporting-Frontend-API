@@ -26,6 +26,10 @@
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
   }
+
+  .card { 
+    border: 16px solid #a70101;
+  }
   
   /* Safari */
   @-webkit-keyframes spin {

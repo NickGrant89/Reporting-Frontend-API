@@ -4,7 +4,7 @@ block content
   #page-wrapper
         .row
           .col-lg-12
-            h1.page-header #{title}
+            h1.page-header Device Name - #{title}
           .row
             .col-lg-12
               br
@@ -15,30 +15,160 @@ block content
               != messages('message', locals)
               .panel.panel-default
                 .panel-heading
-                  | Devices
+                  | 
+                  br  
                 // /.panel-heading
                 .panel-body
                     .table-responsive
                         table.table.table-striped.table-bordered.table-hover
                             thead
                                 tr
-                                th Status
                                 th IP Address
                                 th MAC Address
-                                th Site
                                 th Company
+                                th Site
+                                th Time Stamp
+                                th Status
                             tbody
                                 tr
-                                td
+                                td #{device.ipaddress}
+                                td #{device.macaddress}
+                                td #{device.company}
+                                td #{device.site}
+                                td #{device.timestamp}
+                                td 
                                     if device.status == "Active"
                                         span.label.label-success #{device.status}
                                     else
                                         span.label.label-danger #{device.status}
-                                td #{device.ipaddress}
-                                td #{device.macaddress}
-                                td #{device.site}
-                                td #{device.company}
-                    tr
+                                tr    
+                    .col-sm-6
+                        .card.border-primary.mb-4(style='padding-left: 40px')
+                            .card-body.text-primary
+                                p.card-text
+                                div(style='list-style-type:none')
+                                li
+                                    i.fa.fa-windows(style='font-size:10px')
+                                    |  Windows Version - #{device.deviceinfo.windowsversion}
+                                li
+                                    i.fa.fa-hdd-o(style='font-size:10px')
+                                    |  CPU - #{device.deviceinfo.cpu} 
+                                li
+                                    i.material-icons(style='font-size:10px') memory
+                                    |  Available Memory - #{device.deviceinfo.availablememory}
+                                li
+                                    i.material-icons(style='font-size:10px') security
+                                    |  Anti Virus - #{device.deviceinfo.antivirus}
+                                li
+                                    i.material-icons(style='font-size:10px') router
+                                    |  Public IP - #{device.deviceinfo.exipaddress}
+                                li
+                                    i.material-icons(style='font-size:10px') watch_later
+                                    |  Device Uptime - #{device.deviceinfo.deviceuptime}
+                                br
+                                br
+                    .col-sm-5(style='padding-top: 20px; padding-right: 100px;') 
+                        script(src='https://www.gstatic.com/charts/loader.js')
+                        script.
+                            google.charts.load('current', {'packages':['gauge']});
+                            google.charts.setOnLoadCallback(drawChart);
+                            function drawChart() {
+                            var data = google.visualization.arrayToDataTable([
+                            ['Label', 'Value'],
+                            ['Memory', #{device.devicestatus.memory}],
+                            ['CPU', #{device.devicestatus.cpu}],
+                            ['Network', #{device.devicestatus.network}]
+                            ]);
+                            var options = {
+                            width: 400, height: 120,
+                            redFrom: 90, redTo: 100,
+                            yellowFrom:75, yellowTo: 90,
+                            minorTicks: 5
+                            };
+                            var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+                            chart.draw(data, options);
+                            setInterval(function() {
+                            data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+                            chart.draw(data, options);
+                            }, 13000);
+                            setInterval(function() {
+                            data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+                            chart.draw(data, options);
+                            }, 5000);
+                            setInterval(function() {
+                            data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+                            chart.draw(data, options);
+                            }, 26000);
+                            }
+                        #chart_div(style='width: 0px; height: 120px;')
+                                        
+                    br  
+                    br
+                    br  
+                    .col-sm-12            
+                        .col-sm-5(style='padding-left: 15px;')
+                            canvas#myChart(width='300px', height='300px', padding-right= '100px')
+                                script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
+                                script.
+                                    var ctx = document.getElementById("myChart").getContext('2d');
+                                    var myChart = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                    labels: ["Used", "Free", "Total"],
+                                    datasets: [{
+                                    label: '# of Votes',
+                                    data: [ #{device.harddrivespace.usedspace}, #{device.harddrivespace.freespace},#{device.harddrivespace.totalspace} ],
+                                    backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                    'rgba(255,99,132,1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 1
+                                    }]
+                                    },
+                                    options: {
+                                    yAxes: [{
+                                    ticks: {
+                                    beginAtZero:true
+                                    }
+                                    }]
+                                    }
+                                    });
+                        .col-sm-7(style='padding-left: 20px;')
+                            .col-sm-3(style='padding-top: 100px;')
+                                    .card.border-primary.mb-3(style='max-width: 18rem;')
+                                    .card-body.text-primary
+                                        h5.card-title Free Space
+                                        p.card-text
+                                        h1 #{device.harddrivespace.freespace}GB
+                                        p
+                            .col-sm-3(style='padding-top: 100px;')
+                                .card.border-danger.mb-3(style='max-width: 18rem;')
+                                .card-body.text-danger
+                                    h5.card-title Used Space
+                                    p.card-text
+                                    h1 #{device.harddrivespace.usedspace}GB
+                                    p
+                            .col-sm-3(style='padding-top: 100px;')
+                                .card.border-success.mb-3(style='max-width: 18rem;')
+                                .card-body.text-success
+                                    h5.card-title Total Space
+                                    p.card-text
+                                    h1 #{device.harddrivespace.totalspace}GB
+                                    p                   
+
+                    .col-lg-12(style='padding-top: 20px;')
                         a.btn.btn-primary(onClick='myFunction1()', href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
                         a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
                         #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
@@ -53,7 +183,6 @@ block content
                                             #form-group
                                                 label Status:
                                                 select.form-control(, name='status', type='text')
-                                                    option(value = '', select='') Default
                                                     option(value = 'Active') Active
                                                     option(value = 'Disabled') Disabled
                                             #form-group
@@ -76,10 +205,11 @@ block content
                                                 input.form-control(name='ipaddress', type='text' value= device.ipaddress)
                                             #form-group
                                                 label Mac Address:
-                                                input.form-control(name='macaddress', type='text' value=device.macaddress)
+                                                input.form-control(name='macaddress', type='text' value=device.macaddress)    
                                             br
                                             input.btn.btn-primary(type='submit', value='Submit')
-                                            a.btn.btn-danger(href='/devices/checkin') Cancel
+                                            a.btn.btn-danger(href='/devices/checkin') Cancel                                                
+                      
                         // /#page-wrapper
                         // /#wrapper
                         // jQuery

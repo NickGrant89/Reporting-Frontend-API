@@ -105,6 +105,7 @@ router.post('/add', [
     check('ipaddress').isLength({min:1}).trim().withMessage('IP Address required'),
     //Username
     check('macaddress').isLength({ min: 6}),
+
 ], (req, res) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);
@@ -120,8 +121,6 @@ router.post('/add', [
   device.macaddress = req.body.macaddress;
   device.company = req.body.company;
   device.site = req.body.site;
-
-
 
   device.save(function(err){
        if(err){
@@ -147,7 +146,7 @@ router.post('/edit/:id', (req, res) => {
     device.macaddress = req.body.macaddress;
     device.site = req.body.site;
     device.company = req.body.company;
-
+  
 
     let query = {_id:req.params.id}
 

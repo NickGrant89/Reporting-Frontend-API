@@ -107,19 +107,6 @@ router.post('/register', [
     });
 });
 
-router.get('/:id', (req, res) => {
-    User.findById(req.params.id, function(err, user){
-        Site.find({}, function(err, sites){
-            Company.find({}, function(err, companies){
-                res.render('user', {
-                    user:user,
-                    sites: sites,
-                    companies: companies,
-                });
-            });
-        });
-    });
-});
 
 //login form
 router.get('/login', function(req, res){

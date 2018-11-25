@@ -154,18 +154,7 @@ app.use('/sites', site);
     res.redirect('/');
   }); */
 
-  
 
-//Validation 
-
-function validateDevice(device){
-    const schema ={
-        pcname: Joi.string().min(3).required()
-        
-    };
-
-    return Joi.validate(device, schema);
-}
 
 
 
