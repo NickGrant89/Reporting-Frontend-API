@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+//Access Control
+const ensureAuthenticated = require('../middleware/login-auth');
+
 let Device = require('../models/device');
 
 let User = require('../models/user');
@@ -9,18 +12,9 @@ let Site = require('../models/site');
 
 let Company = require('../models/company');
 
-//Access Control
-function ensureAuthenticated(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }else{
-        req.flash('danger', 'Please sign in')
-        res.redirect('/users/login')
-    }
-}
 
 //Device check in view
-router.get('/checkin', function(req, res){
+router.get('/checkin', ensureAuthenticated, function(req, res){
     Device.find({}, function(err, devices){
         Device.findById(req.params.id, function(err, device){
             Site.find({}, function(err, sites){
@@ -65,7 +59,7 @@ router.get('/', ensureAuthenticated, function(req, res){
 
 //GET display add device page with form
 
-router.get('/add', function(req, res){
+router.get('/add', ensureAuthenticated, function(req, res){
     Site.find({}, function(err, sites){
         Company.find({}, function(err, companies){
             res.render('add_device', {
@@ -80,7 +74,7 @@ router.get('/add', function(req, res){
 
 //Get single device page
 
-router.get('/:id', (req, res) => {
+router.get('/:id', ensureAuthenticated, (req, res) => {
     Device.findById(req.params.id, function(err, device){
         Site.find({}, function(err, sites){
             Company.find({}, function(err, companies){
@@ -185,7 +179,7 @@ router.delete('/:id', (req, res) => {
 });
 
 //Load edit form
-router.get('/edit/:id', function(req, res){
+router.get('/edit/:id', ensureAuthenticated ,function(req, res){
     Device.findById(req.params.id, function(err, device){
         Site.find({}, function(err, sites){
             Company.find({}, function(err, companies){

@@ -1,30 +1,39 @@
 // API Devices Functions
 const express = require('express');
 const router = express.Router();
-const Joi = require('joi');  // Joi is a validator, making code smaller//
 const checkAuth = require('../middleware/check-auth');
+const checkCompany = require('../middleware/check-company');
+const of = require('../middleware/onec-functions');
 
 // Import Device Model
+let Company = require('../models/company');
+
+let Site = require('../models/site');
+
 let Device = require('../models/device');
+
+let User = require('../models/user');
+
+
 
 //GET Method for all Devices 
 
 router.get('/', checkAuth, (req, res) => {
-    Device.find({}, function(err, devices){
+    console.log(of.ifSuperAdmin(req.params.id));
+    Company.find({}, function(err, company){
         if(err){
             console.log(err)
         }else{
             //res.send(devices);
             res.json({
-                devices
+                company
             })
-            console.log(devices);
+            //console.log(company);
         }
-
-    });
+    }); 
 });
 
-//GET params device :
+//GET Singel device :
 
 router.get('/nick', checkAuth, (req, res) => {
     const company = req.query.id;
@@ -34,17 +43,28 @@ router.get('/nick', checkAuth, (req, res) => {
     res.send(company + site + device);
 });
 
-//GET Singel device :id
+//GET All Company + Sites + Devices - :id
 
-router.get('/:id', checkAuth, (req, res) => {
-    Device.findById(req.params.id, function(err, device){
-        if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
-            res.send(device);           
-                
-        });  
-});
-
-
+router.get('/:id', checkAuth, checkCompany, (req, res) => {
+    
+    Company.findById(req.params.id, function(err, company){
+        if(err){
+            res.send(err);
+        }
+        const query = {'company': company.name};
+            Site.find(query, function(err, site){
+                Device.find(query, function(err, device){
+                    if(!company) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
+                    res.json({
+                        company: company,
+                        sites: site,
+                        devices: device
+                        
+                    });
+                });
+            }); 
+        });
+    }); 
 
 //POST to add device
 
@@ -167,19 +187,5 @@ router.post('/checkin', checkAuth, function(req, res){
 
     });
 });
-
-//Validation 
-
-function validateDevice(device){
-    const schema ={
-        pcname: Joi.string().min(3).required(),
-        ipaddress: Joi.string().min(3).required(),
-        macaddress: Joi.string().min(3).required(),
-        status: Joi.string().min(3).required(),
-        timestamp: Joi.string().min(3).required(),
-    };
-
-    return Joi.validate(device, schema);
-} 
 
 module.exports = router;

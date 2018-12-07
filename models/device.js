@@ -19,11 +19,11 @@ let deviceSchema = mongoose.Schema({
     status:{
 
         type: String,
-        required: false
+        required: true
     },
     timestamp:{
         type: String,
-        required: false
+        required: true
     },
     company:{
 

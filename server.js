@@ -1,8 +1,8 @@
 //Using modual
 
-const morgan = require('morgan');
+const morgan = require('morgan'); // Console Logger
 const Joi = require('joi');  // Joi is a validator, making code smaller//
-const express = require('express');
+const express = require('express'); // Express Framework
 const path = require('path');
 const bodyParser = require('body-parser')
 const flash = require('connect-flash');
@@ -10,11 +10,9 @@ const session = require('express-session');
 const config = require('./config/database')
 const passport = require('passport');
 
-
-
-
-
 // This calls the Device model to intergate the DB
+
+const ensureAuthenticated = require('../onecEnterprise/middleware/login-auth')
 
 let Site = require('./models/site');
 
@@ -24,8 +22,7 @@ let Company = require('./models/company');
 
 let Device = require('./models/device');
 
-
-
+// Call Moongoose connection
 const mongoose = require('mongoose');
 mongoose.connect(config.database,{ useNewUrlParser: true });
 
@@ -91,19 +88,10 @@ app.get('*', function(req, res, next){
     next();
 })
 
-//Access Controle
-function ensureAuthenticated(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }else{
-        req.flash('danger', 'Please sign in')
-        res.redirect('/users/login')
-    }
-}
 
 //GET display SB Admin page
 
-app.get('/', function(req, res){
+app.get('/', ensureAuthenticated, function(req, res){
     Site.find({}, function(err, sites){
         User.find({}, function(err, users){
             Company.countDocuments({}, function(err, numOfCompanies) {
@@ -122,7 +110,7 @@ app.get('/', function(req, res){
                                     numOfUsers:numOfUsers,
                                     numOfDevices:numOfDevices,
 
-                                })}
+                            })}
                         });        
                     });  
                 });
@@ -137,26 +125,22 @@ let devices = require('./routes/devices');
 let users = require('./routes/users');
 let jwt = require('./routes/apiJWT');
 let apiDevices = require('./routes/apiDevices');
+let apiCompany = require('./routes/apiCompany');
 let companies = require('./routes/companies');
 let site = require('./routes/sites');
 
 app.use('/devices', devices);
 app.use('/users', users);
 app.use('/api/v1/devices/', apiDevices);
+app.use('/api/v1/company/', apiCompany);
 app.use('/api/v1/auth/', jwt);
 app.use('/companies', companies);
 app.use('/sites', site);
-
-
 
 /* app.get('*', function(req, res) {
     res.status(404).end();
     res.redirect('/');
   }); */
-
-
-
-
 
 const port = process.env.Port || 3000;
 
