@@ -32,8 +32,8 @@ const CompanySchema = mongoose.Schema({
         required: true
     },
     phonenumber:{
-        type: String,
-        required: true
+        phone: {type: String, required: true},
+        mobile: {type: String},
     },
 });
 
