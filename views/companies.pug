@@ -21,9 +21,10 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th Name
+                        th Company
                         th Address
-                        th Contact Info
+                        th City
+                        th Postcode
                         th Email
                     tbody
                       each company, i in companies
@@ -33,11 +34,13 @@ block content
                               td
                                 a(href="/companies/"+company._id)=company.name
                               td
-                                = company.address 
+                                = company.address
                               td
-                                = company.phonenumber
+                                = company.city
                               td
-                                = company.email
+                                = company.postcode
+                              td
+                                = company.email    
                           
                        
                           
