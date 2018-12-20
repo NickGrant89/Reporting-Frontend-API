@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const ensureAuthenticated = require('../middleware/login-auth');
+
 //company Model
 let Company = require('../models/company');
 
 let Site = require('../models/site');
 
 let Device = require('../models/device');
+
+let User = require('../models/user');
 
 router.get('/add', function(req, res){
     res.render('add_company', {
@@ -16,7 +20,7 @@ router.get('/add', function(req, res){
 });
 
 //Get single company page
-router.get('/:id', (req, res) => {
+router.get('/:id', ensureAuthenticated, (req, res) => {
     Company.findById(req.params.id, function(err, company){
         Site.find({}, function(err, sites){
             Device.find({}, function(err, devices){
@@ -85,15 +89,33 @@ router.post('/add', [
 });
 
 //GET Method to display all companies on page.
-router.get('/', function(req, res){
-    Company.find({}, function(err, companies){
-        if(err){
-            console.log(err)
-        }else{
-            res.render('companies', {
-                title:'Companies',
-                companies: companies,
-           });
+router.get('/', ensureAuthenticated, function(req, res){
+    User.findById(req.user.id, function(err, user){
+        if(err){res.redirect('/');}
+        if(user.admin == 'Super Admin'){
+            Company.find({}, function(err, companies){
+                if(err){
+                    console.log(err)
+                }else{
+                    res.render('companies', {
+                        title:'Companies',
+                        companies: companies,
+                    });
+                }
+            });
+        }
+        if(user.admin == 'Admin'){
+            const q = ({"name": user.company});
+            Company.find(q, function(err, companies){
+                if(err){
+                    console.log(err)
+                }else{
+                    res.render('companies', {
+                        title:'Company',
+                        companies: companies,
+                    });
+                }
+            });
         }
     });
 });

@@ -2,123 +2,160 @@ extends layout2
 
 block content
   #page-wrapper
-    .row
-        .col-lg-12
-          .panel.panel-default
-            .panel-heading
-              | Company Information
-            // /.panel-heading
-            .panel-body
-              // Nav tabs
-              ul.nav.nav-tabs
-                li.active
-                  a(href="#home" data-toggle="tab") Information
-                li
-                  a(href="#profile" data-toggle="tab") Users
-              // Tab panes
-              .tab-content
-                #home.tab-pane.fade.in.active
-                  .row
-                    .col-lg-6
-                      h1.page-header #{title}
-                    .col-lg-6
-                      h1.page-header #{status}
-                  .row
-                    .col-lg-6
-                      h4 Address: #{site.address}
-                      h4 City: #{site.city}
-                      h4 Postcode: #{site.postcode}
-                      h4 Country: #{site.county}
-                      a.btn.btn-primary(href='/devices/add') Add Device
-                      a.btn.btn-primary(href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit Site
-                      br
-                      br
-                    .col-lg-4
-                      h4 CONTROLS
-                      #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
-                        .modal-dialog(role='document')
-                          .modal-content
-                            .modal-header
-                              h5#exampleModalLabel.modal-title Edit Site
-                              button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                span(aria-hidden='true') ×
-                            .modal-body
-                                form(method='POST', action='/sites/edit/'+site.id)
-                                  #form-group
-                                      label Status:
-                                      select.form-control(name='status', type='text')
-                                          option(value = 'Active') Active
-                                          option(value = 'Disabled') Disabled
-                                  #form-group
-                                      label Company:
-                                      select.form-control(name='company', type='text')
-                                          each company, i in companies
-                                              option(value= company.name) #{company.name}
-                                  #form-group
-                                      label Site Name:
-                                      input.form-control(name='name', type='text' value= site.name)
-                                  #form-group
-                                      label Email:
-                                      input.form-control(name='email', type='text' value=site.email)
-                                  #form-group
-                                      label Address:
-                                      input.form-control(name='address', type='text' value=site.address)
-                                  #form-group
-                                      label City:
-                                      input.form-control(name='city', type='text' value=site.city)
-                                  #form-group
-                                      label County:
-                                      input.form-control(name='county', type='text' value=site.county)
-                                  #form-group
-                                      label Country:
-                                      input.form-control(name='country', type='text' value=site.country)
-                                  #form-group
-                                      label Postcode:
-                                      input.form-control(name='postcode', type='text' value=site.postcode)
-                                  #form-group
-                                      label Phone Number:
-                                      input.form-control(name='phonenumber', type='text' value=site.phonenumber)
-                                  br
-                                  input.btn.btn-primary(type='submit', value='Submit')
-                                  a.btn.btn-danger(href='/devices/checkin') Cancel
-                  .row
-                    .col-lg-12
-                      .panel.panel-default
-                        .panel-heading
-                          | Devices
-                        // /.panel-heading
-                        .panel-body
-                          table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
-                            thead
-                              tr
-                                th Device Status
-                                th Device Name
-                                th Site
-                                th Company
-                                th IP Address
-                            tbody
-                              each device, i in devices
-                                if user
-                                  if user.site == device.site && device.site == site.name
+        .row
+          .col-lg-12
+          .row
+            .col-lg-12
+              br
+            // /.col-lg-12
+          // /.row
+          .row
+            .col-lg-12
+              != messages('message', locals)
+              .panel.panel-default
+                .panel-heading
+                  | Site Information
+                // /.panel-heading
+                .panel-body
+                  // Nav tabs
+                  ul.nav.nav-tabs
+                    li.active
+                      a(href="#home" data-toggle="tab") Information
+                    li
+                      a(href="#profile" data-toggle="tab") Users
+                  // Tab panes
+                  .tab-content
+                    #home.tab-pane.fade.in.active
+                      .row
+                        .col-lg-6
+                          h4.page-header #{title}
+                        .col-lg-6
+                          h4.page-header #{status}
+                      .row
+                        .col-lg-6
+                          
+                        .col-lg-4
+                        
+                          #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+                            .modal-dialog(role='document')
+                              .modal-content
+                                .modal-header
+                                  h5#exampleModalLabel.modal-title Edit Site
+                                  button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true') ×
+                                .modal-body
+                                    form(method='POST', action='/sites/edit/'+site.id)
+                                      #form-group
+                                          label Status:
+                                          select.form-control(name='status', type='text')
+                                              option(value = 'Active') Active
+                                              option(value = 'Disabled') Disabled
+                                      #form-group
+                                          label Company:
+                                          select.form-control(name='company', type='text')
+                                              each company, i in companies
+                                                  option(value= company.name) #{company.name}
+                                      #form-group
+                                          label Site Name:
+                                          input.form-control(name='name', type='text' value= site.name)
+                                      #form-group
+                                          label Email:
+                                          input.form-control(name='email', type='text' value=site.email)
+                                      #form-group
+                                          label Address:
+                                          input.form-control(name='address', type='text' value=site.address)
+                                      #form-group
+                                          label City:
+                                          input.form-control(name='city', type='text' value=site.city)
+                                      #form-group
+                                          label County:
+                                          input.form-control(name='county', type='text' value=site.county)
+                                      #form-group
+                                          label Country:
+                                          input.form-control(name='country', type='text' value=site.country)
+                                      #form-group
+                                          label Postcode:
+                                          input.form-control(name='postcode', type='text' value=site.postcode)
+                                      #form-group
+                                          label Phone Number:
+                                          input.form-control(name='phonenumber', type='text' value=site.phonenumber)
+                                      br
+                                      input.btn.btn-primary(type='submit', value='Submit')
+                                      a.btn.btn-danger(href='/devices/checkin') Cancel
+                      .row
+                        .col-lg-12
+                          .panel.panel-default
+                            .panel-heading
+                              | Devices
+                            // /.panel-heading
+                            .panel-body
+                              table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                                thead
+                                  tr
+                                    th PC Name
+                                    th IP 
+                                    th MAC 
+                                    th Company
+                                    th Time Stamp
+                                    th Status
+                                tbody
+                                  each device, i in devices
+                                          tr.odd.gradeX
+                                            td
+                                              a(href="/devices/"+ device._id)= device.pcname
+                                            td
+                                              = device.ipaddress 
+                                            td
+                                              = device.macaddress 
+                                            td
+                                              = device.company 
+                                            td
+                                              = device.timestamp        
+                                            td
+                                              if device.status == "Active"
+                                                span.label.label-success #{device.status}
+                                              else
+                                                span.label.label-danger #{device.status}
+
+                    #profile.tab-pane.fade
+                        // /.row
+                        .row
+                        .col-lg-12
+                            .panel.panel-default
+                            .panel-heading
+                            // /.panel-heading
+                            .panel-body
+                              table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                                thead
+                                  tr
+                                    th Admin
+                                    th Name
+                                    th Username
+                                    th Email
+                                    th Site
+                                    th Company
+                                tbody
+                                  if user
                                     if user.admin == "Super Admin"
-                                    tr.odd.gradeX
-                                      td
-                                        a(href="/devices/"+ device._id)= device.pcname
-                                      td
-                                        if device.status == "Active"
-                                          span.label.label-success #{device.status}
-                                        else
-                                          span.label.label-danger #{device.status}
-                                      td
-                                        = device.company
-                                      td
-                                        = device.ipaddress
+                                      each users, i in user
+                                        tr.odd.gradeX
+                                          td
+                                            = user.admin
+                                          td
+                                            a(href="/users/"+user._id)=user.name
+                                          td
+                                            = user.username
+                                          td
+                                            = user.email
+                                          td
+                                            = user.site
+                                          td
+                                            = user.company
+                                      
+                                // /.table-responsive
+                            // /.panel-body
+                            // /.panel
 
-                #profile.tab-pane.fade
-                  h4 Profile Tab
-                  p
-                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-            // /.panel-body
-          // /.panel
-        // /.row
+                // /.panel-body
+              // /.panel
+            // /.row

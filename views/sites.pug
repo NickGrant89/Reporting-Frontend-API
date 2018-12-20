@@ -32,7 +32,7 @@ block content
                     tbody
                       each site, i in sites
                         if user
-                          if user.site == site.name || user.admin == "Super Admin"
+                          if user.company == site.company || user.admin == "Super Admin"
                             tr.odd.gradeX
                               td
                                 if site.status == "Active"

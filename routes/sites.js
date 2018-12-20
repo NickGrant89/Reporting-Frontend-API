@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const ensureAuthenticated = require('../middleware/login-auth');
+
 //User Model
 let Site = require('../models/site');
 
 let Device = require('../models/device');
 
 let Company = require('../models/company');
+
+let User = require('../models/user');
 
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
@@ -64,7 +68,7 @@ router.post('/add', [
 });
 
 
-router.get('/add', function(req, res){
+router.get('/add', ensureAuthenticated, function(req, res){
     Company.find({}, function(err, companies){
         res.render('add_site', {
         title:'Add Site',
@@ -75,36 +79,84 @@ router.get('/add', function(req, res){
 
 //GET Method to display devices on page.
 
-router.get('/', function(req, res){
-    Site.find({}, function(err, sites){
-        if(err){
-            console.log(err)
-        }else{
-            res.render('sites', {
-                title:'Sites',
-                sites: sites,
+router.get('/', ensureAuthenticated, function(req, res){
+    User.findById(req.user.id, function(err, user){
+        if(err){res.redirect('/');}
+        if(user.admin == 'Super Admin'){
+            Site.find({}, function(err, sites){
+                if(err){
+                    console.log(err)
+                }else{
+                    res.render('sites', {
+                        title:'Sites',
+                        sites: sites,
+                    });
+                }
+            });
+        }
+        if(user.admin == 'Admin'){
+            const q = ({"company": user.company});
+            console.log(q);
+            Site.find(q, function(err, sites){
+                if(err){
+                    console.log(err)
+                }else{
+                    res.render('sites', {
+                        title:'Sites',
+                        sites: sites,
+                    });
+                }
             });
         }
     });
 });
 
 //Get single site page
-router.get('/:id', (req, res) => {
-    Site.findById(req.params.id, function(err, site){
-        Device.find({}, function(err, devices){
+router.get('/:id', ensureAuthenticated, (req, res) => {
+    Site.findById(req.params.id, function(err, sites){
             Company.find({}, function(err, companies){
-                Site.find({}, function(err, sites){
-                    res.render('site', {
-                        title: site.name,
-                        status: site.status,
-                        site:site,
-                        devices:devices,
-                        companies: companies,
-                        sites:sites,
+                Site.find({}, function(err, site){
+                    User.findById(req.user.id, function(err, user){
+                        if(err){res.redirect('/');}
+                        if(user.admin == 'Super Admin'){
+                            const q = ({"site": sites.name});
+                            Device.find(q, function(err, devices){
+                                if(err){
+                                    console.log(err)
+                                }else{
+                                    res.render('site', {
+                                        title:'Devices',
+                                        devices: devices,
+                                        sites:sites,
+                                        companies:companies,
+                                        site:site,
+                                    });
+                                }
+                            });
+                        }
+                        if(user.admin == 'Admin'){
+                            const q = ({"site": sites.name});
+                            console.log(q);
+                            Device.find(q, function(err, devices){
+                                if(err){
+                                    console.log(err)
+                                }else{
+                                    console.log(devices)
+                                    res.render('site', {
+                                        title:'Devices',
+                                        devices: devices,
+                                        sites:sites,
+                                        companies:companies,
+                                        site:site,
+
+                                    });
+                                }
+                            });
+                        }
                     });
+                   
                 });
             });
-         });
     });
 });
 

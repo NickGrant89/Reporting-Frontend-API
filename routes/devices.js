@@ -42,20 +42,53 @@ router.get('/checkin', ensureAuthenticated, function(req, res){
 
 router.get('/', ensureAuthenticated, function(req, res){
 
-    Device.find({}, function(err, devices){
-
-            if(err){
-                console.log(err)
-            }else{
-                res.render('devices', {
-                    title:'Devices',
-                    devices: devices,
-
+    Site.find({}, function(err, site){
+        Company.find({}, function(err, companies){
+        User.findById(req.user.id, function(err, user){
+            Site.find({}, function(err, sites){
+            if(err){res.redirect('/');}
+            if(user.admin == 'Super Admin'){
+                Device.find({}, function(err, devices){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        res.render('devices', {
+                            title:'Devices',
+                            devices: devices,
+                            sites:sites,
+                            companies:companies,
+                            site:site,
+                        });
+                    }
                 });
-        }
+            }
+            if(user.admin == 'Admin'){
+
+                const q = ({"company": user.company});
+                console.log(q);
+                Device.find(q, function(err, devices){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        console.log(devices)
+                        res.render('devices', {
+                            title:'Devices',
+                            devices: devices,
+                            companies:companies,
+                            site:site,
+                        });
+                    }
+                
+            });
+            }
+        
 
     });
-  });
+    });
+});
+});
+});
+
 
 //GET display add device page with form
 
