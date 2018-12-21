@@ -4,7 +4,7 @@ block content
   #page-wrapper
         .row
           .col-lg-12
-            h1.page-header #{title}
+            h3.page-header #{title}
           .row
             .col-lg-12
               br
@@ -21,7 +21,6 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th Status
                         th Site Name
                         th Address
                         th City
@@ -29,16 +28,12 @@ block content
                         th Postcode
                         th Country
                         th Contact
+                        th Status
                     tbody
                       each site, i in sites
                         if user
                           if user.company == site.company || user.admin == "Super Admin"
                             tr.odd.gradeX
-                              td
-                                if site.status == "Active"
-                                  span.label.label-success #{site.status}
-                                else
-                                  span.label.label-danger #{site.status}
                               td
                                 a(href="/sites/"+site._id)=site.name
                               td
@@ -53,6 +48,11 @@ block content
                                 = site.country
                               td
                                 = site.phonenumber
+                              td
+                                if site.status == "Active"
+                                  span.label.label-success #{site.status}
+                                else
+                                  span.label.label-danger #{site.status}  
                   // /.table-responsive
                 // /.panel-body
               // /.panel

@@ -3,10 +3,17 @@ extends layout2
 block content
   #page-wrapper
     .row
+    .col-lg-12
+        h4.page-header Company Information
+    .row
+        .col-lg-12
+        // /.col-lg-12
+    // /.row
+    .row
         .col-lg-12
           .panel.panel-default
             .panel-heading
-              | Company Information
+               h5 Sites
             // /.panel-heading
             .panel-body
               // Nav tabs
@@ -24,7 +31,7 @@ block content
                     .col-lg-12
                         .panel.panel-default
                         .panel-heading
-                         h1 Sites
+                         
                         // /.panel-heading
                         .panel-body
                         table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
@@ -40,8 +47,7 @@ block content
 
                             tbody
                                 each site, i in sites
-                                    if user
-                                        if site.company == company.name || user.admin == "Super Admin"
+
                                             tr.odd.gradeX
                                             td
                                                 a(href="/sites/"+site._id)=site.name
@@ -65,39 +71,7 @@ block content
 
 
                 #devices.tab-pane.fade
-                    .row
-                    .col-lg-12
-                    .panel.panel-default
-                    .panel-body
-                        table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
-                            thead
-                                tr
-                                th Status
-                                th Site
-                                th Name
-                                th IP Address
-                                th MAC Address
-                                th Registration Date
-                            tbody
-                                each device, i in devices
-                                    if user
-                                        if device.company == company.name || user.admin == "Super Admin"
-                                            tr.odd.gradeX
-                                            td
-                                                if device.status == "Active"
-                                                    span.label.label-success #{device.status}
-                                                else
-                                                    span.label.label-danger #{device.status}
-                                            td
-                                                = device.site
-                                            td
-                                                a(href="/sites/"+device._id)=device.pcname
-                                            td
-                                                = device.ipaddress
-                                            td
-                                                = device.macaddress
-                                            td
-                                                = device.timestamp
+                    
                 #users.tab-pane.fade
                   h4 Profile Tab
                   p

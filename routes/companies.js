@@ -22,19 +22,41 @@ router.get('/add', function(req, res){
 //Get single company page
 router.get('/:id', ensureAuthenticated, (req, res) => {
     Company.findById(req.params.id, function(err, company){
-        Site.find({}, function(err, sites){
-            Device.find({}, function(err, devices){
-                res.render('company', {
-                    title: company.name,
-                    company:company,
-                    sites:sites,
-                    devices: devices,
+        User.findById(req.user.id, function(err, user){
+            if(err){res.redirect('/');}
+            if(user.admin == 'Super Admin'){
+                const q = ({"company": company.name});
+                Site.find(q, function(err, sites){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        res.render('company', {
+                            title: company.name,
+                            sites:sites,
+                            company:company,
+                        });
+                    }
                 });
-            });
+            }
+            if(user.admin == 'Admin'){
+                const q = ({"company": company.name});
+                console.log(q);
+                Site.find(q, function(err, sites){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        console.log(company)
+                        res.render('company', {
+                            title: company.name,
+                            sites:sites,
+                            company:company,
+                        });
+                    }
+                });
+            }
         });
     });
 });
-
 
 
 
