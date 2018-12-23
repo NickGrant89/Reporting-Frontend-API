@@ -33,7 +33,7 @@ router.get('/', checkAuth, (req, res) => {
     }); 
 });
 
-//GET Singel COmpany :
+//GET Singel Company :
 
 router.get('/nick', checkAuth, (req, res) => {
     const company = req.query.id;

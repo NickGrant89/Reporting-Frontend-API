@@ -3,19 +3,8 @@ const mongoose = require('mongoose');
 // Sites schema
 
 const SiteSchema = mongoose.Schema({
-    status:{
-        type: String,
-        required: true
-    },
-    company:{
-        type: String,
-        required: true
-    },
+    
     name:{
-        type: String,
-        required: true
-    },
-    email:{
         type: String,
         required: true
     },
@@ -39,11 +28,22 @@ const SiteSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    email:{
+        type: String,
+        required: true
+    },
     phonenumber:{
         type: String,
         required: true
+    },
+    status:{
+        type: String,
+        required: true
+    },
+    company:{
+        type: String,
+        required: true
     }
-
 });
 
 

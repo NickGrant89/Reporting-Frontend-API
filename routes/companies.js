@@ -12,7 +12,7 @@ let Device = require('../models/device');
 
 let User = require('../models/user');
 
-router.get('/add', function(req, res){
+router.get('/add', ensureAuthenticated, function(req, res){
     res.render('add_company', {
     title:'Add Company',
 
@@ -63,7 +63,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
 
-router.post('/add', [
+router.post('/add', ensureAuthenticated, [
     //Name
     check('name').isLength({min:3}).trim().withMessage('PC Name required'),
     //Company
@@ -143,7 +143,7 @@ router.get('/', ensureAuthenticated, function(req, res){
 });
 
 //get 'add' company page/page
-router.get('/add', function(req, res){
+router.get('/add', ensureAuthenticated, function(req, res){
     res.render('add_company', {
         title:'Add Company',
     });

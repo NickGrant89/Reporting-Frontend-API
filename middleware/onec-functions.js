@@ -1,3 +1,5 @@
+const express = require('express');
+
 const Joi = require('joi');  // Joi is a validator, making code smaller//
 
 const jwt = require('jsonwebtoken');
@@ -13,17 +15,6 @@ exports.deCodeed = function (token) {
     return decoded;
 };
 
-exports.findUser = function (userID) {
-
-    User.findById(userID, function (err, user) {
-        if (err) return res.status(500).send("There was a problem finding the user.");
-        if (!user) return res.status(404).send("No user found.");
-        console.log(user);
-        return user;
-    });
-
-    
-};
 
 //Validation 
 
@@ -42,4 +33,14 @@ exports.validateCompany= function (company){
     };
 
     return Joi.validate(company, schema);
-} 
+}; 
+
+exports.checkUserRole= function (userID1) {
+  
+    User.findById(userID1, function(err, user){
+       if(err)
+       if(user) return user
+    });
+    
+
+};

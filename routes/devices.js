@@ -12,41 +12,39 @@ let Site = require('../models/site');
 
 let Company = require('../models/company');
 
+const of = require('../middleware/onec-functions');
+
 
 //Device check in view
 router.get('/checkin', ensureAuthenticated, function(req, res){
-    Device.find({}, function(err, devices){
-        Device.findById(req.params.id, function(err, device){
-            Site.find({}, function(err, sites){
-                Company.find({}, function(err, companies){
-        if(err){
-            console.log(err)
-        }else{
-            res.render('devices_checkin', {
-                title:'Device Check-In',
-                devices: devices,
-                device:device,
-                sites: sites,
-                companies: companies,
-
+    User.findById(req.user.id, function (err, user) {
+        if(user.admin != 'Super Admin'){
+            req.flash('danger', 'Unauthorized');
+            res.redirect('/');
+        }
+        else{
+            Device.find({}, function(err, devices){
+                if(err){
+                    console.log(err)
+                }else{
+                    res.render('devices_checkin', {
+                        title:'Device Check-In',
+                        devices: devices,
+                    });
+                }
             });
         }
-    });
+    });    
 });
-        });
-    });
-});
+
 
 
 //GET Method to display devices on page.
 
 router.get('/', ensureAuthenticated, function(req, res){
-
-    Site.find({}, function(err, site){
-        Company.find({}, function(err, companies){
-        User.findById(req.user.id, function(err, user){
-            Site.find({}, function(err, sites){
-            if(err){res.redirect('/');}
+   console.log(of.checkUserRole('5bce4ca084b9e25e90932d6d'));
+    User.findById(req.user.id, function(err, user){
+        if(err){res.redirect('/');}
             if(user.admin == 'Super Admin'){
                 Device.find({}, function(err, devices){
                     if(err){
@@ -55,9 +53,7 @@ router.get('/', ensureAuthenticated, function(req, res){
                         res.render('devices', {
                             title:'Devices',
                             devices: devices,
-                            sites:sites,
-                            companies:companies,
-                            site:site,
+                        
                         });
                     }
                 });
@@ -74,19 +70,11 @@ router.get('/', ensureAuthenticated, function(req, res){
                         res.render('devices', {
                             title:'Devices',
                             devices: devices,
-                            companies:companies,
-                            site:site,
                         });
                     }
-                
-            });
+                });
             }
-        
-
     });
-    });
-});
-});
 });
 
 
@@ -109,23 +97,26 @@ router.get('/add', ensureAuthenticated, function(req, res){
 
 router.get('/:id', ensureAuthenticated, (req, res) => {
     Device.findById(req.params.id, function(err, device){
-        Site.find({}, function(err, sites){
-            Company.find({}, function(err, companies){
-                res.render('device', {
-                    device:device,
-                    sites: sites,
-                    companies: companies,
-                    title: device.pcname,
+        User.findById(req.user.id, function(err, user){
+        const q = {'company': user.company}
+            Site.find(q, function(err, sites){
+                Company.find({'name': user.company}, function(err, companies){
+                    res.render('device', {
+                        device:device,
+                        sites: sites,
+                        companies: companies,
+                        title: device.pcname,
+                    });
+                });
             });
         });
-    });
     });
 });
 
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
 
-router.post('/add', [
+router.post('/add', ensureAuthenticated, [
     //Name
     check('pcname').isLength({min:3}).trim().withMessage('PC Name required'),
     //Company
@@ -164,7 +155,7 @@ router.post('/add', [
 
 
 //Add submit device with form
-router.post('/edit/:id', (req, res) => {
+router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
     let device = {};
     device.pcname = req.body.pcname;
     device.status = req.body.status;
@@ -174,7 +165,6 @@ router.post('/edit/:id', (req, res) => {
     device.site = req.body.site;
     device.company = req.body.company;
   
-
     let query = {_id:req.params.id}
 
     Device.update(query, device, function(err){
@@ -190,7 +180,7 @@ router.post('/edit/:id', (req, res) => {
  });
 
  //Delete edit form
-router.delete('/:id', (req, res) => {
+router.delete('/:id', ensureAuthenticated, (req, res) => {
     /* if(!req.user._id){
         res.status(500).send();
     } */
@@ -210,22 +200,5 @@ router.delete('/:id', (req, res) => {
         //}
     });
 });
-
-//Load edit form
-router.get('/edit/:id', ensureAuthenticated ,function(req, res){
-    Device.findById(req.params.id, function(err, device){
-        Site.find({}, function(err, sites){
-            Company.find({}, function(err, companies){
-                res.render('edit_device', {
-                    title:'Edit Device',
-                    device:device,
-                    sites: sites,
-                    companies: companies,
-                });
-            });
-        });
-    });
-});
-
 
 module.exports = router;

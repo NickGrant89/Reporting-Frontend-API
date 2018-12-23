@@ -5,9 +5,13 @@ block content
         .row
           .col-lg-12
             h1.page-header Device Name - #{title}
+            a.btn.btn-primary(onClick='myFunction1()', href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
+            a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
+            br
           .row
             .col-lg-12
-              br
+                
+
             // /.col-lg-12
           // /.row
           .row
@@ -169,8 +173,6 @@ block content
                                     p                   
 
                     .col-lg-12(style='padding-top: 20px;')
-                        a.btn.btn-primary(onClick='myFunction1()', href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
-                        a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
                         #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
                             .modal-dialog(role='document')
                                 .modal-content
@@ -194,8 +196,7 @@ block content
                                                 label Site:
                                                 select.form-control(name='site', type='text')
                                                     each site, i in sites
-                                                        each company in companies
-                                                            if site.company == company.name
+                                                        
                                                                 option(value= site.name) #{site.name}
                                             #form-group
                                                 label PC Name:
@@ -208,7 +209,7 @@ block content
                                                 input.form-control(name='macaddress', type='text' value=device.macaddress)    
                                             br
                                             input.btn.btn-primary(type='submit', value='Submit')
-                                            a.btn.btn-danger(href='/devices/checkin') Cancel                                                
+                                            a.btn.btn-danger(href='/devices/'+device._id) Cancel                                               
                       
                         // /#page-wrapper
                         // /#wrapper

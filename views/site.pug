@@ -21,8 +21,6 @@ block content
                   ul.nav.nav-tabs
                     li.active
                       a(href="#home" data-toggle="tab") Information
-                    li
-                      a(href="#profile" data-toggle="tab") Users
                   // Tab panes
                   .tab-content
                     #home.tab-pane.fade.in.active
@@ -81,7 +79,7 @@ block content
                                           input.form-control(name='phonenumber', type='text' value=site.phonenumber)
                                       br
                                       input.btn.btn-primary(type='submit', value='Submit')
-                                      a.btn.btn-danger(href='/devices/checkin') Cancel
+                                      a.btn.btn-danger(href='/site/'+site._id) Cancel
                       .row
                         .col-lg-12
                           .panel.panel-default

@@ -34,7 +34,6 @@ router.get('/', function(req, res){
 router.get('/register', function(req, res){
     Company.find({}, function(err, companies){
         Site.find({}, function(err, sites){
-
             res.render('register', {
                 title:'Registration',
                 companies: companies,

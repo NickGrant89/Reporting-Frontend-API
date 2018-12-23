@@ -1,8 +1,11 @@
 let mongoose = require('mongoose');
 
 let deviceSchema = mongoose.Schema({
+    GUID:{
+        type: String,
+        required: true
+    },
     pcname:{
-
         type: String,
         required: true
     },
@@ -58,6 +61,13 @@ let deviceSchema = mongoose.Schema({
         memory: {type: String, default: '0'},
         network: {type: String, default: '0'},
 
+    },
+    deviceSettings:{
+        fileTransfer:{
+            type: {type: String},
+            path: {type: String},
+            status: {type: String},
+        },
     },
     ocslogfile:[String]
 

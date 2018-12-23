@@ -15,7 +15,7 @@ let User = require('../models/user');
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
 
-router.post('/add', [
+router.post('/add', ensureAuthenticated, [
     //Name
     check('name').isLength({min:3}).trim().withMessage('PC Name required'),
     //site
@@ -161,23 +161,20 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 });
 
 //Load edit form
-router.get('/edit/:id',  function(req, res){
+router.get('/edit/:id', ensureAuthenticated, function(req, res){
     Site.findById(req.params.id, function(err, sites){
-            Company.find({}, function(err, companies){
-
-        res.render('edit_site', {
-            title:'Edit Site',
-            sites: sites,
-            companies: companies,
-
+        Company.find({}, function(err, companies){
+            res.render('edit_site', {
+                title:'Edit Site',
+                sites: sites,
+                companies: companies,
+            });
         });
-    });
-
     });
 });
 
 //edit submit form for site
-router.post('/edit/:id', (req, res) => {
+router.post('/edit/:id', ensureAuthenticated, (req, res) => {
     let site = {};
     site.status = req.body.status;
     site.name = req.body.name;

@@ -31,7 +31,6 @@ block content
 
                     tbody
                       each device, i in devices
-                        if user.site == device.site || user.admin == "Super Admin"
                           tr.odd.gradeX
                             td
                               if device.status == "Active"
