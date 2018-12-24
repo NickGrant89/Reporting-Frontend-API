@@ -5,14 +5,16 @@ block content
         .row
         .col-lg-12
         br
-        h1 #{title}
+        h3 #{title}
         form(method='POST', action='/users/register')
             #form-group
                 label Admin:
                 select.form-control(name='admin', type='text')
                     option User
                     option Admin
-                    option Super Admin
+                        if user
+                            if user.admin == "Super Admin"
+                                option Super Admin
             #form-group
                 label Name:
                 input.form-control(name='name', type='text')
@@ -20,15 +22,13 @@ block content
                 label Email:
                 input.form-control(name='email', type='text')
             #form-group
+                label Phone Number:
+                input.form-control(name='phone', type='text')    
+            #form-group
                 label Company:
                 select.form-control(name='company', type='text')
                     each company, i in companies
                         option #{company.name}
-            #form-group
-               label Site:
-               select.form-control(name='site', type='text')
-                    each site, i in sites
-                        option #{site.name}
             #form-group
                 label Username:
                 input.form-control(name='username', type='text')

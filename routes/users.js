@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const Joi = require('joi');
 const passport = require('passport');
 
 //Passport Config
 require('../config/passport')(passport);
+
+const ensureAuthenticated = require('../middleware/login-auth');
 
 //Bring in Users Model
 let User = require('../models/user');
@@ -13,37 +14,6 @@ let User = require('../models/user');
 let Company = require('../models/company');
 //Bring in Users Model
 let Site = require('../models/site');
-
-
-
-//Get all users
-router.get('/', function(req, res){
-    User.find({}, function(err, users){
-        if(err){
-            console.log(err)
-        }else{
-            res.render('users', {
-                title:'Users',
-                users: users,
-            });
-        }
-    });
-});
-
- //Get register form
-router.get('/register', function(req, res){
-    Company.find({}, function(err, companies){
-        Site.find({}, function(err, sites){
-            res.render('register', {
-                title:'Registration',
-                companies: companies,
-                sites: sites,
-            });
-        });
-    });
-});
-
-
 
 // ...rest of the initial code omitted for simplicity.
 const { check, validationResult } = require('express-validator/check');
@@ -55,7 +25,7 @@ router.post('/register', [
     //Company
     check('company').isLength({min:1}).trim().withMessage('Company required'),
     //Company
-    check('site').isLength({min:1}).trim().withMessage('Site required'),
+    check('phone').isLength({min:1}).trim().withMessage('Phone Number required'),
     //Username
     check('username').isLength({ min: 1}),
     // username must be an email
@@ -69,7 +39,7 @@ router.post('/register', [
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
-    res.redirect('/users/register');
+    res.redirect('/users');
 
     //res.render('register',)
 
@@ -81,10 +51,12 @@ router.post('/register', [
   user.name = req.body.name;
   user.email = req.body.email;
   user.company = req.body.company;
-  user.site = req.body.site;
+  user.phone = req.body.phone;
   user.username = req.body.username;
   user.password = req.body.password;
   user.password2 = req.body.password2;
+
+  console.log(user);
 
   bcrypt.genSalt(10, function(errors, salt){
         bcrypt.hash(user.password, salt, function(err, hash){
@@ -92,17 +64,84 @@ router.post('/register', [
                 console.log(err);
             }else{
                 user.password = hash;
+                console.log(hash)
                 user.save(function(err){
                     if(errors){
                         console.log(err);
                         return;
                     }else{
                         req.flash('success', 'You are now registered');
-                        res.redirect('/users/login');
+                        res.redirect('/users');
                     }
                 });
             }
         });
+    });
+});
+
+//Get all users
+router.get('/', ensureAuthenticated, function(req, res){
+    User.findById(req.user.id, function(err, user){
+        if(err){
+            console.log(err)
+        }
+        if(user.admin == 'Super Admin'){
+            User.find({}, function(err, users){
+                Company.find({}, function(err, companies){
+                res.render('users', {
+                    title:'Users',
+                    users: users,
+                    companies:companies,
+                });
+            });
+        });
+        }
+        else{
+            const q = {'company': user.company}
+            console.log(q);
+            User.find(q, function(err, users){
+                Company.find({'name': user.company}, function(err, companies){
+                res.render('users', {
+                    title:'Users',
+                    users: users,
+                    companies:companies,
+                });
+            });
+        });
+        }
+    });
+});
+
+ //Get register form
+router.get('/register', ensureAuthenticated,  function(req, res){
+    User.findById(req.user.id, function(err, user){
+        if(err){
+            console.log(err)
+        }
+        if(user.admin == 'Super Admin'){
+            Company.find({}, function(err, companies){
+                Site.find({}, function(err, sites){
+                    res.render('register', {
+                        title:'Create User',
+                        companies: companies,
+                        sites: sites,
+                    });
+                });
+            });
+        }
+        else{
+            const q = {'company': user.company} 
+            Company.find({'name': user.company}, function(err, companies){
+                Site.find({q}, function(err, sites){
+                    res.render('register', {
+                        title:'Create User',
+                        companies: companies,
+                        sites: sites,
+                    });
+                });
+            });
+            
+        }
     });
 });
 
@@ -126,6 +165,46 @@ router.post('/login', function(req, res, next){
         failureRedirect: '/users/login',
         failureFlash: true
     })(req, res, next);
+});
+
+router.get('/:id', ensureAuthenticated, (req, res) => {
+    User.findById(req.params.id, function(err, user){
+        Company.find({}, function(err, companies){
+        res.render('user', {
+            user:user,
+            title: user.name,
+            companies:companies,
+        });
+    });
+});
+});
+
+//Edit User 
+router.post('/edit/:id',  (req, res) => {
+    
+    User.findById(req.user.id, function(err, users){ 
+        console.log(users);
+    let user = {};
+    user.admin = req.body.admin;
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.company = users.company;
+    user.phone = req.body.phone;
+  
+    let query = {_id:req.params.id}
+
+    User.update(query, user, function(err){
+         if(err){
+             console.log(err);
+             return;
+         }
+         else{
+             res.redirect('/users')
+             
+         }
+    });
+    console.log()
+ });
 });
 
 

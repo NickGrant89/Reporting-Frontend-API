@@ -4,10 +4,10 @@ block content
     #page-wrapper
       .row
         .col-lg-12
-          h1.page-header Users & Roles
-
+          h3.page-header Users & Roles
       .row
         .col-lg-12
+          != messages('message', locals)
           .panel.panel-default
             .panel-heading
               | User Information
@@ -18,7 +18,7 @@ block content
                 li.active
                   a(href="#home" data-toggle="tab") Users
                 li
-                  a(href="#profile" data-toggle="tab") Roles
+                  a(href='#addUser', data-toggle='modal', data-target='#addUser') Add User
               // Tab panes
               .tab-content
                 #home.tab-pane.fade.in.active
@@ -32,46 +32,105 @@ block content
                             table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                               thead
                                 tr
-                                  th Admin
                                   th Name
                                   th Username
                                   th Email
-                                  th Site
+                                  th Phone
                                   th Company
+                                  th Admin
                               tbody
-                                if user
-                                  if user.admin == "Super Admin"
                                     each user, i in users
                                       tr.odd.gradeX
                                         td
-                                          = user.admin
-                                        td
-                                          a(href="/users/"+user._id)=user.name
+                                          a(href='#editUser', data-toggle='modal', data-target='#editUser')=user.name
                                         td
                                           = user.username
                                         td
                                           = user.email
                                         td
-                                          = user.site
+                                          = user.phone
                                         td
                                           = user.company
+                                        td
+                                          = user.admin  
                                     
                             // /.table-responsive
                         // /.panel-body
                         // /.panel
 
-                #profile.tab-pane.fade
-                  h4 Profile Tab
-                  p
-                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                #messages.tab-pane.fade
-                  h4 Messages Tab
-                  p
-                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                #settings.tab-pane.fade
-                  h4 Settings Tab
-                  p
-                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        #editUser.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editUserLabel', aria-hidden='true')
+                            .modal-dialog(role='document')
+                                .modal-content
+                                    .modal-header
+                                        h5#editUserLabel.modal-title Edit User
+                                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                            span(aria-hidden='true')
+                                    .modal-body
+                                        form(method='POST', action='/users/edit/'+user.id)
+                                            #form-group
+                                                label Role:
+                                                select.form-control(name='admin', type='text')
+                                                    option User
+                                                    option Admin
+                                                        if user
+                                                            if user.admin == "Super Admin"
+                                                                option Super Admin 
+                                            #form-group
+                                                label Name:
+                                                input.form-control(name='name', type='text', value=user.name)
+                                            #form-group
+                                                label Email:
+                                                input.form-control(name='email', type='text', value=user.email)
+                                            #form-group
+                                                label Phone:
+                                                input.form-control(name='phone', type='text' value=user.phone)    
+                                            br
+                                            input.btn.btn-primary(type='submit', value='Submit')
+                                            a.btn.btn-danger(href='/users/'+user._id) Cancel 
+                        #addUser.modal.fade(tabindex='-1', role='dialog', aria-labelledby='addUserLabel', aria-hidden='true')
+                            .modal-dialog(role='document')
+                                .modal-content
+                                    .modal-header
+                                        h5#addUserLabel.modal-title Add User
+                                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                            span(aria-hidden='true')
+                                    .modal-body
+                                        form(method='POST', action='/users/register')
+                                            #form-group
+                                                label Admin:
+                                                select.form-control(name='admin', type='text')
+                                                    option User
+                                                    option Admin
+                                                        if user
+                                                            if user.admin == "Super Admin"
+                                                                option Super Admin
+                                            #form-group
+                                                label Company:
+                                                select.form-control(name='company', type='text')
+                                                    each company, i in companies
+                                                        option #{company.name}                    
+                                            #form-group
+                                                label Name:
+                                                input.form-control(name='name', type='text')
+                                            #form-group
+                                                label Email:
+                                                input.form-control(name='email', type='text')
+                                            #form-group
+                                                label Phone Number:
+                                                input.form-control(name='phone', type='text')
+                                            #form-group
+                                                label Username:
+                                                input.form-control(name='username', type='text')
+                                            #form-group
+                                                label Password:
+                                                input.form-control(name='password', type='password')
+                                            #form-group
+                                                label Confirm:
+                                                input.form-control(name='password2', type='password')
+                                                br
+                                            input.btn.btn-primary(type='submit', value='Submit')
+                                            a.btn.btn-danger(href='/users') Cancel                      
+
             // /.panel-body
           // /.panel
       // /.row

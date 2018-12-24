@@ -75,7 +75,7 @@ router.post('/add', ensureAuthenticated, [
     // username must be an email
     check('country').isLength({min:3}).trim().withMessage('Company Name required'),
 
-    check('phonenumber').isLength({min:3}).trim().withMessage('Company Name required'),
+    check('phone').isLength({min:3}).trim().withMessage('Company Name required'),
 
 ], (req, res) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
@@ -87,15 +87,15 @@ router.post('/add', ensureAuthenticated, [
    return { errors: errors.mapped() };
   }
   let company = new Company();
-  company.name = req.body.name;
-  company.email = req.body.email;
-  company.address = req.body.address;
-  company.city = req.body.city;
-  company.county = req.body.county;
-  company.postcode = req.body.postcode;
-  company.country = req.body.country;
-  company.phonenumber = req.body.phonenumber;
-  company.company = req.body.company;
+    company.name = req.body.name;
+    company.email = req.body.email;
+    company.address = req.body.address;
+    company.city = req.body.city;
+    company.county = req.body.county;
+    company.postcode = req.body.postcode;
+    company.country = req.body.county;
+    company.phone = req.body.phone;
+    company.mobile = req.body.mobile;
 
   company.save(function(err){
        if(err){

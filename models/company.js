@@ -32,7 +32,7 @@ const CompanySchema = mongoose.Schema({
         required: true
     },
     phonenumber:{
-        phone: {type: String, required: true},
+        phone: {type: String},
         mobile: {type: String},
     },
 });
