@@ -144,10 +144,10 @@ app.use('/api/v1/auth/', jwt);
 app.use('/companies', companies);
 app.use('/sites', site);
 
-/* app.get('*', function(req, res) {
+app.get('*', function(req, res) {
     res.status(404).end();
     res.redirect('/');
-  }); */
+  });
 
 const port = process.env.Port || 3000;
 
