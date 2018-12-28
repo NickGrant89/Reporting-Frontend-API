@@ -86,7 +86,7 @@ router.post('/add', ensureAuthenticated, [
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
-    res.redirect('/companies/add');
+    res.redirect('/');
 
    return { errors: errors.mapped() };
   }

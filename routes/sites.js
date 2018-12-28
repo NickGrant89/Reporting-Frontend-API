@@ -34,7 +34,7 @@ router.post('/add', ensureAuthenticated, [
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
-    res.redirect('/sites/add');
+    res.redirect('/');
 
     //res.render('register',)
 
