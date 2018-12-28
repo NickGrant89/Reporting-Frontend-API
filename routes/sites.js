@@ -107,6 +107,7 @@ router.get('/', ensureAuthenticated, function(req, res){
                     res.render('sites', {
                         title:'Sites',
                         sites: sites,
+                        companies: companies,
                     });
                 }
             });
