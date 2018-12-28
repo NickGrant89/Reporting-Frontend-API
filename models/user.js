@@ -18,6 +18,7 @@ const UserSchema = mongoose.Schema({
     company:{
         type: String
     },
+    sites:[String],
     username:{
         type: String
     },

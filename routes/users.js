@@ -169,13 +169,16 @@ router.post('/login', function(req, res, next){
 
 router.get('/:id', ensureAuthenticated, (req, res) => {
     User.findById(req.params.id, function(err, user){
-        Company.find({}, function(err, companies){
-        res.render('user', {
-            user:user,
-            title: user.name,
-            companies:companies,
-        });
+        Site.find({}, function(err, sites){
+            Company.find({}, function(err, companies){
+                res.render('user', {
+                    user:user,
+                    title: user.name,
+                    companies:companies,
+                    sites:sites,
+                });
     });
+});
 });
 });
 
@@ -190,6 +193,8 @@ router.post('/edit/:id',  (req, res) => {
     user.email = req.body.email;
     user.company = users.company;
     user.phone = req.body.phone;
+    user.sites = req.body.sites;
+    console.log(req.body.sites);
   
     let query = {_id:req.params.id}
 

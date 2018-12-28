@@ -92,31 +92,38 @@ app.get('*', function(req, res, next){
 //GET display SB Admin page
 
 app.get('/', ensureAuthenticated, function(req, res){
+    User.findById(req.user.id, function(err, user){
+        console.log(user)
     Site.find({}, function(err, sites){
         User.find({}, function(err, users){
-            Company.countDocuments({}, function(err, numOfCompanies) {
-                Site.countDocuments({}, function(err, numOfSites) {
-                    User.countDocuments({}, function(err, numOfUsers) {
-                        Device.countDocuments({}, function(err, numOfDevices) {
+            Company.find({}, function(err, companies){
+            Company.countDocuments({'name':user.company}, function(err, numOfCompanies) {
+                Site.countDocuments({'company': user.company}, function(err, numOfSites) {
+                    User.countDocuments({'company': user.company}, function(err, numOfUsers) {
+                        Device.countDocuments({'company': user.company}, function(err, numOfDevices) {
                             if(err){
                                 console.log(err)
-                            }else{
+                            }
+                            else{
                                 res.render('index', {
                                     title:'Dashboard',
                                     sites: sites,
                                     users:users,
+                                    companies:companies,
                                     numOfCompanies: numOfCompanies,
                                     numOfSites: numOfSites,
                                     numOfUsers:numOfUsers,
                                     numOfDevices:numOfDevices,
-
-                            })}
+                                });
+                            }
                         });        
                     });  
                 });
             });
         });         
     });
+});
+});
 });
 
 // Route File

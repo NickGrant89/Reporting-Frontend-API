@@ -80,16 +80,19 @@ router.get('/add', ensureAuthenticated, function(req, res){
 //GET Method to display devices on page.
 
 router.get('/', ensureAuthenticated, function(req, res){
+    Company.find({}, function(err, companies){
     User.findById(req.user.id, function(err, user){
         if(err){res.redirect('/');}
         if(user.admin == 'Super Admin'){
             Site.find({}, function(err, sites){
+                
                 if(err){
                     console.log(err)
                 }else{
                     res.render('sites', {
                         title:'Sites',
                         sites: sites,
+                        companies: companies,
                     });
                 }
             });
@@ -109,6 +112,7 @@ router.get('/', ensureAuthenticated, function(req, res){
             });
         }
     });
+});
 });
 
 //Get single site page

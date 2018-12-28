@@ -21,6 +21,7 @@ router.get('/add', ensureAuthenticated, function(req, res){
 
 //Get single company page
 router.get('/:id', ensureAuthenticated, (req, res) => {
+    Company.find({}, function(err, companies){
     Company.findById(req.params.id, function(err, company){
         User.findById(req.user.id, function(err, user){
             if(err){res.redirect('/');}
@@ -34,6 +35,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                             title: company.name,
                             sites:sites,
                             company:company,
+                            companies:companies,
                         });
                     }
                 });
@@ -50,12 +52,14 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                             title: company.name,
                             sites:sites,
                             company:company,
+                            companies:companies,
                         });
                     }
                 });
             }
         });
     });
+});
 });
 
 

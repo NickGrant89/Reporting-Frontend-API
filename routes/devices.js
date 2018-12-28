@@ -43,6 +43,7 @@ router.get('/checkin', ensureAuthenticated, function(req, res){
 
 router.get('/', ensureAuthenticated, function(req, res){
    console.log(of.checkUserRole('5bce4ca084b9e25e90932d6d'));
+   Company.find({}, function(err, companies){
     User.findById(req.user.id, function(err, user){
         if(err){res.redirect('/');}
             if(user.admin == 'Super Admin'){
@@ -53,6 +54,7 @@ router.get('/', ensureAuthenticated, function(req, res){
                         res.render('devices', {
                             title:'Devices',
                             devices: devices,
+                            companies:companies,
                         
                         });
                     }
@@ -70,11 +72,13 @@ router.get('/', ensureAuthenticated, function(req, res){
                         res.render('devices', {
                             title:'Devices',
                             devices: devices,
+                            companies:companies,
                         });
                     }
                 });
             }
     });
+});
 });
 
 

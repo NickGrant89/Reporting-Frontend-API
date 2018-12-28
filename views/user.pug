@@ -18,7 +18,7 @@ block content
                 li.active
                   a(href="#home" data-toggle="tab") User
                 li
-                  a(href='#editUser', data-toggle='modal', data-target='#editUser') Edit User
+                  a(href='#editUser', data-toggle='modal', data-target='#editUser') Edit User 
               // Tab panes
               .tab-content
                 #home.tab-pane.fade.in.active
@@ -32,23 +32,26 @@ block content
                             table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                               thead
                                 tr
-                                  th Admin
                                   th Name
                                   th Username
                                   th Email
+                                  th Phone
                                   th Company
+                                  th Admin
                               tbody
                                       tr.odd.gradeX
                                         td
-                                          = user.admin
-                                        td
-                                          = user.name
+                                         a(href="/users/"+ user._id)=user.name
                                         td
                                           = user.username
                                         td
                                           = user.email
                                         td
+                                          = user.phone
+                                        td
                                           = user.company
+                                        td
+                                          = user.admin  
                                     
                             // /.table-responsive
                         // /.panel-body
@@ -79,8 +82,15 @@ block content
                                                 input.form-control(name='email', type='text', value=user.email)
                                             #form-group
                                                 label Phone:
-                                                input.form-control(name='phone', type='text' value=user.phone)    
-                                            br
+                                                input.form-control(name='phone', type='text' value=user.phone)
+                                            #form-group
+                                                label Sites:
+                                                  .boxes
+                                                    each site, i in sites
+                                                      .checkbox
+                                                        label
+                                                          input(name='sites', type='checkbox', value='1:'+ site.name)
+                                                          = site.name                                              
                                             input.btn.btn-primary(type='submit', value='Submit')
                                             a.btn.btn-danger(href='/users/'+user._id) Cancel   
             // /.panel-body
