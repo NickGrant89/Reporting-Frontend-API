@@ -3,7 +3,7 @@ let mongoose = require('mongoose');
 let deviceSchema = mongoose.Schema({
     GUID:{
         type: String,
-        required: true
+        required: false
     },
     pcname:{
         type: String,
@@ -29,7 +29,6 @@ let deviceSchema = mongoose.Schema({
         required: true
     },
     company:{
-
         type: String,
         required: false
     },
