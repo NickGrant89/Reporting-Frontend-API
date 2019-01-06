@@ -41,7 +41,7 @@ block content
                               tbody
                                       tr.odd.gradeX
                                         td
-                                         a(href="/users/"+ user._id)=user.name
+                                          = user.name
                                         td
                                           = user.username
                                         td
@@ -89,8 +89,8 @@ block content
                                                     each site, i in sites
                                                       .checkbox
                                                         label
-                                                          input(name='sites', type='checkbox', value='1:'+ site.name)
-                                                          = site.name                                              
+                                                          input(name='sites', type='checkbox', value='checked')
+                                                          = site.name                                             
                                             input.btn.btn-primary(type='submit', value='Submit')
                                             a.btn.btn-danger(href='/users/'+user._id) Cancel   
             // /.panel-body

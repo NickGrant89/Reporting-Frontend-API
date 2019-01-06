@@ -9,6 +9,7 @@ const of = require('./onec-functions');
 
 module.exports = (req, res, next) => {
     try{
+        //
         const decoded = of.deCodeed(req.headers.authorization);
         
         User.findById(decoded.userId, function (err, user) {

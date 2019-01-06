@@ -139,7 +139,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                             });
                         }
                         if(user.admin == 'Admin'){
-                            const q = ({"site": sites.name});
+                            const q = ({"site": sites.name, 'status':'Active'});
                             console.log(q);
                             Device.find(q, function(err, devices){
                                 if(err){

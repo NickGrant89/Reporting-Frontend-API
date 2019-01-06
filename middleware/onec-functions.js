@@ -16,7 +16,7 @@ exports.deCodeed = function (token) {
 };
 
 
-//Validation 
+//Validation for company
 
 exports.validateCompany= function (company){
     const schema ={
@@ -34,6 +34,34 @@ exports.validateCompany= function (company){
 
     return Joi.validate(company, schema);
 }; 
+
+//Validation for Device Check In
+
+exports.validateCheckIn= function (device){
+    const schema ={
+        pcname: Joi.string().min(3).required(),
+        ipaddress: Joi.string().min(3).required(),
+        macaddress: Joi.string().min(3).required(),
+        status: Joi.string().min(3).required(),
+        timestamp: Joi.string().min(3).required(),
+    };
+
+    return Joi.validate(device, schema);
+}; 
+
+//Validation for Device Check In
+
+exports.validateCheckIn= function (device){
+    const schema ={
+        pcname: Joi.string().min(3).required(),
+        ipaddress: Joi.string().min(3).required(),
+        macaddress: Joi.string().min(3).required(),
+        status: Joi.string().min(3).required(),
+        timestamp: Joi.string().min(3).required(),
+    };
+
+    return Joi.validate(device, schema);
+};
 
 exports.checkUserRole= function (userID1) {
   

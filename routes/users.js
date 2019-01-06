@@ -15,69 +15,7 @@ let Company = require('../models/company');
 //Bring in Users Model
 let Site = require('../models/site');
 
-// ...rest of the initial code omitted for simplicity.
-const { check, validationResult } = require('express-validator/check');
 
-router.post('/register', [
-
-    //Name
-    check('name').isLength({min:3}).trim().withMessage('Name required'),
-    //Company
-    check('company').isLength({min:1}).trim().withMessage('Company required'),
-    //Company
-    check('phone').isLength({min:1}).trim().withMessage('Phone Number required'),
-    //Username
-    check('username').isLength({ min: 1}),
-    // username must be an email
-    check('email').isEmail(),
-    // password must be at least 5 chars long
-    check('password').isLength({ min: 1 }),
-
-    //check('password2').equals('password')
-], (req, res) => {
-  // Finds the validation errors in this request and wraps them in an object with handy functions
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
-    res.redirect('/users');
-
-    //res.render('register',)
-
-   return { errors: errors.mapped() };
-  }
-
-  let user = new User();
-  user.admin = req.body.admin;
-  user.name = req.body.name;
-  user.email = req.body.email;
-  user.company = req.body.company;
-  user.phone = req.body.phone;
-  user.username = req.body.username;
-  user.password = req.body.password;
-  user.password2 = req.body.password2;
-
-  console.log(user);
-
-  bcrypt.genSalt(10, function(errors, salt){
-        bcrypt.hash(user.password, salt, function(err, hash){
-            if(errors){
-                console.log(err);
-            }else{
-                user.password = hash;
-                console.log(hash)
-                user.save(function(err){
-                    if(errors){
-                        console.log(err);
-                        return;
-                    }else{
-                        req.flash('success', 'You are now registered');
-                        res.redirect('/users');
-                    }
-                });
-            }
-        });
-    });
-});
 
 //Get all users
 router.get('/', ensureAuthenticated, function(req, res){
@@ -212,5 +150,78 @@ router.post('/edit/:id',  (req, res) => {
  });
 });
 
+// ...rest of the initial code omitted for simplicity.
+const { check, validationResult } = require('express-validator/check');
+
+router.post('/register', [
+
+    //Name
+    check('name').isLength({min:3}).trim().withMessage('Name required'),
+    //Company
+    check('company').isLength({min:1}).trim().withMessage('Company required'),
+    //Company
+    check('phone').isLength({min:1}).trim().withMessage('Phone Number required'),
+    //Username
+    check('username').isLength({ min: 1}),
+    // username must be an email
+    check('email').isEmail(),
+    // password must be at least 5 chars long
+    check('password').isLength({ min: 8 }),
+
+    //check('password2').equals('password')
+], (req, res) => {
+
+
+  // Finds the validation errors in this request and wraps them in an object with handy functions
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
+    res.redirect('/users');
+
+   
+
+    //res.render('register',)
+
+   return { errors: errors.mapped() };
+  }
+  if(req.body.password !== req.body.password2) {
+    req.flash('danger' , ('Password confirmation does not match password'));
+    res.redirect('/');
+    return new Error('Password confirmation does not match password');
+    }
+
+  let user = new User();
+  user.admin = req.body.admin;
+  user.name = req.body.name;
+  user.email = req.body.email;
+  user.company = req.body.company;
+  user.phone = req.body.phone;
+  user.username = req.body.username;
+  user.password = req.body.password;
+  user.password2 = req.body.password2;
+
+  console.log(user);
+
+  bcrypt.genSalt(10, function(errors, salt){
+        bcrypt.hash(user.password, salt, function(err, hash){
+            if(errors){
+                console.log(err);
+            }else{
+                user.password = hash;
+                console.log(hash)
+
+                user.save(function(err){
+                    if(errors){
+                        console.log(err);
+                        return;
+                    }else{
+                        req.flash('success', 'You are now registered');
+                        res.redirect('/users');
+                    }
+                });
+            }
+        });
+    });
+});
 
 module.exports = router;

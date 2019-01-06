@@ -4,8 +4,8 @@ block content
   #page-wrapper
         .row
           .col-lg-12
-            h1.page-header Device Name - #{title}
-            a.btn.btn-primary(onClick='myFunction1()', href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
+            h3.page-header Device Name - #{title}
+            a.btn.btn-primary( href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
             a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
             br
           .row
@@ -47,31 +47,34 @@ block content
                                         span.label.label-danger #{device.status}
                                 tr    
                     .col-sm-6
-                        .card.border-primary.mb-4(style='padding-left: 40px')
-                            .card-body.text-primary
-                                p.card-text
+                        .card.border-primary.mb-4(style='padding-left: 0px')
+                            .card-body.text-primary 
+                                .h3 Device Information
+                                p.card-text 
                                 div(style='list-style-type:none')
-                                li
+                                ul
                                     i.fa.fa-windows(style='font-size:10px')
                                     |  Windows Version - #{device.deviceinfo.windowsversion}
-                                li
+                                ul
                                     i.fa.fa-hdd-o(style='font-size:10px')
                                     |  CPU - #{device.deviceinfo.cpu} 
-                                li
+                                ul
                                     i.material-icons(style='font-size:10px') memory
                                     |  Available Memory - #{device.deviceinfo.availablememory}
-                                li
+                                ul
                                     i.material-icons(style='font-size:10px') security
                                     |  Anti Virus - #{device.deviceinfo.antivirus}
-                                li
+                                ul
                                     i.material-icons(style='font-size:10px') router
                                     |  Public IP - #{device.deviceinfo.exipaddress}
-                                li
+                                ul
                                     i.material-icons(style='font-size:10px') watch_later
                                     |  Device Uptime - #{device.deviceinfo.deviceuptime}
+                                a.btn.btn-primary(href='#editSetting', data-toggle='modal', data-target='#editSetting') Settings    
                                 br
                                 br
                     .col-sm-5(style='padding-top: 20px; padding-right: 100px;') 
+                    .h3 Task Manager
                         script(src='https://www.gstatic.com/charts/loader.js')
                         script.
                             google.charts.load('current', {'packages':['gauge']});
@@ -109,7 +112,8 @@ block content
                     br  
                     br
                     br  
-                    .col-sm-12            
+                    .col-sm-12   
+                        .h3 Hard Drive Space         
                         .col-sm-5(style='padding-left: 15px;')
                             canvas#myChart(width='300px', height='300px', padding-right= '100px')
                                 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
@@ -150,27 +154,28 @@ block content
                                     }
                                     });
                         .col-sm-7(style='padding-left: 20px;')
-                            .col-sm-3(style='padding-top: 100px;')
-                                    .card.border-primary.mb-3(style='max-width: 18rem;')
-                                    .card-body.text-primary
-                                        h5.card-title Free Space
+                            .row
+                                .col-sm-3(style='padding-top: 100px;')
+                                        .card.border-primary.mb-3(style='max-width: 18rem;')
+                                        .card-body.text-primary
+                                            h5.card-title Free Space
+                                            p.card-text
+                                            h1 #{device.harddrivespace.freespace}GB
+                                            p
+                                .col-sm-3(style='padding-top: 100px;')
+                                    .card.border-danger.mb-3(style='max-width: 18rem;')
+                                    .card-body.text-danger
+                                        h5.card-title Used Space
                                         p.card-text
-                                        h1 #{device.harddrivespace.freespace}GB
+                                        h1 #{device.harddrivespace.usedspace}GB
                                         p
-                            .col-sm-3(style='padding-top: 100px;')
-                                .card.border-danger.mb-3(style='max-width: 18rem;')
-                                .card-body.text-danger
-                                    h5.card-title Used Space
-                                    p.card-text
-                                    h1 #{device.harddrivespace.usedspace}GB
-                                    p
-                            .col-sm-3(style='padding-top: 100px;')
-                                .card.border-success.mb-3(style='max-width: 18rem;')
-                                .card-body.text-success
-                                    h5.card-title Total Space
-                                    p.card-text
-                                    h1 #{device.harddrivespace.totalspace}GB
-                                    p                   
+                                .col-sm-3(style='padding-top: 100px;')
+                                    .card.border-success.mb-3(style='max-width: 18rem;')
+                                    .card-body.text-success
+                                        h5.card-title Total Space
+                                        p.card-text
+                                        h1 #{device.harddrivespace.totalspace}GB
+                                        p                   
 
                     .col-lg-12(style='padding-top: 20px;')
                         #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
@@ -210,7 +215,31 @@ block content
                                             br
                                             input.btn.btn-primary(type='submit', value='Submit')
                                             a.btn.btn-danger(href='/devices/'+device._id) Cancel                                               
-                      
+                        #editSetting.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editSettingLabel', aria-hidden='true')
+                            .modal-dialog(role='document')
+                                .modal-content
+                                    .modal-header
+                                        h5#editSettingLabel.modal-title Edit Settings
+                                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                            span(aria-hidden='true')
+                                    .modal-body
+                                        form(method='POST', action='/devices/settings/'+device.id)
+                                            #form-group
+                                                label Activate:
+                                                    input(name='sites', type='checkbox', value='checked') 
+                                                        
+                                               
+                                            #form-group
+                                                label Server / Client:
+                                                select.form-control(, name='type', type='text' value=device.type)
+                                                    option(value = 'Server') Server
+                                                    option(value = 'Client') Client
+                                            #form-group
+                                                label Path:
+                                                input.form-control(name='path', type='text', value= device.path)       
+                                            br
+                                            input.btn.btn-primary(type='submit', value='Submit')
+                                            a.btn.btn-danger(href='/devices/'+device._id) Cancel
                         // /#page-wrapper
                         // /#wrapper
                         // jQuery

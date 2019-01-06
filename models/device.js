@@ -63,9 +63,9 @@ let deviceSchema = mongoose.Schema({
     },
     deviceSettings:{
         fileTransfer:{
-            type: {type: String},
-            path: {type: String},
-            status: {type: String},
+            type: {type: String, default: 'Default'},
+            path: {type: String, default: 'Disabled'},
+            ftStatus: {type: String,  default: 'Disabled'},
         },
     },
     ocslogfile:[String]

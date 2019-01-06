@@ -100,7 +100,7 @@ app.get('/', ensureAuthenticated, function(req, res){
             Company.countDocuments({'name':user.company}, function(err, numOfCompanies) {
                 Site.countDocuments({'company': user.company}, function(err, numOfSites) {
                     User.countDocuments({'company': user.company}, function(err, numOfUsers) {
-                        Device.countDocuments({'company': user.company}, function(err, numOfDevices) {
+                        Device.countDocuments({'company': user.company, 'status':'Active'}, function(err, numOfDevices) {
                             if(err){
                                 console.log(err)
                             }

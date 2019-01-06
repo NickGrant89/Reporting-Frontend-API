@@ -23,16 +23,20 @@ router.get('/checkin', ensureAuthenticated, function(req, res){
             res.redirect('/');
         }
         else{
-            Device.find({}, function(err, devices){
+            Company.find({}, function(err, companies){
+                const q = {"status": "Disabled"}
+            Device.find(q, function(err, devices){
                 if(err){
                     console.log(err)
                 }else{
                     res.render('devices_checkin', {
                         title:'Device Check-In',
                         devices: devices,
+                        companies:companies,
                     });
                 }
             });
+        });
         }
     });    
 });
@@ -47,7 +51,7 @@ router.get('/', ensureAuthenticated, function(req, res){
     User.findById(req.user.id, function(err, user){
         if(err){res.redirect('/');}
             if(user.admin == 'Super Admin'){
-                Device.find({}, function(err, devices){
+                Device.find({'status':'Active'}, function(err, devices){
                     if(err){
                         console.log(err)
                     }else{
@@ -62,7 +66,7 @@ router.get('/', ensureAuthenticated, function(req, res){
             }
             if(user.admin == 'Admin'){
 
-                const q = ({"company": user.company});
+                const q = ({"company": user.company, 'status':'Active'});
                 console.log(q);
                 Device.find(q, function(err, devices){
                     if(err){
@@ -101,6 +105,7 @@ router.get('/add', ensureAuthenticated, function(req, res){
 
 router.get('/:id', ensureAuthenticated, (req, res) => {
     Device.findById(req.params.id, function(err, device){
+        
         User.findById(req.user.id, function(err, user){
         const q = {'company': user.company}
             Site.find(q, function(err, sites){
@@ -110,7 +115,9 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                         sites: sites,
                         companies: companies,
                         title: device.pcname,
+                        
                     });
+                    console.log(device);
                 });
             });
         });
@@ -181,6 +188,31 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
          }
     });
     console.log(req.body.pcname)
+ });
+
+ router.post('/settings/:id', ensureAuthenticated,  (req, res) => {
+    var settings = {
+        deviceSettings: {
+            fileTransfer: {
+                type: req.body.type,
+                path: req.body.path,
+                ftStatus: req.body.ftStatus
+            }
+        },
+    }
+    console.log(settings);
+    let query = {_id:req.params.id}
+
+    Device.update(query, settings, function(err){
+         if(err){
+             console.log(err);
+             return;
+         }
+         else{
+             res.redirect('/devices')
+         }
+    });
+    //console.log()
  });
 
  //Delete edit form
