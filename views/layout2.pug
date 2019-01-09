@@ -57,7 +57,7 @@ html(lang="en")
 										|  Logout
 							// /.dropdown-user
 						// /.dropdown
-					// /.navbar-top-links
+						// /.navbar-top-links
 					.navbar-default.sidebar(role="navigation")
 						.sidebar-nav.navbar-collapse
 							ul#side-menu.nav
@@ -75,7 +75,6 @@ html(lang="en")
 								li
 									if user
 										if user.admin == "Super Admin"
-										
 											a(href="/")
 												i.fa.fa-align-justify.fa-fw
 												|  Admin Area
@@ -91,154 +90,156 @@ html(lang="en")
 													a(href='/devices/checkin') Device Check In	
 											// /.nav-second-level
 								li
-									a(href="#")
-										i.fa.fa-building.o.fa-fw
-										|  Company
-										span.fa.arrow
-									ul.nav.nav-second-level
-										if user
-											if user.admin == "True" || user.admin == "Super Admin"
+									if user
+										if user.admin == "Super Admin"
+											a(href="#")
+												i.fa.fa-building.o.fa-fw
+												|  Company
+												span.fa.arrow
+											ul.nav.nav-second-level
+												if user
+													if user.admin == "True" || user.admin == "Super Admin"
+														li
+															a(href="/companies") Company
 												li
-													a(href="/companies") Company
-										li
-											a(href="/sites") Sites
-										li
-											a(href="/devices") Devices
-										li
-											a(href="/users") Users
-												
-										// /.nav-second-level	
+													a(href="/sites") Sites
+												li
+													a(href="/devices") Devices
+												li
+													a(href="/users") Users
+														
+												// /.nav-second-level	
 									
 								li
 								
 								
 						// /.sidebar-collapse
 					// /.navbar-static-side
-				#createCompany.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createCompanyLabel', aria-hidden='true')
-					.modal-dialog(role='document')
-						.modal-content
-							.modal-header
-								h5#createCompanyLabel.modal-title Create Company
-								button.close(type='button', data-dismiss='modal', aria-label='Close')
-									span(aria-hidden='true')
-							.modal-body
-								form(method='POST', action='/companies/add')
-									#form-group
-										label Company Name:
-										input.form-control(name='name', type='text')
-									#form-group
-										label Email:
-										input.form-control(name='email', type='text')
-									#form-group
-										label Address:
-										input.form-control(name='address', type='text')
-									#form-group
-										label City:
-										input.form-control(name='city', type='text')
-									#form-group
-										label County:
-										input.form-control(name='county', type='text')
-									#form-group
-										label Post Code:
-										input.form-control(name='postcode', type='text')
-									#form-group
-										label Country:
-										input.form-control(name='country', type='text')
-									#form-group
-										label Phone Number:
-										input.form-control(name='phone', type='text')
-										br
-									input.btn.btn-primary(type='submit', value='Submit')
-									a.btn.btn-danger(href='/') Cancel
-				#createSite.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createSiteLabel', aria-hidden='true')
-					.modal-dialog(role='document')
-						.modal-content
-							.modal-header
-								h5#createSiteLabel.modal-title Create Site
-								button.close(type='button', data-dismiss='modal', aria-label='Close')
-									span(aria-hidden='true')
-							.modal-body
-								form(method='POST', action='/sites/add')
-									#form-group
-										label Status:
-										select.form-control(name='status', type='text')
-											option Active
-											option Disabled
-									#form-group
+			#createCompany.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createCompanyLabel', aria-hidden='true')
+				.modal-dialog(role='document')
+					.modal-content
+						.modal-header
+							h5#createCompanyLabel.modal-title Create Company
+							button.close(type='button', data-dismiss='modal', aria-label='Close')
+								span(aria-hidden='true')
+						.modal-body
+							form(method='POST', action='/companies/add')
+								#form-group
+									label Company Name:
+									input.form-control(name='name', type='text')
+								#form-group
+									label Email:
+									input.form-control(name='email', type='text')
+								#form-group
+									label Address:
+									input.form-control(name='address', type='text')
+								#form-group
+									label City:
+									input.form-control(name='city', type='text')
+								#form-group
+									label County:
+									input.form-control(name='county', type='text')
+								#form-group
+									label Post Code:
+									input.form-control(name='postcode', type='text')
+								#form-group
+									label Country:
+									input.form-control(name='country', type='text')
+								#form-group
+									label Phone Number:
+									input.form-control(name='phone', type='text')
+									br
+								input.btn.btn-primary(type='submit', value='Submit')
+								a.btn.btn-danger(href='/') Cancel
+			#createSite.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createSiteLabel', aria-hidden='true')
+				.modal-dialog(role='document')
+					.modal-content
+						.modal-header
+							h5#createSiteLabel.modal-title Create Site
+							button.close(type='button', data-dismiss='modal', aria-label='Close')
+								span(aria-hidden='true')
+						.modal-body
+							form(method='POST', action='/sites/add')
+								#form-group
+									label Status:
+									select.form-control(name='status', type='text')
+										option Active
+										option Disabled
+								#form-group
+								label Company:
+								select.form-control(name='company', type='text')
+									each company, i in companies
+										option #{company.name}
+								#form-group
+									label Name:
+									input.form-control(name='name', type='text')
+								#form-group
+									label Email:
+									input.form-control(name='email', type='text')
+								#form-group
+									label Address:
+									input.form-control(name='address', type='text')
+								#form-group
+									label City:
+									input.form-control(name='city', type='text')
+								#form-group
+									label County:
+									input.form-control(name='county', type='text')
+								#form-group
+									label Post Code:
+									input.form-control(name='postcode', type='text')
+								#form-group
+									label Country:
+									input.form-control(name='country', type='text')
+								#form-group
+									label Phone Number:
+									input.form-control(name='phonenumber', type='text')
+									br
+								input.btn.btn-primary(type='submit', value='Submit')
+								a.btn.btn-danger(href='/') Cancel
+			#createUser.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createUserLabel', aria-hidden='true')
+				.modal-dialog(role='document')
+					.modal-content
+						.modal-header
+							h5#createUserLabel.modal-title Create User
+							button.close(type='button', data-dismiss='modal', aria-label='Close')
+								span(aria-hidden='true')
+						.modal-body
+							form(method='POST', action='/users/register')
+								#form-group
+									label Admin:
+									select.form-control(name='admin', type='text')
+										option User
+										option Admin
+											if user
+												if user.admin == "Super Admin"
+													option Super Admin
+								#form-group
 									label Company:
 									select.form-control(name='company', type='text')
 										each company, i in companies
-											option #{company.name}
-									#form-group
-										label Name:
-										input.form-control(name='name', type='text')
-									#form-group
-										label Email:
-										input.form-control(name='email', type='text')
-									#form-group
-										label Address:
-										input.form-control(name='address', type='text')
-									#form-group
-										label City:
-										input.form-control(name='city', type='text')
-									#form-group
-										label County:
-										input.form-control(name='county', type='text')
-									#form-group
-										label Post Code:
-										input.form-control(name='postcode', type='text')
-									#form-group
-										label Country:
-										input.form-control(name='country', type='text')
-									#form-group
-										label Phone Number:
-										input.form-control(name='phonenumber', type='text')
-										br
-									input.btn.btn-primary(type='submit', value='Submit')
-									a.btn.btn-danger(href='/') Cancel
-				#createUser.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createUserLabel', aria-hidden='true')
-					.modal-dialog(role='document')
-						.modal-content
-							.modal-header
-								h5#createUserLabel.modal-title Create User
-								button.close(type='button', data-dismiss='modal', aria-label='Close')
-									span(aria-hidden='true')
-							.modal-body
-								form(method='POST', action='/users/register')
-									#form-group
-										label Admin:
-										select.form-control(name='admin', type='text')
-											option User
-											option Admin
-												if user
-													if user.admin == "Super Admin"
-														option Super Admin
-									#form-group
-										label Company:
-										select.form-control(name='company', type='text')
-											each company, i in companies
-												option #{company.name}                    
-									#form-group
-										label Name:
-										input.form-control(name='name', type='text')
-									#form-group
-										label Email:
-										input.form-control(name='email', type='text')
-									#form-group
-										label Phone Number:
-										input.form-control(name='phone', type='text')
-									#form-group
-										label Username:
-										input.form-control(name='username', type='text')
-									#form-group
-										label Password:
-										input.form-control(name='password', type='password')
-									#form-group
-										label Confirm:
-										input.form-control(name='password2', type='password')
-										br
-									input.btn.btn-primary(type='submit', value='Submit')
-									a.btn.btn-danger(href='/users') Cancel													 
+											option #{company.name}                    
+								#form-group
+									label Name:
+									input.form-control(name='name', type='text')
+								#form-group
+									label Email:
+									input.form-control(name='email', type='text')
+								#form-group
+									label Phone Number:
+									input.form-control(name='phone', type='text')
+								#form-group
+									label Username:
+									input.form-control(name='username', type='text')
+								#form-group
+									label Password:
+									input.form-control(name='password', type='password')
+								#form-group
+									label Confirm:
+									input.form-control(name='password2', type='password')
+									br
+								input.btn.btn-primary(type='submit', value='Submit')
+								a.btn.btn-danger(href='/users') Cancel													 
 			block content	
 		script(src="../vendor/jquery/jquery.min.js")
 		// Bootstrap Core JavaScript

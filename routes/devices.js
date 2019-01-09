@@ -46,7 +46,6 @@ router.get('/checkin', ensureAuthenticated, function(req, res){
 //GET Method to display devices on page.
 
 router.get('/', ensureAuthenticated, function(req, res){
-   console.log(of.checkUserRole('5bce4ca084b9e25e90932d6d'));
    Company.find({}, function(err, companies){
     User.findById(req.user.id, function(err, user){
         if(err){res.redirect('/');}
@@ -72,7 +71,7 @@ router.get('/', ensureAuthenticated, function(req, res){
                     if(err){
                         console.log(err)
                     }else{
-                        console.log(devices)
+                        //console.log(devices)
                         res.render('devices', {
                             title:'Devices',
                             devices: devices,
@@ -105,19 +104,34 @@ router.get('/add', ensureAuthenticated, function(req, res){
 
 router.get('/:id', ensureAuthenticated, (req, res) => {
     Device.findById(req.params.id, function(err, device){
-        
         User.findById(req.user.id, function(err, user){
         const q = {'company': user.company}
             Site.find(q, function(err, sites){
                 Company.find({'name': user.company}, function(err, companies){
+                    let check = device.deviceSettings.fileTransfer.ftStatus;
+                    let type = device.deviceSettings.fileTransfer.type;
+                    function hello(type) {
+                       if(type == 'client true'){
+                        return 'true';
+                        }
+                   }
+                   function hello2(type) {
+                        if(type == 'server true'){
+                            return 'true';
+                        }
+                }
+                    console.log(type);
                     res.render('device', {
                         device:device,
                         sites: sites,
                         companies: companies,
                         title: device.pcname,
-                        
+                        check:check,
+                        clientSetTrue:hello(type),
+                        serverSetTure:hello2(type),
                     });
-                    console.log(device);
+                    //console.log(device);
+                
                 });
             });
         });
@@ -191,6 +205,7 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
  });
 
  router.post('/settings/:id', ensureAuthenticated,  (req, res) => {
+     
     var settings = {
         deviceSettings: {
             fileTransfer: {
@@ -209,7 +224,7 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
              return;
          }
          else{
-             res.redirect('/devices')
+             res.redirect('/devices/'+ req.params.id)
          }
     });
     //console.log()

@@ -93,6 +93,9 @@ app.get('*', function(req, res, next){
 
 app.get('/', ensureAuthenticated, function(req, res){
     User.findById(req.user.id, function(err, user){
+        if(user.admin == 'Super Admin'){
+            res.redirect('/admin/dashboard')
+        }
         console.log(user)
     Site.find({}, function(err, sites){
         User.find({}, function(err, users){
@@ -135,6 +138,7 @@ let apiDevices = require('./routes/apiDevices');
 let apiCompany = require('./routes/apiCompany');
 let companies = require('./routes/companies');
 let site = require('./routes/sites');
+let admin = require('./routes/admin');
 
 app.use('/devices', devices);
 app.use('/users', users);
@@ -143,6 +147,7 @@ app.use('/api/v1/company/', apiCompany);
 app.use('/api/v1/auth/', jwt);
 app.use('/companies', companies);
 app.use('/sites', site);
+app.use('/admin', admin);
 
 app.get('*', function(req, res) {
     res.status(404).end();

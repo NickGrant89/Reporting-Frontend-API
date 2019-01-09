@@ -1,3 +1,5 @@
+import { check } from "express-validator/check";
+
 $(document).ready(function(){
     $('.delete-device').on('click', function(e){
         $target = $(e.target);
@@ -27,3 +29,15 @@ $(document).ready(function(){
 function myFunction1() {
     document.getElementById("status").value = device.status;
 }
+
+function myFunction() {
+    var checkBox = document.getElementById("myCheck");
+    var text = document.getElementById("myDIV");
+    if (checkBox.checked == true ){
+      text.style.display = "block";
+    } else {
+       text.style.display = "none";
+    }
+  }
+
+  

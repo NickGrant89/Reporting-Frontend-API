@@ -1,0 +1,133 @@
+extends layout2
+
+block content
+  #page-wrapper
+        .row
+          .col-lg-12
+            h3.page-header Dashboard
+            != messages('message', locals)
+          // /.col-lg-12
+        // /.row
+        .row
+          .col-lg-3.col-md-6
+            .panel.panel-primary
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-building.fa-5x
+                  .col-xs-9.text-right
+                    .huge #{numOfCompanies}
+                    div Companies
+              a(href="/companies")
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-green
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-sitemap.fa-5x
+                  .col-xs-9.text-right
+                    .huge #{numOfSites}
+                    div Sites
+              a(href="/sites")
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-yellow
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-group.fa-5x
+                  .col-xs-9.text-right
+                    .huge #{numOfUsers}
+                    div Users
+              a(href="/users")
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-red
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-support.fa-5x
+                  .col-xs-9.text-right
+                    .huge #{numOfDevices}
+                    div Devices
+              a(href="/devices")
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+              // /.nav-second-level
+            // /.sidebar-collapse
+          // /.navbar-static-side
+          .row
+            .col-lg-12
+              br
+            // /.col-lg-12
+          // /.row
+          .row
+            .col-lg-12
+              .panel.panel-default
+                .panel-heading
+                  | Sites Available
+                // /.panel-heading
+                .panel-body
+                  table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
+                    thead
+                      tr
+                        th Site Name
+                        th Address
+                        th City
+                        th County
+                        th Postcode
+                        th Country
+                        th Contact
+                        th Status
+
+
+                    tbody
+                      each site, i in sites
+                        if user
+
+                          if user.company == site.company
+
+                            tr.odd.gradeX
+                              td
+                                a(href="/sites/"+site._id)=site.name
+                              td
+                                = site.address
+                              td
+                                = site.city
+                              td
+                                = site.county
+                              td
+                                = site.postcode
+                              td
+                                = site.country
+                              td
+                                = site.phonenumber
+                              td
+                                if site.status == "Active"
+                                  span.label.label-success #{site.status}
+                                else
+                                  span.label.label-danger #{site.status}
+                  // /.table-responsive
+                // /.panel-body
+              // /.panel
+            // /.col-lg-6
+          // /.row
+          // /#page-wrapper
+          // /#wrapper
+          // jQuery
