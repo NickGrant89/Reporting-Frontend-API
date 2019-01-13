@@ -68,15 +68,6 @@ router.post('/add', ensureAuthenticated, [
 });
 
 
-router.get('/add', ensureAuthenticated, function(req, res){
-    Company.find({}, function(err, companies){
-        res.render('add_site', {
-        title:'Add Site',
-        companies: companies,
-        });
-    });
-});
-
 //GET Method to display devices on page.
 
 router.get('/', ensureAuthenticated, function(req, res){

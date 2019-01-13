@@ -72,3 +72,15 @@ exports.checkUserRole= function (userID1) {
     
 
 };
+
+exports.checkUserSites= function (sites) {
+  
+    if(sites == 'client true'){
+        return 'true';
+        }
+   }
+   function hello2(type) {
+        if(sites == 'server true'){
+            return 'true';
+        }
+};

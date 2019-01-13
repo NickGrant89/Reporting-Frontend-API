@@ -87,11 +87,11 @@ html(lang="en")
 												li
 													a(href='#createUser', data-toggle='modal', data-target='#createUser') New User
 												li
-													a(href='/devices/checkin') Device Check In	
+													a(href='/admin/checkin') Device Check In	
 											// /.nav-second-level
 								li
 									if user
-										if user.admin == "Super Admin"
+										if user.admin == "Admin"
 											a(href="#")
 												i.fa.fa-building.o.fa-fw
 												|  Company

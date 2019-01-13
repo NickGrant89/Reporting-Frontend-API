@@ -107,13 +107,17 @@ router.post('/login', function(req, res, next){
 
 router.get('/:id', ensureAuthenticated, (req, res) => {
     User.findById(req.params.id, function(err, user){
-        Site.find({}, function(err, sites){
+        Site.find({company:user.company}, function(err, sites){
             Company.find({}, function(err, companies){
+                //const token = user.sites.split(":")[1];
+             
+                console.log();
                 res.render('user', {
                     user:user,
                     title: user.name,
                     companies:companies,
                     sites:sites,
+                    check:'',
                 });
     });
 });
@@ -136,7 +140,7 @@ router.post('/edit/:id',  (req, res) => {
   
     let query = {_id:req.params.id}
 
-    User.update(query, user, function(err){
+    User.updateOne(query, user, function(err){
          if(err){
              console.log(err);
              return;

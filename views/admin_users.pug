@@ -5,20 +5,20 @@ block content
       .row
         .col-lg-12
           h3.page-header Users & Roles
-
       .row
         .col-lg-12
+          != messages('message', locals)
           .panel.panel-default
             .panel-heading
-              | User Information
+              | Users Information
             // /.panel-heading
             .panel-body
               // Nav tabs
               ul.nav.nav-tabs
                 li.active
-                  a(href="#home" data-toggle="tab") User
+                  a(href="#home" data-toggle="tab") Users
                 li
-                  a(href='#editUser', data-toggle='modal', data-target='#editUser') Edit User 
+                  a(href='#addUser', data-toggle='modal', data-target='#addUser') Add User
               // Tab panes
               .tab-content
                 #home.tab-pane.fade.in.active
@@ -39,9 +39,10 @@ block content
                                   th Company
                                   th Admin
                               tbody
+                                    each user, i in users
                                       tr.odd.gradeX
                                         td
-                                          = user.name
+                                         a(href="/users/"+ user._id)=user.name
                                         td
                                           = user.username
                                         td
@@ -56,7 +57,7 @@ block content
                             // /.table-responsive
                         // /.panel-body
                         // /.panel
-                         .col-lg-12(style='padding-top: 20px;')
+
                         #editUser.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editUserLabel', aria-hidden='true')
                             .modal-dialog(role='document')
                                 .modal-content
@@ -82,17 +83,55 @@ block content
                                                 input.form-control(name='email', type='text', value=user.email)
                                             #form-group
                                                 label Phone:
-                                                input.form-control(name='phone', type='text' value=user.phone)
-                                            #form-group
-                                                label Sites:
-                                                  .boxes
-                                                    each site, i in sites
-                                                      .checkbox
-                                                        label
-                                                          input(name='sites', type='checkbox', value=site.name+ ' '+'true' checked=check)
-                                                          = site.name                                             
+                                                input.form-control(name='phone', type='text' value=user.phone)    
+                                            br
                                             input.btn.btn-primary(type='submit', value='Submit')
-                                            a.btn.btn-danger(href='/users/'+user._id) Cancel   
+                                            a.btn.btn-danger(href='/users') Cancel 
+                        #addUser.modal.fade(tabindex='-1', role='dialog', aria-labelledby='addUserLabel', aria-hidden='true')
+                            .modal-dialog(role='document')
+                                .modal-content
+                                    .modal-header
+                                        h5#addUserLabel.modal-title Add User
+                                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                            span(aria-hidden='true')
+                                    .modal-body
+                                        form(method='POST', action='/users/register')
+                                            #form-group
+                                                label Admin:
+                                                select.form-control(name='admin', type='text')
+                                                    option(value ='User', selected='') User
+                                                    option(value ='Admin', selected) Admin
+                                                        if user
+                                                            if user.admin == "Super Admin"
+                                                                option Super Admin
+                                            #form-group
+                                                label Company:
+                                                select.form-control(name='company', type='text')
+                                                    each company, i in companies
+                                                        //option #{company.name}   
+                                                        option(value='', selected='') #{company.name}                   
+                                            #form-group
+                                                label Name:
+                                                input.form-control(name='name', type='text')
+                                            #form-group
+                                                label Email:
+                                                input.form-control(name='email', type='text')
+                                            #form-group
+                                                label Phone Number:
+                                                input.form-control(name='phone', type='text')
+                                            #form-group
+                                                label Username:
+                                                input.form-control(name='username', type='text')
+                                            #form-group
+                                                label Password:
+                                                input.form-control(name='password', type='password')
+                                            #form-group
+                                                label Confirm:
+                                                input.form-control(name='password2', type='password')
+                                                br
+                                            input.btn.btn-primary(type='submit', value='Submit')
+                                            a.btn.btn-danger(href='/users') Cancel                      
+
             // /.panel-body
           // /.panel
       // /.row

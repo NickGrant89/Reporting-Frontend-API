@@ -55,5 +55,127 @@ router.get('/dashboard', ensureAuthenticated, function(req, res){
     });    
 });
 
+//Device check in view
+router.get('/checkin', ensureAuthenticated, function(req, res){
+    User.findById(req.user.id, function (err, user) {
+        if(user.admin != 'Super Admin'){
+            req.flash('danger', 'Unauthorized');
+            res.redirect('/');
+        }
+        else{
+            Company.find({}, function(err, companies){
+                const q = {"status": "Disabled"}
+            Device.find(q, function(err, devices){
+                if(err){
+                    console.log(err)
+                }else{
+                    res.render('devices_checkin', {
+                        title:'Device Check-In',
+                        devices: devices,
+                        companies:companies,
+                    });
+                }
+            });
+        });
+        }
+    });    
+});
+
+
+router.get('/sites', ensureAuthenticated, function(req, res){
+    Company.find({}, function(err, companies){
+    User.findById(req.user.id, function(err, user){
+        if(err){res.redirect('/');}
+        if(user.admin == 'Super Admin'){
+            Site.find({}, function(err, sites){
+                
+                if(err){
+                    console.log(err)
+                }else{
+                    res.render('admin_sites', {
+                        title:'Sites',
+                        sites: sites,
+                        companies: companies,
+                    });
+                }
+            });
+        }
+        
+    });
+});
+});
+
+//GET Method to display devices on page.
+
+router.get('/devices', ensureAuthenticated, function(req, res){
+    Company.find({}, function(err, companies){
+     User.findById(req.user.id, function(err, user){
+         if(err){res.redirect('/');}
+             if(user.admin != 'Super Admin'){
+                req.flash('danger', 'Unauthorized');
+                res.redirect('/');
+             }else{
+                Device.find({}, function(err, devices){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        res.render('admin_devices', {
+                            title:'Devices',
+                            devices: devices,
+                            companies:companies,
+                        
+                        });
+                    }
+                });
+             }
+             
+     });
+ });
+ });
+
+ //GET Method to display all companies on page.
+router.get('/companies', ensureAuthenticated, function(req, res){
+    User.findById(req.user.id, function(err, user){
+        if(err){res.redirect('/');}
+        if(user.admin != 'Super Admin'){
+            req.flash('danger', 'Unauthorized');
+            res.redirect('/');
+        }else{
+            Company.find({}, function(err, companies){
+                if(err){
+                    console.log(err)
+                }else{
+                    res.render('admin_companies', {
+                        title:'Companies',
+                        companies: companies,
+                    });
+                }
+            });
+        }
+    });
+});
+
+//Get all users
+router.get('/users', ensureAuthenticated, function(req, res){
+    User.findById(req.user.id, function(err, user){
+        if(err){
+            console.log(err)
+        }
+        if(user.admin != 'Super Admin'){
+            
+        }
+        else{
+            User.find({}, function(err, users){
+                Company.find({}, function(err, companies){
+                res.render('users', {
+                    title:'Users',
+                    users: users,
+                    companies:companies,
+                });
+            });
+        });
+        }
+    });
+});
 
 module.exports = router;

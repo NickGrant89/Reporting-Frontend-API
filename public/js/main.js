@@ -1,5 +1,3 @@
-import { check } from "express-validator/check";
-
 $(document).ready(function(){
     $('.delete-device').on('click', function(e){
         $target = $(e.target);
@@ -11,7 +9,7 @@ $(document).ready(function(){
                 url: '/devices/'+id,
                 success: function(response){
                  alert('Device Deleted');
-                 window.location.href='/devices'
+                 window.location.href='/'
                 },
                 error: function(err){
                        console.log(err); 
@@ -38,6 +36,6 @@ function myFunction() {
     } else {
        text.style.display = "none";
     }
-  }
+}
 
   
