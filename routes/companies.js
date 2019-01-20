@@ -40,8 +40,8 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                     }
                 });
             }
-            if(user.admin == 'Admin'){
-                const q = ({"company": company.name});
+            if(user.admin == 'Admin' || 'User'){
+                const q = ({"name": user.sites});
                 console.log(q);
                 Site.find(q, function(err, sites){
                     if(err){
@@ -130,7 +130,7 @@ router.get('/', ensureAuthenticated, function(req, res){
                 }
             });
         }
-        if(user.admin == 'Admin'){
+        if(user.admin == 'Admin' || 'User'){
             const q = ({"name": user.company});
             Company.find(q, function(err, companies){
                 if(err){

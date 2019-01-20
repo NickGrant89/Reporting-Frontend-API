@@ -97,13 +97,13 @@ app.get('/', ensureAuthenticated, function(req, res){
             res.redirect('/admin/dashboard')
         }
         console.log(user)
-    Site.find({}, function(err, sites){
+    Site.find({'name': user.sites}, function(err, sites){
         User.find({}, function(err, users){
             Company.find({}, function(err, companies){
             Company.countDocuments({'name':user.company}, function(err, numOfCompanies) {
-                Site.countDocuments({'company': user.company}, function(err, numOfSites) {
+                Site.countDocuments({'name': user.sites}, function(err, numOfSites) {
                     User.countDocuments({'company': user.company}, function(err, numOfUsers) {
-                        Device.countDocuments({'company': user.company, 'status':'Active'}, function(err, numOfDevices) {
+                        Device.countDocuments({'site': user.sites, 'status':'Active'}, function(err, numOfDevices) {
                             if(err){
                                 console.log(err)
                             }

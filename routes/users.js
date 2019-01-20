@@ -106,21 +106,40 @@ router.post('/login', function(req, res, next){
 });
 
 router.get('/:id', ensureAuthenticated, (req, res) => {
+    User.findById(req.user._id, function(err, users){
     User.findById(req.params.id, function(err, user){
-        Site.find({company:user.company}, function(err, sites){
+        Site.find({company:user.company}, 'name', function (err, sites){
             Company.find({}, function(err, companies){
-                //const token = user.sites.split(":")[1];
-             
-                console.log();
+
+                function hello(s) {
+                    var a = []; 
+                        for(var o in s) {
+                            a.push(hello2(s[o].name)); 
+                        }
+                    return a;
+                }
+                function hello2(s1) {
+                    if(user.sites == null){return false};
+                        for(var i = 0; i < user.sites.length; i++) {
+                            if(user.sites[i] == s1)
+                                return 'true';
+                            }
+                            return false;
+                } 
+
+                var a =  hello(sites);
+
                 res.render('user', {
                     user:user,
+                    users:users,
                     title: user.name,
                     companies:companies,
                     sites:sites,
-                    check:'',
-                });
+                    check2:a,
+                }); 
+             });
+        });
     });
-});
 });
 });
 
@@ -133,7 +152,7 @@ router.post('/edit/:id',  (req, res) => {
     user.admin = req.body.admin;
     user.name = req.body.name;
     user.email = req.body.email;
-    user.company = users.company;
+    //user.company = users.company;
     user.phone = req.body.phone;
     user.sites = req.body.sites;
     console.log(req.body.sites);

@@ -4,7 +4,7 @@ block content
   #page-wrapper
         .row
           .col-lg-12
-            h3.page-header Device Name - #{title}
+            h3.page-header 
             if user
                 if user.admin == "Super Admin"
                     a.btn.btn-primary( href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
@@ -21,8 +21,7 @@ block content
               != messages('message', locals)
               .panel.panel-default
                 .panel-heading
-                  | 
-                  br  
+                  h3 Device Name - #{title} 
                 // /.panel-heading
                 .panel-body
                     .table-responsive
@@ -72,7 +71,9 @@ block content
                                 ul
                                     i.material-icons(style='font-size:10px') watch_later
                                     |  Device Uptime - #{device.deviceinfo.deviceuptime}
-                                a.btn.btn-primary(href='#editSetting', data-toggle='modal', data-target='#editSetting') Settings    
+                                if user
+                                    if user == 'Admin' || user == 'Super Admin'    
+                                        a.btn.btn-primary(href='#editSetting', data-toggle='modal', data-target='#editSetting') Settings    
                                 br
                                 br
                     .col-sm-5(style='padding-top: 20px; padding-right: 100px;') 

@@ -63,9 +63,9 @@ router.get('/', ensureAuthenticated, function(req, res){
                     }
                 });
             }
-            if(user.admin == 'Admin'){
+            if(user.admin == 'Admin' || 'User'){
 
-                const q = ({"company": user.company, 'status':'Active'});
+                const q = ({"site": user.sites, 'status':'Active'});
                 console.log(q);
                 Device.find(q, function(err, devices){
                     if(err){

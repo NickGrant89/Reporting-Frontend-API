@@ -91,7 +91,7 @@ html(lang="en")
 											// /.nav-second-level
 								li
 									if user
-										if user.admin == "Admin"
+										if user.admin == "Admin" || user.admin == "User"
 											a(href="#")
 												i.fa.fa-building.o.fa-fw
 												|  Company
