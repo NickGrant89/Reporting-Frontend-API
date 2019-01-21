@@ -105,9 +105,9 @@ router.get('/add', ensureAuthenticated, function(req, res){
 router.get('/:id', ensureAuthenticated, (req, res) => {
     Device.findById(req.params.id, function(err, device){
         User.findById(req.user.id, function(err, user){
-        const q = {'company': user.company}
+        const q = {'company': device.company}
             Site.find(q, function(err, sites){
-                Company.find({'name': user.company}, function(err, companies){
+                Company.find({'name': device.company}, function(err, companies){
                     let check = device.deviceSettings.fileTransfer.ftStatus;
                     let type = device.deviceSettings.fileTransfer.type;
                     function hello(type) {

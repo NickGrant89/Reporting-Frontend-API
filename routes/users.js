@@ -6,6 +6,8 @@ const passport = require('passport');
 //Passport Config
 require('../config/passport')(passport);
 
+const of = require('../middleware/onec-functions');
+
 const ensureAuthenticated = require('../middleware/login-auth');
 
 //Bring in Users Model
@@ -128,14 +130,17 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                 } 
 
                 var a =  hello(sites);
-
+                
                 res.render('user', {
                     user:user,
                     users:users,
                     title: user.name,
                     companies:companies,
                     sites:sites,
-                    check2:a,
+                    check:a,
+                    userRole:of.checkUserUser(user.admin),
+                    adminRole:of.checkUserAdmin(user.admin),
+
                 }); 
              });
         });

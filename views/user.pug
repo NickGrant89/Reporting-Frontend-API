@@ -71,11 +71,11 @@ block content
                                             #form-group
                                                 label Role:
                                                 select.form-control(name='admin', type='text')
-                                                    option User
-                                                    option Admin
+                                                    option(value='User' selected=userRole) User
+                                                    option(value='Admin' selected=adminRole) Admin
                                                         if user
                                                             if user.admin == "Super Admin"
-                                                                option Super Admin 
+                                                                option(value='Super Admin') Super Admin 
                                             #form-group
                                                 label Name:
                                                 input.form-control(name='name', type='text', value=user.name)
@@ -91,7 +91,7 @@ block content
                                                     each site, i in sites 
                                                       .checkbox    
                                                         label 
-                                                          input(name='sites', type='checkbox', value=site.name, checked=check2[i])  
+                                                          input(name='sites', type='checkbox', value=site.name, checked=check[i])  
                                                           = site.name 
                                             br      
                                                           

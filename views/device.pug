@@ -21,7 +21,7 @@ block content
               != messages('message', locals)
               .panel.panel-default
                 .panel-heading
-                  h3 Device Name - #{title} 
+                  h4 Device Name - #{title}  #{device.deviceinfo.lastupdated}
                 // /.panel-heading
                 .panel-body
                     .table-responsive
@@ -32,7 +32,7 @@ block content
                                 th MAC Address
                                 th Company
                                 th Site
-                                th Time Stamp
+                                th Check In Time
                                 th Status
                             tbody
                                 tr
@@ -72,7 +72,7 @@ block content
                                     i.material-icons(style='font-size:10px') watch_later
                                     |  Device Uptime - #{device.deviceinfo.deviceuptime}
                                 if user
-                                    if user == 'Admin' || user == 'Super Admin'    
+                                    if user.admin == 'Admin' || user.admin == 'Super Admin'    
                                         a.btn.btn-primary(href='#editSetting', data-toggle='modal', data-target='#editSetting') Settings    
                                 br
                                 br

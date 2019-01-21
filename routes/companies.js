@@ -42,12 +42,12 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
             }
             if(user.admin == 'Admin' || 'User'){
                 const q = ({"name": user.sites});
-                console.log(q);
+                //console.log(q);
                 Site.find(q, function(err, sites){
                     if(err){
                         console.log(err)
                     }else{
-                        console.log(company)
+                        //console.log(company)
                         res.render('company', {
                             title: company.name,
                             sites:sites,

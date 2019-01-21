@@ -26,7 +26,7 @@ let deviceSchema = mongoose.Schema({
     },
     timestamp:{
         type: String,
-        required: true
+        required: false
     },
     company:{
         type: String,

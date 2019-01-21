@@ -8,6 +8,7 @@ let User = require('../models/user');
 
 let Company = require('../models/company');
 
+
 exports.deCodeed = function (token) {
     
     const decoded = jwt.verify(token.split(" ")[1], 'secretkey', );
@@ -73,14 +74,21 @@ exports.checkUserRole= function (userID1) {
 
 };
 
-exports.checkUserSites= function (sites) {
-  
-    if(sites == 'client true'){
-        return 'true';
-        }
-   }
-   function hello2(type) {
-        if(sites == 'server true'){
-            return 'true';
-        }
+exports.checkUserUser= function (userRole) {
+  console.log(userRole);
+    if(userRole == 'User'){
+        return true;
+    }
+ 
+    return false;
+   
 };
+
+exports.checkUserAdmin= function (userRole) {
+    console.log(userRole);
+      if(userRole == 'Admin'){
+          return true;    
+      }
+      return false;
+     
+  };

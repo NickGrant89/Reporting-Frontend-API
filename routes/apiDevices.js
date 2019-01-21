@@ -111,7 +111,6 @@ router.put('/:id', checkAuth, (req, res) => {
         device.pcname = req.body.pcname;
         device.ipaddress = req.body.ipaddress;
         device.macaddress = req.body.macaddress;
-        device.timestamp = req.body.timestamp;
 
         device.deviceinfo = req.body.deviceinfo;
             device.windowsversion = req.body.windowsversion;
