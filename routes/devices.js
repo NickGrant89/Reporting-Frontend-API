@@ -105,36 +105,70 @@ router.get('/add', ensureAuthenticated, function(req, res){
 router.get('/:id', ensureAuthenticated, (req, res) => {
     Device.findById(req.params.id, function(err, device){
         User.findById(req.user.id, function(err, user){
-        const q = {'company': device.company}
-            Site.find(q, function(err, sites){
-                Company.find({'name': device.company}, function(err, companies){
-                    let check = device.deviceSettings.fileTransfer.ftStatus;
-                    let type = device.deviceSettings.fileTransfer.type;
-                    function hello(type) {
-                       if(type == 'client true'){
-                        return 'true';
-                        }
-                   }
-                   function hello2(type) {
-                        if(type == 'server true'){
+            if(err){res.redirect('/');}
+            if(user.admin == 'Super Admin'){
+                Site.find({}, function(err, sites){
+                    Company.find({}, function(err, companies){
+                        let check = device.deviceSettings.fileTransfer.ftStatus;
+                        let type = device.deviceSettings.fileTransfer.type;
+                        function hello(type) {
+                           if(type == 'client true'){
                             return 'true';
-                        }
-                }
-                    console.log(type);
-                    res.render('device', {
-                        device:device,
-                        sites: sites,
-                        companies: companies,
-                        title: device.pcname,
-                        check:check,
-                        clientSetTrue:hello(type),
-                        serverSetTure:hello2(type),
+                            }
+                       }
+                       function hello2(type) {
+                            if(type == 'server true'){
+                                return 'true';
+                            }
+                    }
+                        console.log(type);
+                        res.render('device', {
+                            device:device,
+                            sites: sites,
+                            companies: companies,
+                            title: device.pcname,
+                            check:check,
+                            clientSetTrue:hello(type),
+                            serverSetTure:hello2(type),
+                        });
+                        //console.log(device);
+                    
                     });
-                    //console.log(device);
-                
                 });
-            });
-        });
+            }
+            if(user.admin == 'Admin' || 'User'){
+                Site.find({'company': user.company}, function(err, sites){
+                    Company.find({'name': user.company}, function(err, companies){
+                        let check = device.deviceSettings.fileTransfer.ftStatus;
+                        let type = device.deviceSettings.fileTransfer.type;
+                        function hello(type) {
+                           if(type == 'client true'){
+                            return 'true';
+                            }
+                       }
+                       function hello2(type) {
+                            if(type == 'server true'){
+                                return 'true';
+                            }
+                    }
+                        console.log(type);
+                        res.render('device', {
+                            device:device,
+                            sites: sites,
+                            companies: companies,
+                            title: device.pcname,
+                            check:check,
+                            clientSetTrue:hello(type),
+                            serverSetTure:hello2(type),
+                        });
+                        //console.log(device);
+                    
+                    });
+                });
+          
+             
+            }
+        });     
     });
 });
 

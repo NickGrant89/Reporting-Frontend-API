@@ -133,6 +133,42 @@ router.get('/devices', ensureAuthenticated, function(req, res){
  });
  });
 
+ router.get('/:id', ensureAuthenticated, (req, res) => {
+    Device.findById(req.params.id, function(err, device){
+        User.findById(req.user.id, function(err, user){
+        const q = {'name': user.sites}
+            Site.find(q, function(err, sites){
+                Company.find({'name': user.company}, function(err, companies){
+                    let check = device.deviceSettings.fileTransfer.ftStatus;
+                    let type = device.deviceSettings.fileTransfer.type;
+                    function hello(type) {
+                       if(type == 'client true'){
+                        return 'true';
+                        }
+                   }
+                   function hello2(type) {
+                        if(type == 'server true'){
+                            return 'true';
+                        }
+                }
+                    console.log(type);
+                    res.render('device', {
+                        device:device,
+                        sites: sites,
+                        companies: companies,
+                        title: device.pcname,
+                        check:check,
+                        clientSetTrue:hello(type),
+                        serverSetTure:hello2(type),
+                    });
+                    //console.log(device);
+                
+                });
+            });
+        });
+    });
+});
+
  //GET Method to display all companies on page.
 router.get('/companies', ensureAuthenticated, function(req, res){
     User.findById(req.user.id, function(err, user){

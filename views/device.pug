@@ -6,7 +6,7 @@ block content
           .col-lg-12
             h3.page-header 
             if user
-                if user.admin == "Super Admin"
+                if user.admin == "Super Admin" || user.admin == "Admin"
                     a.btn.btn-primary( href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
                     a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
             br
@@ -21,7 +21,7 @@ block content
               != messages('message', locals)
               .panel.panel-default
                 .panel-heading
-                  h4 Device Name - #{title}  #{device.deviceinfo.lastupdated}
+                  h4 Device Name - #{title}
                 // /.panel-heading
                 .panel-body
                     .table-responsive
@@ -32,7 +32,7 @@ block content
                                 th MAC Address
                                 th Company
                                 th Site
-                                th Check In Time
+                                th Last Updated
                                 th Status
                             tbody
                                 tr
@@ -40,7 +40,7 @@ block content
                                 td #{device.macaddress}
                                 td #{device.company}
                                 td #{device.site}
-                                td #{device.timestamp}
+                                td #{device.deviceinfo.lastupdated}
                                 td 
                                     if device.status == "Active"
                                         span.label.label-success #{device.status}
@@ -125,10 +125,10 @@ block content
                                     var myChart = new Chart(ctx, {
                                     type: 'doughnut',
                                     data: {
-                                    labels: ["Used", "Free", "Total"],
+                                    labels: ["Used", "Free"],
                                     datasets: [{
                                     label: '# of Votes',
-                                    data: [ #{device.harddrivespace.usedspace}, #{device.harddrivespace.freespace},#{device.harddrivespace.totalspace} ],
+                                    data: [ #{device.harddrivespace.usedspace}, #{device.harddrivespace.freespace} ],
                                     backgroundColor: [
                                     'rgba(255, 99, 132, 0.2)',
                                     'rgba(54, 162, 235, 0.2)',
@@ -191,11 +191,6 @@ block content
                                     .modal-body
                                         form(method='POST', action='/devices/edit/'+device.id)
                                             #form-group
-                                                label Status:
-                                                select.form-control(, name='status', type='text')
-                                                    option(value = 'Active') Active
-                                                    option(value = 'Disabled') Disabled
-                                            #form-group
                                                 label Company:
                                                 select.form-control(name='company', type='text')
                                                     each company, i in companies
@@ -211,10 +206,7 @@ block content
                                                 input.form-control(name='pcname', type='text', value=device.pcname)
                                             #form-group
                                                 label IP Address:
-                                                input.form-control(name='ipaddress', type='text' value= device.ipaddress)
-                                            #form-group
-                                                label Mac Address:
-                                                input.form-control(name='macaddress', type='text' value=device.macaddress)    
+                                                input.form-control(name='ipaddress', type='text' value= device.ipaddress)   
                                             br
                                             input.btn.btn-primary(type='submit', value='Submit')
                                             a.btn.btn-danger(href='/devices/'+device._id) Cancel                                               

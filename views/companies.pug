@@ -21,11 +21,13 @@ block content
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                        th Company
+                       th Company Name
                         th Address
                         th City
+                        th County
                         th Postcode
-                        th Email
+                        th Country
+                        th Contact
                     tbody
                       each company, i in companies
                         if user
@@ -38,9 +40,13 @@ block content
                               td
                                 = company.city
                               td
+                                = company.county
+                              td
                                 = company.postcode
                               td
-                                = company.email    
+                                = company.country
+                              td
+                                = company.phonenumber   
                           
                        
                           
