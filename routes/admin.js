@@ -110,7 +110,7 @@ router.get('/sites', ensureAuthenticated, function(req, res){
 router.get('/devices', ensureAuthenticated, function(req, res){
     Company.find({}, function(err, companies){
      User.findById(req.user.id, function(err, user){
-         if(err){res.redirect('/');}
+         if(err){res.redirect('/')}
              if(user.admin != 'Super Admin'){
                 req.flash('danger', 'Unauthorized');
                 res.redirect('/');
@@ -177,6 +177,46 @@ router.get('/users', ensureAuthenticated, function(req, res){
             });
         });
         }
+    });
+});
+
+router.get('/device/:id', ensureAuthenticated, (req, res) => {
+    function hello(type) {
+        if(type == 'client true'){
+         return 'true';
+         }
+    }
+    function hello2(type) {
+         if(type == 'server true'){
+             return 'true';
+         }
+ }
+    Device.findById(req.params.id, function(err, device){
+        User.findById(req.user.id, function(err, user){
+            if(err){res.redirect('/')}
+                Site.find({}, function(err, sites){
+                    Company.find({}, function(err, companies){
+                        let check = device.deviceSettings.fileTransfer.ftStatus;
+                        let type = device.deviceSettings.fileTransfer.type;
+                      
+                        //console.log(type);
+                        res.render('device', {
+                            device:device,
+                            sites: sites,
+                            companies: companies,
+                            title: device.pcname,
+                            check:check,
+                            clientSetTrue:hello(type),
+                            serverSetTure:hello2(type),
+                        });
+                        //console.log(device);
+                    
+                    });
+                });
+          
+             
+            
+        });     
     });
 });
 

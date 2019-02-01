@@ -17,6 +17,8 @@ exports.deCodeed = function (token) {
 };
 
 
+
+
 //Validation for company
 
 exports.validateCompany= function (company){
@@ -92,3 +94,15 @@ exports.checkUserAdmin= function (userRole) {
       return false;
      
   };
+
+ exports.checkFileServer= function (object) {
+    for(var o in object) {
+        if(object[o].deviceSettings.fileTransfer.type == 'server true'){
+            //console.log('true');
+           return 'true'; 
+        }
+        //var a = true
+        //console.log(a);
+        
+    }
+}

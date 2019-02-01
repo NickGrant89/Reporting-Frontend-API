@@ -103,63 +103,31 @@ router.get('/add', ensureAuthenticated, function(req, res){
 //Get single device page
 
 router.get('/:id', ensureAuthenticated, (req, res) => {
+    
+    function hello2(type, check) {
+         if(type == check){
+             return 'true';
+         }
+         return false;
+ }
     Device.findById(req.params.id, function(err, device){
         User.findById(req.user.id, function(err, user){
-            if(err){res.redirect('/');}
-            if(user.admin == 'Super Admin'){
-                Site.find({}, function(err, sites){
-                    Company.find({}, function(err, companies){
-                        let check = device.deviceSettings.fileTransfer.ftStatus;
-                        let type = device.deviceSettings.fileTransfer.type;
-                        function hello(type) {
-                           if(type == 'client true'){
-                            return 'true';
-                            }
-                       }
-                       function hello2(type) {
-                            if(type == 'server true'){
-                                return 'true';
-                            }
-                    }
-                        console.log(type);
-                        res.render('device', {
-                            device:device,
-                            sites: sites,
-                            companies: companies,
-                            title: device.pcname,
-                            check:check,
-                            clientSetTrue:hello(type),
-                            serverSetTure:hello2(type),
-                        });
-                        //console.log(device);
-                    
-                    });
-                });
-            }
+            if(err){res.redirect('/')}
             if(user.admin == 'Admin' || 'User'){
                 Site.find({'company': user.company}, function(err, sites){
                     Company.find({'name': user.company}, function(err, companies){
                         let check = device.deviceSettings.fileTransfer.ftStatus;
                         let type = device.deviceSettings.fileTransfer.type;
-                        function hello(type) {
-                           if(type == 'client true'){
-                            return 'true';
-                            }
-                       }
-                       function hello2(type) {
-                            if(type == 'server true'){
-                                return 'true';
-                            }
-                    }
-                        console.log(type);
+                      
+                        //console.log(type);
                         res.render('device', {
                             device:device,
                             sites: sites,
                             companies: companies,
                             title: device.pcname,
                             check:check,
-                            clientSetTrue:hello(type),
-                            serverSetTure:hello2(type),
+                            clientSetTrue:hello2(device.deviceSettings.fileTransfer.type, 'server true'),
+                            serverSetTure:hello2(device.deviceSettings.fileTransfer.type, 'client true'),
                         });
                         //console.log(device);
                     
@@ -239,7 +207,18 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
  });
 
  router.post('/settings/:id', ensureAuthenticated,  (req, res) => {
-     
+    Device.find({}, function(err, device){
+
+        
+    if(of.checkFileServer(device)=='true'){
+            //console.log('check jkjldfhdskjfsdkj')
+            req.flash('danger', 'Server Exists')
+           res.redirect('/')
+            //return res.redirect('/');
+    } 
+
+
+    //console.log(hello(device));
     var settings = {
         deviceSettings: {
             fileTransfer: {
@@ -249,20 +228,22 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
             }
         },
     }
-    console.log(settings);
+    //console.log(settings);
     let query = {_id:req.params.id}
 
-    Device.update(query, settings, function(err){
+    Device.updateOne(query, settings, function(err){
          if(err){
              console.log(err);
              return;
          }
          else{
-             res.redirect('/devices/'+ req.params.id)
+             res.redirect('/')
          }
     });
     //console.log()
+
  });
+});
 
  //Delete edit form
 router.delete('/:id', ensureAuthenticated, (req, res) => {

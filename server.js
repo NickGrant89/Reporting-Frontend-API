@@ -94,9 +94,9 @@ app.get('*', function(req, res, next){
 app.get('/', ensureAuthenticated, function(req, res){
     User.findById(req.user.id, function(err, user){
         if(user.admin == 'Super Admin'){
-            res.redirect('/admin/dashboard')
+           return res.redirect('/admin/dashboard')
         }
-        console.log(user)
+        //console.log(user)
     Site.find({'name': user.sites}, function(err, sites){
         User.find({}, function(err, users){
             Company.find({}, function(err, companies){
