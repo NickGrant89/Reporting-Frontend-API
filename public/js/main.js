@@ -9,7 +9,7 @@ $(document).ready(function(){
                 url: '/devices/'+id,
                 success: function(response){
                  alert('Device Deleted');
-                 window.location.href='/devices'
+                 window.location.href='/'
                 },
                 error: function(err){
                        console.log(err); 
@@ -27,3 +27,15 @@ $(document).ready(function(){
 function myFunction1() {
     document.getElementById("status").value = device.status;
 }
+
+function myFunction() {
+    var checkBox = document.getElementById("myCheck");
+    var text = document.getElementById("myDIV");
+    if (checkBox.checked == true ){
+      text.style.display = "block";
+    } else {
+       text.style.display = "none";
+    }
+}
+
+  

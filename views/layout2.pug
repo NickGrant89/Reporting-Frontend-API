@@ -35,83 +35,86 @@ html(lang="en")
 						span.icon-bar
 						span.icon-bar
 					a.navbar-brand(href="/" ) One C Portal 
-				// /.navbar-header
-				ul.nav.navbar-top-links.navbar-right
-					li.dropdown
-						a.dropdown-toggle(data-toggle="dropdown" href="#")
-							i.fa.fa-user.fa-fw
-							i.fa.fa-caret-down
-						ul.dropdown-menu.dropdown-user
-							li
-								a(href="#")
-									i.fa.fa-user.fa-fw
-									|  User Profile
-							li
-								a(href="#")
-									i.fa.fa-gear.fa-fw
-									|  Settings
-							li.divider
-							li
-								a(href="/users/logout")
-									i.fa.fa-sign-out.fa-fw
-									|  Logout
-						// /.dropdown-user
-					// /.dropdown
-				// /.navbar-top-links
-				.navbar-default.sidebar(role="navigation")
-					.sidebar-nav.navbar-collapse
-						ul#side-menu.nav
-							li.sidebar-search
-								.input-group.custom-search-form
-									input.form-control(type="text" placeholder="Search...")
-									span.input-group-btn
-										button.btn.btn-default(type="button")
-											i.fa.fa-search
-								// /input-group
-							li
-								a(href="/")
-									i.fa.fa-dashboard.fa-fw
-									|  Dashboard
-							li
-								if user
-									if user.admin == "Super Admin"
-									
-										a(href="/")
-											i.fa.fa-align-justify.fa-fw
-											|  Admin Area
-											span.fa.arrow
-										ul.nav.nav-second-level
-											li
-												a(href='#createCompany', data-toggle='modal', data-target='#createCompany') New Company
-											li
-												a(href='#createSite', data-toggle='modal', data-target='#createSite') New Site
-											li
-												a(href='#createUser', data-toggle='modal', data-target='#createUser') New User
-										// /.nav-second-level
-							li
-								a(href="#")
-									i.fa.fa-building.o.fa-fw
-									|  Company
-									span.fa.arrow
-								ul.nav.nav-second-level
+					// /.navbar-header
+					ul.nav.navbar-top-links.navbar-right
+						li.dropdown
+							a.dropdown-toggle(data-toggle="dropdown" href="#")
+								i.fa.fa-user.fa-fw
+								i.fa.fa-caret-down
+							ul.dropdown-menu.dropdown-user
+								li
+									a(href="#")
+										i.fa.fa-user.fa-fw
+										|  User Profile
+								li
+									a(href="#")
+										i.fa.fa-gear.fa-fw
+										|  Settings
+								li.divider
+								li
+									a(href="/users/logout")
+										i.fa.fa-sign-out.fa-fw
+										|  Logout
+							// /.dropdown-user
+						// /.dropdown
+						// /.navbar-top-links
+					.navbar-default.sidebar(role="navigation")
+						.sidebar-nav.navbar-collapse
+							ul#side-menu.nav
+								li.sidebar-search
+									.input-group.custom-search-form
+										input.form-control(type="text" placeholder="Search...")
+										span.input-group-btn
+											button.btn.btn-default(type="button")
+												i.fa.fa-search
+									// /input-group
+								li
+									a(href="/")
+										i.fa.fa-dashboard.fa-fw
+										|  Dashboard
+								li
 									if user
-										if user.admin == "True" || user.admin == "Super Admin"
-											li
-												a(href="/companies") Company
-									li
-										a(href="/sites") Sites
-									li
-										a(href="/devices") Devices
-									li
-										a(href="/users") Users
-											
-									// /.nav-second-level	
+										if user.admin == "Super Admin"
+											a(href="/")
+												i.fa.fa-align-justify.fa-fw
+												|  Admin Area
+												span.fa.arrow
+											ul.nav.nav-second-level
+												li
+													a(href='#createCompany', data-toggle='modal', data-target='#createCompany') New Company
+												li
+													a(href='#createSite', data-toggle='modal', data-target='#createSite') New Site
+												li
+													a(href='#createUser', data-toggle='modal', data-target='#createUser') New User
+												li
+													a(href='/admin/checkin') Device Check In	
+											// /.nav-second-level
+								li
+									if user
+										if user.admin == "Admin" || user.admin == "User"
+											a(href="#")
+												i.fa.fa-building.o.fa-fw
+												|  Company
+												span.fa.arrow
+											ul.nav.nav-second-level
+												if user
+													if user.admin == "True" || user.admin == "Super Admin"
+														li
+															a(href="/companies") Company
+												li
+													a(href="/sites") Sites
+												li
+													a(href="/devices") Devices
+												li
+													a(href="/users") Users
+														
+												// /.nav-second-level	
+									
+								li
 								
-							li
-							
-							
-					// /.sidebar-collapse
-				// /.navbar-static-side
+								
+						// /.sidebar-collapse
+					// /.navbar-static-side
 			#createCompany.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createCompanyLabel', aria-hidden='true')
 				.modal-dialog(role='document')
 					.modal-content

@@ -17,10 +17,8 @@ block content
               ul.nav.nav-tabs
                 li.active
                   a(href="#home" data-toggle="tab") Users
-                if user 
-                    if user.admin == "Super Admin" || user.admin == "Admin"  
-                        li
-                            a(href='#addUser', data-toggle='modal', data-target='#addUser') Add User
+                li
+                  a(href='#addUser', data-toggle='modal', data-target='#addUser') Add User
               // Tab panes
               .tab-content
                 #home.tab-pane.fade.in.active
@@ -101,8 +99,8 @@ block content
                                             #form-group
                                                 label Admin:
                                                 select.form-control(name='admin', type='text')
-                                                    option User
-                                                    option Admin
+                                                    option(value ='User', selected='') User
+                                                    option(value ='Admin', selected) Admin
                                                         if user
                                                             if user.admin == "Super Admin"
                                                                 option Super Admin
@@ -110,7 +108,8 @@ block content
                                                 label Company:
                                                 select.form-control(name='company', type='text')
                                                     each company, i in companies
-                                                        option #{company.name}                    
+                                                        //option #{company.name}   
+                                                        option(value='', selected='') #{company.name}                   
                                             #form-group
                                                 label Name:
                                                 input.form-control(name='name', type='text')

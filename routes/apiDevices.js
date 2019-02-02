@@ -44,7 +44,24 @@ router.get('/:id', checkAuth, (req, res) => {
         });  
 });
 
+//GET device by :macaddress
 
+router.get('/find/:macaddress', checkAuth, (req, res) => {
+    const q = ({"macaddress": req.params.macaddress});
+    Device.findOne(q, function(err, device){
+        if(err)           
+        return res.status(404).send('Not Found!'), console.log('ID not found!')
+        if(device == null){
+        return res.status(404).send('Not Found!'), console.log('ID not found!')
+        }
+        else{
+            res.json({
+                _id: device._id,
+                
+            });
+        }
+    });  
+});
 
 //POST to add device
 
@@ -87,17 +104,16 @@ router.put('/:id', checkAuth, (req, res) => {
     Device.findById(req.params.id, function(err, device){
         if(!device) return res.status('404').send('The device with the given ID cannot be found!'), console.log('ID not found!')
 
-        const {error} = validateDevice(req.body);
+        //const {error} = validateDevice(req.body);
 
-        if(error) return res.status('404').send(error.details[0].message), console.log(error.details[0].message);
+        //if(error) return res.status('404').send(error.details[0].message), console.log(error.details[0].message);
 
         device.pcname = req.body.pcname;
         device.ipaddress = req.body.ipaddress;
         device.macaddress = req.body.macaddress;
-        device.timestamp = req.body.timestamp;
 
         device.deviceinfo = req.body.deviceinfo;
-            device.winver = req.body.winver;
+            device.windowsversion = req.body.windowsversion;
             device.cpu = req.body.cpu;
             device.availablememory = req.body.availablememory;
             device.exipaddress = req.body.exipaddress;
@@ -105,7 +121,7 @@ router.put('/:id', checkAuth, (req, res) => {
             device.deviceuptime = req.body.deviceuptime;
             device.lastupdated = req.body.lastupdated;
 
-        device.status = req.body.status;
+        device.devicestatus = req.body.devicestatus;
             device.cpu = req.body.cpu;
             device.memory = req.body.memory;
             device.network = req.body.network;
@@ -115,7 +131,7 @@ router.put('/:id', checkAuth, (req, res) => {
             device.freespace = req.body.freespace;
             device.usedspace = req.body.usedspace;
             
-        device.ocslogfile = req.body.ocslogfile;          
+        device.ocslogfile = req.body.ocslogfile;         
 
         device.save();
         res.send(device);

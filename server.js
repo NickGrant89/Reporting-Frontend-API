@@ -93,14 +93,17 @@ app.get('*', function(req, res, next){
 
 app.get('/', ensureAuthenticated, function(req, res){
     User.findById(req.user.id, function(err, user){
-        console.log(user)
-    Site.find({}, function(err, sites){
+        if(user.admin == 'Super Admin'){
+           return res.redirect('/admin/dashboard')
+        }
+        //console.log(user)
+    Site.find({'name': user.sites}, function(err, sites){
         User.find({}, function(err, users){
             Company.find({}, function(err, companies){
             Company.countDocuments({'name':user.company}, function(err, numOfCompanies) {
-                Site.countDocuments({'company': user.company}, function(err, numOfSites) {
+                Site.countDocuments({'name': user.sites}, function(err, numOfSites) {
                     User.countDocuments({'company': user.company}, function(err, numOfUsers) {
-                        Device.countDocuments({'company': user.company}, function(err, numOfDevices) {
+                        Device.countDocuments({'site': user.sites, 'status':'Active'}, function(err, numOfDevices) {
                             if(err){
                                 console.log(err)
                             }
@@ -135,6 +138,7 @@ let apiDevices = require('./routes/apiDevices');
 let apiCompany = require('./routes/apiCompany');
 let companies = require('./routes/companies');
 let site = require('./routes/sites');
+let admin = require('./routes/admin');
 
 app.use('/devices', devices);
 app.use('/users', users);
@@ -143,6 +147,7 @@ app.use('/api/v1/company/', apiCompany);
 app.use('/api/v1/auth/', jwt);
 app.use('/companies', companies);
 app.use('/sites', site);
+app.use('/admin', admin);
 
 app.get('*', function(req, res) {
     res.status(404).end();

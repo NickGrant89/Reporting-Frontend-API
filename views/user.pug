@@ -17,8 +17,10 @@ block content
               ul.nav.nav-tabs
                 li.active
                   a(href="#home" data-toggle="tab") User
-                li
-                  a(href='#editUser', data-toggle='modal', data-target='#editUser') Edit User 
+                  if users 
+                    if users.admin == "Super Admin" || users.admin == "Admin"  
+                      li
+                        a(href='#editUser', data-toggle='modal', data-target='#editUser') Edit User
               // Tab panes
               .tab-content
                 #home.tab-pane.fade.in.active
@@ -41,7 +43,7 @@ block content
                               tbody
                                       tr.odd.gradeX
                                         td
-                                         a(href="/users/"+ user._id)=user.name
+                                          = user.name
                                         td
                                           = user.username
                                         td
@@ -69,11 +71,11 @@ block content
                                             #form-group
                                                 label Role:
                                                 select.form-control(name='admin', type='text')
-                                                    option User
-                                                    option Admin
+                                                    option(value='User' selected=userRole) User
+                                                    option(value='Admin' selected=adminRole) Admin
                                                         if user
                                                             if user.admin == "Super Admin"
-                                                                option Super Admin 
+                                                                option(value='Super Admin') Super Admin 
                                             #form-group
                                                 label Name:
                                                 input.form-control(name='name', type='text', value=user.name)
@@ -86,13 +88,39 @@ block content
                                             #form-group
                                                 label Sites:
                                                   .boxes
+                                                    each site, i in sites 
+                                                      .checkbox    
+                                                        label 
+                                                          input(name='sites', type='checkbox', value=site.name, checked=check[i])  
+                                                          = site.name 
+                                            br      
+                                                          
+                                                                                                 
+                                            input.btn.btn-primary(type='submit', value='Submit')
+                                            a.btn.btn-danger(href='/users/'+user._id) Cancel 
+                        #userSites.modal.fade(tabindex='-1', role='dialog', aria-labelledby='userSitesLabel', aria-hidden='true')
+                            .modal-dialog(role='document')
+                                .modal-content
+                                    .modal-header
+                                        h5#userSitesLabel.modal-title User Sites 
+                                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                            span(aria-hidden='true')
+                                    .modal-body
+                                        form(method='POST', action='/users/edit/'+user.id)
+                                           
+                                            #form-group
+                                                label Sites:
+                                                  .boxes
                                                     each site, i in sites
                                                       .checkbox
                                                         label
-                                                          input(name='sites', type='checkbox', value='1:'+ site.name)
-                                                          = site.name                                              
+                                                          input(name='sites', type='checkbox', value=site.name checked=check2)
+                                                          = site.name
+                                                          
+                                                          
+                                                                                                 
                                             input.btn.btn-primary(type='submit', value='Submit')
-                                            a.btn.btn-danger(href='/users/'+user._id) Cancel   
+                                            a.btn.btn-danger(href='/users/'+user._id) Cancel                       
             // /.panel-body
           // /.panel
       // /.row

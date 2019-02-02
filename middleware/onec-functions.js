@@ -8,6 +8,7 @@ let User = require('../models/user');
 
 let Company = require('../models/company');
 
+
 exports.deCodeed = function (token) {
     
     const decoded = jwt.verify(token.split(" ")[1], 'secretkey', );
@@ -16,7 +17,9 @@ exports.deCodeed = function (token) {
 };
 
 
-//Validation 
+
+
+//Validation for company
 
 exports.validateCompany= function (company){
     const schema ={
@@ -35,6 +38,34 @@ exports.validateCompany= function (company){
     return Joi.validate(company, schema);
 }; 
 
+//Validation for Device Check In
+
+exports.validateCheckIn= function (device){
+    const schema ={
+        pcname: Joi.string().min(3).required(),
+        ipaddress: Joi.string().min(3).required(),
+        macaddress: Joi.string().min(3).required(),
+        status: Joi.string().min(3).required(),
+        timestamp: Joi.string().min(3).required(),
+    };
+
+    return Joi.validate(device, schema);
+}; 
+
+//Validation for Device Check In
+
+exports.validateCheckIn= function (device){
+    const schema ={
+        pcname: Joi.string().min(3).required(),
+        ipaddress: Joi.string().min(3).required(),
+        macaddress: Joi.string().min(3).required(),
+        status: Joi.string().min(3).required(),
+        timestamp: Joi.string().min(3).required(),
+    };
+
+    return Joi.validate(device, schema);
+};
+
 exports.checkUserRole= function (userID1) {
   
     User.findById(userID1, function(err, user){
@@ -44,3 +75,34 @@ exports.checkUserRole= function (userID1) {
     
 
 };
+
+exports.checkUserUser= function (userRole) {
+  console.log(userRole);
+    if(userRole == 'User'){
+        return true;
+    }
+ 
+    return false;
+   
+};
+
+exports.checkUserAdmin= function (userRole) {
+    console.log(userRole);
+      if(userRole == 'Admin'){
+          return true;    
+      }
+      return false;
+     
+  };
+
+ exports.checkFileServer= function (object) {
+    for(var o in object) {
+        if(object[o].deviceSettings.fileTransfer.type == 'server true'){
+            //console.log('true');
+           return 'true'; 
+        }
+        //var a = true
+        //console.log(a);
+        
+    }
+}

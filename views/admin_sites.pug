@@ -15,41 +15,44 @@ block content
               != messages('message', locals)
               .panel.panel-default
                 .panel-heading
-                  | #{title}
+                  | Sites
                 // /.panel-heading
                 .panel-body
                   table#dataTables-example.table.table-striped.table-bordered.table-hover(width="100%")
                     thead
                       tr
-                       th Company Name
+                        th Site Name
                         th Address
                         th City
                         th County
                         th Postcode
                         th Country
                         th Contact
+                        th Status
                     tbody
-                      each company, i in companies
+                      each site, i in sites
                         if user
-                          if user.company == company.name || user.admin == "Super Admin"
+                          if user.company == site.company || user.admin == "Super Admin"
                             tr.odd.gradeX
                               td
-                                a(href="/companies/"+company._id)=company.name
+                                a(href="/sites/"+site._id)=site.name
                               td
-                                = company.address
+                                = site.address
                               td
-                                = company.city
+                                = site.city
                               td
-                                = company.county
+                                = site.county
                               td
-                                = company.postcode
+                                = site.postcode
                               td
-                                = company.country
+                                = site.country
                               td
-                                = company.phonenumber   
-                          
-                       
-                          
+                                = site.phonenumber
+                              td
+                                if site.status == "Active"
+                                  span.label.label-success #{site.status}
+                                else
+                                  span.label.label-danger #{site.status}  
                   // /.table-responsive
                 // /.panel-body
               // /.panel

@@ -3,7 +3,7 @@ let mongoose = require('mongoose');
 let deviceSchema = mongoose.Schema({
     GUID:{
         type: String,
-        required: true
+        required: false
     },
     pcname:{
         type: String,
@@ -26,10 +26,9 @@ let deviceSchema = mongoose.Schema({
     },
     timestamp:{
         type: String,
-        required: true
+        required: false
     },
     company:{
-
         type: String,
         required: false
     },
@@ -65,8 +64,8 @@ let deviceSchema = mongoose.Schema({
     deviceSettings:{
         fileTransfer:{
             type: {type: String},
-            path: {type: String},
-            status: {type: String},
+            path: {type: String, default: 'Disabled'},
+            ftStatus: {type: Boolean,  default: false},
         },
     },
     ocslogfile:[String]

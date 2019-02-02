@@ -68,15 +68,6 @@ router.post('/add', ensureAuthenticated, [
 });
 
 
-router.get('/add', ensureAuthenticated, function(req, res){
-    Company.find({}, function(err, companies){
-        res.render('add_site', {
-        title:'Add Site',
-        companies: companies,
-        });
-    });
-});
-
 //GET Method to display devices on page.
 
 router.get('/', ensureAuthenticated, function(req, res){
@@ -97,8 +88,8 @@ router.get('/', ensureAuthenticated, function(req, res){
                 }
             });
         }
-        if(user.admin == 'Admin'){
-            const q = ({"company": user.company});
+        if(user.admin == 'Admin' || 'User'){
+            const q = ({"name": user.sites});
             console.log(q);
             Site.find(q, function(err, sites){
                 if(err){
@@ -139,8 +130,8 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                                 }
                             });
                         }
-                        if(user.admin == 'Admin'){
-                            const q = ({"site": sites.name});
+                        if(user.admin == 'Admin' || 'User'){
+                            const q = ({"site": sites.name, 'status':'Active'});
                             console.log(q);
                             Device.find(q, function(err, devices){
                                 if(err){

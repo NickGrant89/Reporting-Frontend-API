@@ -23,16 +23,20 @@ router.get('/checkin', ensureAuthenticated, function(req, res){
             res.redirect('/');
         }
         else{
-            Device.find({}, function(err, devices){
+            Company.find({}, function(err, companies){
+                const q = {"status": "Disabled"}
+            Device.find(q, function(err, devices){
                 if(err){
                     console.log(err)
                 }else{
                     res.render('devices_checkin', {
                         title:'Device Check-In',
                         devices: devices,
+                        companies:companies,
                     });
                 }
             });
+        });
         }
     });    
 });
@@ -42,12 +46,11 @@ router.get('/checkin', ensureAuthenticated, function(req, res){
 //GET Method to display devices on page.
 
 router.get('/', ensureAuthenticated, function(req, res){
-   console.log(of.checkUserRole('5bce4ca084b9e25e90932d6d'));
    Company.find({}, function(err, companies){
     User.findById(req.user.id, function(err, user){
         if(err){res.redirect('/');}
             if(user.admin == 'Super Admin'){
-                Device.find({}, function(err, devices){
+                Device.find({'status':'Active'}, function(err, devices){
                     if(err){
                         console.log(err)
                     }else{
@@ -60,15 +63,15 @@ router.get('/', ensureAuthenticated, function(req, res){
                     }
                 });
             }
-            if(user.admin == 'Admin'){
+            if(user.admin == 'Admin' || 'User'){
 
-                const q = ({"company": user.company});
+                const q = ({"site": user.sites, 'status':'Active'});
                 console.log(q);
                 Device.find(q, function(err, devices){
                     if(err){
                         console.log(err)
                     }else{
-                        console.log(devices)
+                        //console.log(devices)
                         res.render('devices', {
                             title:'Devices',
                             devices: devices,
@@ -100,20 +103,40 @@ router.get('/add', ensureAuthenticated, function(req, res){
 //Get single device page
 
 router.get('/:id', ensureAuthenticated, (req, res) => {
+    
+    function hello2(type, check) {
+         if(type == check){
+             return 'true';
+         }
+         return false;
+ }
     Device.findById(req.params.id, function(err, device){
         User.findById(req.user.id, function(err, user){
-        const q = {'company': user.company}
-            Site.find(q, function(err, sites){
-                Company.find({'name': user.company}, function(err, companies){
-                    res.render('device', {
-                        device:device,
-                        sites: sites,
-                        companies: companies,
-                        title: device.pcname,
+            if(err){res.redirect('/')}
+            if(user.admin == 'Admin' || 'User'){
+                Site.find({'company': user.company}, function(err, sites){
+                    Company.find({'name': user.company}, function(err, companies){
+                        let check = device.deviceSettings.fileTransfer.ftStatus;
+                        let type = device.deviceSettings.fileTransfer.type;
+                      
+                        //console.log(type);
+                        res.render('device', {
+                            device:device,
+                            sites: sites,
+                            companies: companies,
+                            title: device.pcname,
+                            check:check,
+                            clientSetTrue:hello2(device.deviceSettings.fileTransfer.type, 'server true'),
+                            serverSetTure:hello2(device.deviceSettings.fileTransfer.type, 'client true'),
+                        });
+                        //console.log(device);
+                    
                     });
                 });
-            });
-        });
+          
+             
+            }
+        });     
     });
 });
 
@@ -182,6 +205,45 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
     });
     console.log(req.body.pcname)
  });
+
+ router.post('/settings/:id', ensureAuthenticated,  (req, res) => {
+    Device.find({}, function(err, device){
+
+        
+    if(of.checkFileServer(device)=='true'){
+            //console.log('check jkjldfhdskjfsdkj')
+            req.flash('danger', 'Server Exists')
+           res.redirect('/')
+            //return res.redirect('/');
+    } 
+
+
+    //console.log(hello(device));
+    var settings = {
+        deviceSettings: {
+            fileTransfer: {
+                type: req.body.type,
+                path: req.body.path,
+                ftStatus: req.body.ftStatus
+            }
+        },
+    }
+    //console.log(settings);
+    let query = {_id:req.params.id}
+
+    Device.updateOne(query, settings, function(err){
+         if(err){
+             console.log(err);
+             return;
+         }
+         else{
+             res.redirect('/')
+         }
+    });
+    //console.log()
+
+ });
+});
 
  //Delete edit form
 router.delete('/:id', ensureAuthenticated, (req, res) => {
