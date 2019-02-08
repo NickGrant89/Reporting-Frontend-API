@@ -58,7 +58,9 @@ app.use(bodyParser.json())
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(express.static(path.join(__dirname, 'sbadmin')))
+//app.use(express.static(path.join(__dirname, 'sbadmin')))
+
+app.use(express.static(path.join(__dirname, 'NewSB')))
 
 //Express session Middleware
 
@@ -108,7 +110,7 @@ app.get('/', ensureAuthenticated, function(req, res){
                                 console.log(err)
                             }
                             else{
-                                res.render('index', {
+                                res.render('index1', {
                                     title:'Dashboard',
                                     sites: sites,
                                     users:users,

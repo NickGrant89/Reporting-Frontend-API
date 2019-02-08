@@ -49,20 +49,9 @@ router.get('/', ensureAuthenticated, function(req, res){
    Company.find({}, function(err, companies){
     User.findById(req.user.id, function(err, user){
         if(err){res.redirect('/');}
-            if(user.admin == 'Super Admin'){
-                Device.find({'status':'Active'}, function(err, devices){
-                    if(err){
-                        console.log(err)
-                    }else{
-                        res.render('devices', {
-                            title:'Devices',
-                            devices: devices,
-                            companies:companies,
-                        
-                        });
-                    }
-                });
-            }
+        if(user.admin == 'Super Admin'){
+            return res.redirect('/admin/devices')
+        }
             if(user.admin == 'Admin' || 'User'){
 
                 const q = ({"site": user.sites, 'status':'Active'});
@@ -120,7 +109,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                         let type = device.deviceSettings.fileTransfer.type;
                       
                         //console.log(type);
-                        res.render('device', {
+                        res.render('device1', {
                             device:device,
                             sites: sites,
                             companies: companies,

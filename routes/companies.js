@@ -119,16 +119,7 @@ router.get('/', ensureAuthenticated, function(req, res){
     User.findById(req.user.id, function(err, user){
         if(err){res.redirect('/');}
         if(user.admin == 'Super Admin'){
-            Company.find({}, function(err, companies){
-                if(err){
-                    console.log(err)
-                }else{
-                    res.render('companies', {
-                        title:'Companies',
-                        companies: companies,
-                    });
-                }
-            });
+            return res.redirect('/admin/companies')
         }
         if(user.admin == 'Admin' || 'User'){
             const q = ({"name": user.company});
