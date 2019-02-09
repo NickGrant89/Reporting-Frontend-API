@@ -61,7 +61,7 @@ router.get('/', ensureAuthenticated, function(req, res){
                         console.log(err)
                     }else{
                         //console.log(devices)
-                        res.render('devices', {
+                        res.render('devices1', {
                             title:'Devices',
                             devices: devices,
                             companies:companies,

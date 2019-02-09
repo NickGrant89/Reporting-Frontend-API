@@ -20,34 +20,36 @@ html(lang='en')
 			// Sidebar
 			ul#accordionSidebar.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion
 				// Sidebar - Brand
-				a.sidebar-brand.d-flex.align-items-center.justify-content-center(href='index.html')
+				a.sidebar-brand.d-flex.align-items-center.justify-content-center(href='/')
 					.sidebar-brand-icon.rotate-n-15
-						i.fas.fa-laugh-wink
+						i.fas.fa-cloud
 					.sidebar-brand-text.mx-3
 						| Enterprise
 				// Divider
 				hr.sidebar-divider.my-0
 				// Nav Item - Dashboard
 				li.nav-item.active
-					a.nav-link(href='index.html')
+					a.nav-link(href='/')
 						i.fas.fa-fw.fa-tachometer-alt
 						span Dashboard
 				// Divider
 				hr.sidebar-divider
 				// Heading
-				.sidebar-heading Interface
+				.sidebar-heading Options
 				// Nav Item - Pages Collapse Menu
 				li.nav-item
-					a.nav-link.collapsed(href='#', data-toggle='collapse', data-target='#collapseTwo', aria-expanded='true', aria-controls='collapseTwo')
-						i.fas.fa-fw.fa-cog
-						span Admin Panel
-					#collapseTwo.collapse(aria-labelledby='headingTwo', data-parent='#accordionSidebar')
-						.bg-white.py-2.collapse-inner.rounded
-							h6.collapse-header Custom Components:
-							a.collapse-item(href='/admin/checkin') Device Check In
-							a.collapse-item(href='#createCompany', data-toggle='modal', data-target='#createCompany') Add Company
-							a.collapse-item(href='#createSite', data-toggle='modal', data-target='#createSite') Add Site
-							a.collapse-item(href='#createUser', data-toggle='modal', data-target='#createUser') Add User
+					if user
+						if user.admin == "Super Admin"
+							a.nav-link.collapsed(href='#', data-toggle='collapse', data-target='#collapseTwo', aria-expanded='true', aria-controls='collapseTwo')
+								i.fas.fa-fw.fa-cog
+								span Admin Panel
+							#collapseTwo.collapse(aria-labelledby='headingTwo', data-parent='#accordionSidebar')
+								.bg-white.py-2.collapse-inner.rounded
+									h6.collapse-header Custom Components:
+									a.collapse-item(href='/admin/checkin') Device Check In
+									a.collapse-item(href='#createCompany', data-toggle='modal', data-target='#createCompany') Add Company
+									a.collapse-item(href='#createSite', data-toggle='modal', data-target='#createSite') Add Site
+									a.collapse-item(href='#createUser', data-toggle='modal', data-target='#createUser') Add User
 				// Nav Item - Utilities Collapse Menu
 				li.nav-item
 					a.nav-link.collapsed(href='#', data-toggle='collapse', data-target='#collapseUtilities', aria-expanded='true', aria-controls='collapseUtilities')
@@ -61,38 +63,6 @@ html(lang='en')
 							a.collapse-item(href="/devices") Devices
 				// Divider
 				hr.sidebar-divider
-				// Heading
-				.sidebar-heading Addons
-				// Nav Item - Pages Collapse Menu
-				li.nav-item
-					a.nav-link.collapsed(href='#', data-toggle='collapse', data-target='#collapsePages', aria-expanded='true', aria-controls='collapsePages')
-						i.fas.fa-fw.fa-folder
-						span Pages
-					#collapsePages.collapse(aria-labelledby='headingPages', data-parent='#accordionSidebar')
-						.bg-white.py-2.collapse-inner.rounded
-							h6.collapse-header Login Screens:
-							a.collapse-item(href='login.html') Login
-							a.collapse-item(href='register.html') Register
-							a.collapse-item(href='forgot-password.html') Forgot Password
-							.collapse-divider
-							h6.collapse-header Other Pages:
-							a.collapse-item(href='404.html') 404 Page
-							a.collapse-item(href='blank.html') Blank Page
-				// Nav Item - Charts
-				li.nav-item
-					a.nav-link(href='charts.html')
-						i.fas.fa-fw.fa-chart-area
-						span Charts
-				// Nav Item - Tables
-				li.nav-item
-					a.nav-link(href='tables.html')
-						i.fas.fa-fw.fa-table
-						span Tables
-				// Divider
-				hr.sidebar-divider.d-none.d-md-block
-				// Sidebar Toggler (Sidebar)
-				.text-center.d-none.d-md-inline
-					button#sidebarToggle.rounded-circle.border-0
 			// End of Sidebar
 			// Content Wrapper
 			#content-wrapper.d-flex.flex-column
@@ -200,7 +170,7 @@ html(lang='en')
 							// Nav Item - User Information
 							li.nav-item.dropdown.no-arrow
 								a#userDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-									span.mr-2.d-none.d-lg-inline.text-gray-600.small Valerie Luna
+									span.mr-2.d-none.d-lg-inline.text-gray-600.small #{user.name}
 									img.img-profile.rounded-circle(src='https://source.unsplash.com/QAB-WJcbgJk/60x60')
 								// Dropdown - User Information
 								.dropdown-menu.dropdown-menu-right.shadow.animated--grow-in(aria-labelledby='userDropdown')

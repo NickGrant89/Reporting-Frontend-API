@@ -27,20 +27,20 @@ router.get('/', ensureAuthenticated, function(req, res){
         }
         if(user.admin == 'Super Admin'){
             return res.redirect('/admin/users')
-         }
-        else{
-            const q = {'company': user.company}
-            console.log(q);
-            User.find(q, function(err, users){
-                Company.find({'name': user.company}, function(err, companies){
-                res.render('users', {
-                    title:'Users',
-                    users: users,
-                    companies:companies,
-                });
+        } 
+        
+        const q = {'company': user.company}
+        console.log(q);
+        User.find(q, function(err, users){
+            Company.find({'name': user.company}, function(err, companies){
+            res.render('users12', {
+                title:'Users',
+                users: users,
+                companies:companies,
             });
         });
-        }
+    });
+        
     });
 });
 
@@ -86,7 +86,7 @@ router.get('/login', function(req, res){
 //login form
 router.get('/logout', function(req, res){
     req.logout();
-    req.flash('success', 'You have logged out');
+    //req.flash('success', 'You have logged out');
     res.redirect('/users/login');
 });
 
@@ -123,7 +123,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 
                 var a =  hello(sites);
                 
-                res.render('user', {
+                res.render('user1', {
                     user:user,
                     users:users,
                     title: user.name,
@@ -197,8 +197,6 @@ router.post('/register', [
   if (!errors.isEmpty()) {
     req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
     res.redirect('/users');
-
-   
 
     //res.render('register',)
 

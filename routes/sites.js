@@ -84,7 +84,7 @@ router.get('/', ensureAuthenticated, function(req, res){
                 if(err){
                     console.log(err)
                 }else{
-                    res.render('sites', {
+                    res.render('sites1', {
                         title:'Sites',
                         sites: sites,
                         companies: companies,

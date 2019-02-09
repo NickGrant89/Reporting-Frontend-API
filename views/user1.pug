@@ -6,9 +6,9 @@ block content1
     // Page Heading
     .d-sm-flex.align-items-center.justify-content-between.mb-4
       h1.h3.mb-0.text-gray-800 Device Name - #{title}
-      a.d-none.d-sm-inline-block.btn.btn-sm.btn-primary.shadow-sm(href='#createUser', data-toggle='modal', data-target='#createUser')
+      a.d-none.d-sm-inline-block.btn.btn-sm.btn-primary.shadow-sm(href='#editUser', data-toggle='modal', data-target='#editUser')
         i.fas.fa-download.fa-sm.text-white-50
-        |  Add User  
+        |  Edit User  
     // Content Row
     .row
       // Content Column
@@ -29,20 +29,19 @@ block content1
                     th Company
                     th Admin
                 tbody
-                  each user, i in users
-                    tr.odd.gradeX
-                      td
-                        a(href="/users/"+ user._id)=user.name
-                      td
-                        = user.username
-                      td
-                        = user.email
-                      td
-                        = user.phone
-                      td
-                        = user.company
-                      td
-                        = user.admin
+                  tr.odd.gradeX
+                    td
+                      = user.name
+                    td
+                      = user.username
+                    td
+                      = user.email
+                    td
+                      = user.phone
+                    td
+                      = user.company
+                    td
+                      = user.admin  
   // /.container-fluid
   // End of Main Content
   #editUser.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editUserLabel', aria-hidden='true')
@@ -57,11 +56,11 @@ block content1
                     #form-group
                         label Role:
                         select.form-control(name='admin', type='text')
-                            option User
-                            option Admin
+                            option(value='User' selected=userRole) User
+                            option(value='Admin' selected=adminRole) Admin
                                 if user
                                     if user.admin == "Super Admin"
-                                        option Super Admin 
+                                        option(value='Super Admin') Super Admin 
                     #form-group
                         label Name:
                         input.form-control(name='name', type='text', value=user.name)
@@ -70,7 +69,17 @@ block content1
                         input.form-control(name='email', type='text', value=user.email)
                     #form-group
                         label Phone:
-                        input.form-control(name='phone', type='text' value=user.phone)    
-                    br
+                        input.form-control(name='phone', type='text' value=user.phone)
+                    #form-group
+                        label Sites:
+                          .boxes
+                            each site, i in sites 
+                              .checkbox    
+                                label 
+                                  input(name='sites', type='checkbox', value=site.name, checked=check[i])  
+                                  = site.name 
+                    br      
+                                  
+                                                                          
                     input.btn.btn-primary(type='submit', value='Submit')
-                    a.btn.btn-danger(href='/users') Cancel 
+                    a.btn.btn-danger(href='/users/'+user._id) Cancel 
