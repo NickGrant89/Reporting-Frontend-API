@@ -84,7 +84,7 @@ router.get('/', ensureAuthenticated, function(req, res){
                 if(err){
                     console.log(err)
                 }else{
-                    res.render('sites1', {
+                    res.render('sites', {
                         title:'Sites',
                         sites: sites,
                         companies: companies,
@@ -109,7 +109,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                                 if(err){
                                     console.log(err)
                                 }else{
-                                    res.render('site1', {
+                                    res.render('site', {
                                         title:'Devices',
                                         devices: devices,
                                         sites:sites,
@@ -127,7 +127,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                                     console.log(err)
                                 }else{
                                     console.log(devices)
-                                    res.render('site1', {
+                                    res.render('site', {
                                         title:'Devices',
                                         devices: devices,
                                         sites:sites,

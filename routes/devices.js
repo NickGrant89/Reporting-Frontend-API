@@ -61,7 +61,7 @@ router.get('/', ensureAuthenticated, function(req, res){
                         console.log(err)
                     }else{
                         //console.log(devices)
-                        res.render('devices1', {
+                        res.render('devices', {
                             title:'Devices',
                             devices: devices,
                             companies:companies,
@@ -109,7 +109,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                         let type = device.deviceSettings.fileTransfer.type;
                       
                         //console.log(type);
-                        res.render('device1', {
+                        res.render('device', {
                             device:device,
                             sites: sites,
                             companies: companies,

@@ -33,7 +33,7 @@ router.get('/', ensureAuthenticated, function(req, res){
         console.log(q);
         User.find(q, function(err, users){
             Company.find({'name': user.company}, function(err, companies){
-            res.render('users12', {
+            res.render('users', {
                 title:'Users',
                 users: users,
                 companies:companies,
@@ -80,7 +80,7 @@ router.get('/register', ensureAuthenticated,  function(req, res){
 
 //login form
 router.get('/login', function(req, res){
-    res.render('login1');
+    res.render('login');
 })
 
 //login form
@@ -123,7 +123,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 
                 var a =  hello(sites);
                 
-                res.render('user1', {
+                res.render('user', {
                     user:user,
                     users:users,
                     title: user.name,

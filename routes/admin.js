@@ -33,7 +33,7 @@ router.get('/dashboard', ensureAuthenticated, function(req, res){
                                         console.log(err)
                                     }
                                     else{
-                                        res.render('admin_dashboard1', {
+                                        res.render('admin_dashboard', {
                                             title:'Dashboard',
                                             sites: sites,
                                             users:users,
@@ -69,7 +69,7 @@ router.get('/checkin', ensureAuthenticated, function(req, res){
                 if(err){
                     console.log(err)
                 }else{
-                    res.render('devices_checkin1', {
+                    res.render('devices_checkin', {
                         title:'Device Check-In',
                         devices: devices,
                         companies:companies,
@@ -92,7 +92,7 @@ router.get('/sites', ensureAuthenticated, function(req, res){
                 if(err){
                     console.log(err)
                 }else{
-                    res.render('admin_sites1', {
+                    res.render('admin_sites', {
                         title:'Sites',
                         sites: sites,
                         companies: companies,
@@ -119,7 +119,7 @@ router.get('/devices', ensureAuthenticated, function(req, res){
                     if(err){
                         console.log(err)
                     }else{
-                        res.render('admin_devices1', {
+                        res.render('admin_devices', {
                             title:'Devices',
                             devices: devices,
                             companies:companies,
@@ -147,7 +147,7 @@ router.get('/companies', ensureAuthenticated, function(req, res){
                 if(err){
                     console.log(err)
                 }else{
-                    res.render('admin_companies1', {
+                    res.render('admin_companies', {
                         title:'Companies',
                         companies: companies,
                     });
@@ -169,7 +169,7 @@ router.get('/users', ensureAuthenticated, function(req, res){
         else{
             User.find({}, function(err, users){
                 Company.find({}, function(err, companies){
-                res.render('admin_users1', {
+                res.render('admin_users', {
                     title:'Users',
                     users: users,
                     companies:companies,
@@ -213,9 +213,6 @@ router.get('/device/:id', ensureAuthenticated, (req, res) => {
                     
                     });
                 });
-          
-             
-            
         });     
     });
 });
