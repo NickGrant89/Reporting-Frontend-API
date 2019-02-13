@@ -5,8 +5,11 @@ block content
   .container-fluid
     // Page Heading
     .d-sm-flex.align-items-center.justify-content-between.mb-4
-      h1.h3.mb-0.text-gray-800 #{title}
-      a.d-none.d-sm-inline-block.btn.btn-sm.btn-primary.shadow-sm(href='#')
+      h1.h3.mb-0.text-gray-800 #{title} - 
+        a.btn.btn-primary(href='#editDevice', data-toggle='modal', data-target='#editDevice') Edit  
+        | 
+        a.btn.btn-danger(href='#', data-id=device._id) Delete  
+      a.d-none.d-sm-inline-block.btn.btn-sm.btn-primary.shadow-sm(href='#editSetting', data-toggle='modal', data-target='#editSetting')
         i.fas.fa-download.fa-sm.text-white-50
         |  Settings
     // Content Row
@@ -175,6 +178,70 @@ block content
                       }]
                       }
                       });    
-
   // /.container-fluid
   // End of Main Content
+  #editDevice.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editDeviceLabel', aria-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5#editDeviceLabel.modal-title Edit Device
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true')
+            .modal-body
+                form(method='POST', action='/devices/edit/'+device.id)
+                    #form-group
+                        label Company:
+                        select.form-control(name='company', type='text')
+                            each company, i in companies
+                                option(value= company.name) #{company.name}
+                    #form-group
+                        label Site:
+                        select.form-control(name='site', type='text')
+                            each site, i in sites
+                                
+                                        option(value= site.name) #{site.name}
+                    #form-group
+                        label PC Name:
+                        input.form-control(name='pcname', type='text', value=device.pcname)
+                    #form-group
+                        label IP Address:
+                        input.form-control(name='ipaddress', type='text' value= device.ipaddress)   
+                    br
+                    input.btn.btn-primary(type='submit', value='Submit')
+                    a.btn.btn-danger(href='/devices/'+device._id) Cancel                                               
+  #editSetting.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editSettingLabel', aria-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5#editSettingLabel.modal-title Edit Settings
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true')
+            .modal-body
+                form(method='POST', action='/devices/settings/'+device.id)
+
+                    #form-group
+                    label File Transfer
+                        .checkbox
+                        label 
+                        | Activate: 
+                        input(name='ftStatus', type='checkbox', value='true', id="myCheck" , onclick="myFunction()" checked=check)
+                        
+                        p#text(style='display:none') Checkbox is CHECKED!
+                  
+                    #form-group
+                        label 
+                        label.radio-inline
+                            input#optionsRadiosInline1(name='type' type='radio', value='server true' checked=serverSetTure)
+                            | Server 
+                        label.radio-inline
+                            input#optionsRadiosInline2(name='type' type='radio', value='client true' checked=clientSetTrue)
+                            | Client
+                            br
+                    #form-group
+                        label File Path:
+                        input.form-control(name='path', type='text', value=device.deviceSettings.fileTransfer.path)       
+                    br
+                    input.btn.btn-primary(type='submit', value='Submit')
+                    |
+                    a.btn.btn-danger(href='/devices/'+device._id) Cancel  
+  

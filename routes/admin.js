@@ -85,7 +85,7 @@ router.get('/checkin', ensureAuthenticated, function(req, res){
 router.get('/sites', ensureAuthenticated, function(req, res){
     Company.find({}, function(err, companies){
     User.findById(req.user.id, function(err, user){
-        if(err){res.redirect('/');}
+        //if(err){res.redirect('/');}
         if(user.admin == 'Super Admin'){
             Site.find({}, function(err, sites){
                 

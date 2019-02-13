@@ -80,7 +80,8 @@ router.get('/register', ensureAuthenticated,  function(req, res){
 
 //login form
 router.get('/login', function(req, res){
-    res.render('login');
+    res.render('login', {title:'Login'});
+
 })
 
 //login form

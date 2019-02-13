@@ -183,7 +183,7 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
   
     let query = {_id:req.params.id}
 
-    Device.update(query, device, function(err){
+    Device.updateOne(query, device, function(err){
          if(err){
              console.log(err);
              return;
@@ -192,7 +192,7 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
              res.redirect('/devices')
          }
     });
-    console.log(req.body.pcname)
+    //console.log(req.body.pcname)
  });
 
  router.post('/settings/:id', ensureAuthenticated,  (req, res) => {
@@ -226,7 +226,7 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
              return;
          }
          else{
-             res.redirect('/')
+             //res.redirect('/')
          }
     });
     //console.log()
