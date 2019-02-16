@@ -1,4 +1,4 @@
-# OneC-Enterprise
+# One C-Enterprise
 
 Enterprise platform for monitoing devices and reporting. 
 
