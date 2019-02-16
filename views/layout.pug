@@ -13,6 +13,7 @@ html(lang='en')
 		// Custom styles for this template
 		link(href='../css/sb-admin-2.min.css', rel='stylesheet')
 		link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+		
 	body#page-top
 		// Page Wrapper
 		#wrapper
@@ -188,12 +189,13 @@ html(lang='en')
 						.container.my-auto
 						.copyright.text-center.my-auto
 							span Copyright © portal.onec.systems 2019
+					script(src='/js/main.js')		
 					// End of Footer
 					// End of Content Wrapper
 					// End of Page Wrapper
 					// Scroll to Top Button
 					a.scroll-to-top.rounded(href='#page-top')
-						i.fas.fa-angle-up
+						i.fas.fa-angle-up	
 	// Logout Modal
 	#logoutModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
 		.modal-dialog(role='document')
@@ -333,7 +335,6 @@ html(lang='en')
 						a.btn.btn-danger(href='/users') Cancel				
 					// Bootstrap core JavaScript
 					script(src='../vendor/jquery/jquery.min.js')
-					script(src='../js/main.js')
 					script(src='../vendor/bootstrap/js/bootstrap.bundle.min.js')
 					// Core plugin JavaScript
 					script(src='../vendor/jquery-easing/jquery.easing.min.js')
