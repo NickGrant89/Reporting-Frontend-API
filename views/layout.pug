@@ -184,18 +184,18 @@ html(lang='en')
 					// End of Topbar
 					!= messages('message', locals)
 					block content
+	script(src='/js/main.js')
 					// Footer
 					footer.sticky-footer.bg-white
 						.container.my-auto
 						.copyright.text-center.my-auto
-							span Copyright © portal.onec.systems 2019
-					script(src='/js/main.js')		
+							span Copyright © portal.onec.systems 2019	
 					// End of Footer
 					// End of Content Wrapper
 					// End of Page Wrapper
 					// Scroll to Top Button
 					a.scroll-to-top.rounded(href='#page-top')
-						i.fas.fa-angle-up	
+						i.fas.fa-angle-up
 	// Logout Modal
 	#logoutModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
 		.modal-dialog(role='document')
