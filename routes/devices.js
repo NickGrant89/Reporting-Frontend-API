@@ -4,6 +4,8 @@ const router = express.Router();
 //Access Control
 const ensureAuthenticated = require('../middleware/login-auth');
 
+const checkServer = require('../middleware/check-server');
+
 let Device = require('../models/device');
 
 let User = require('../models/user');
@@ -115,8 +117,8 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                             companies: companies,
                             title: device.pcname,
                             check:check,
-                            clientSetTrue:hello2(device.deviceSettings.fileTransfer.type, 'server true'),
-                            serverSetTure:hello2(device.deviceSettings.fileTransfer.type, 'client true'),
+                            clientSetTrue:hello2(device.deviceSettings.fileTransfer.type, 'client'),
+                            serverSetTure:hello2(device.deviceSettings.fileTransfer.type, 'server'),
                         });
                         //console.log(device);
                     
@@ -195,18 +197,8 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
     //console.log(req.body.pcname)
  });
 
- router.post('/settings/:id', ensureAuthenticated,  (req, res) => {
-    Device.find({}, function(err, device){
-
-        
-    if(of.checkFileServer(device)=='true'){
-            //console.log('check jkjldfhdskjfsdkj')
-            req.flash('danger', 'Server Exists')
-           res.redirect('/')
-            //return res.redirect('/');
-    } 
-
-
+ router.post('/settings/:id', ensureAuthenticated, (req, res) => {
+    
     //console.log(hello(device));
     var settings = {
         deviceSettings: {
@@ -226,13 +218,12 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
              return;
          }
          else{
-             //res.redirect('/')
+             res.redirect('/devices')
          }
     });
     //console.log()
 
  });
-});
 
  //Delete edit form
 router.delete('/:id', ensureAuthenticated, (req, res) => {

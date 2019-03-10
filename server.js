@@ -139,6 +139,7 @@ app.get('/', ensureAuthenticated, function(req, res){
 let devices = require('./routes/devices');
 let users = require('./routes/users');
 let jwt = require('./routes/apiJWT');
+let apiFileTf = require('./routes/apiFileTransfer');
 let apiDevices = require('./routes/apiDevices');
 let apiCompany = require('./routes/apiCompany');
 let companies = require('./routes/companies');
@@ -147,6 +148,7 @@ let admin = require('./routes/admin');
 
 app.use('/devices', devices);
 app.use('/users', users);
+app.use('/api/v1/filetransfer/', apiFileTf);
 app.use('/api/v1/devices/', apiDevices);
 app.use('/api/v1/company/', apiCompany);
 app.use('/api/v1/auth/', jwt);

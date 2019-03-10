@@ -5,7 +5,13 @@ const Joi = require('joi');  // Joi is a validator, making code smaller//
 const checkAuth = require('../middleware/check-auth');
 
 // Import Device Model
+let Company = require('../models/company');
+
+let Site = require('../models/site');
+
 let Device = require('../models/device');
+
+let User = require('../models/user');
 
 //GET Method for all Devices 
 
@@ -36,12 +42,26 @@ router.get('/nick', checkAuth, (req, res) => {
 
 //GET Singel device :id
 
-router.get('/:id', (req, res) => {
+router.get('/check/:id', (req, res) => {
     Device.findById(req.params.id, function(err, device){
         if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
-            res.send(device);           
+            res.send(device.deviceSettings);           
                 
         });  
+});
+
+//GET files :id
+
+router.get('/getFiles/:id', (req, res) => {
+    Device.findById(req.params.id, function(err, device){
+        Device.find({'company': device.company }, 'deviceSettings pcname ', function(err, devices){
+
+        
+        if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
+            res.send(devices);           
+                
+        });  
+    });
 });
 
 //GET device by :macaddress
@@ -136,51 +156,6 @@ router.put('/:id', checkAuth, (req, res) => {
         device.save();
         res.send(device);
         console.log(device, 'Updated 200!');
-    });
-});
-
-//DEL Method Device
-
-router.delete('/:id', checkAuth, (req, res) => {
-    Device.findById(req.params.id, function(err, device){
-        if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
-
-        device.remove(device._id);
-
-        res.send(device + 'Delete 200');
-        console.log(device, 'Delete 200 ');
-    });
-});
-
-//POST Device check
-
-router.post('/checkin', checkAuth, function(req, res){
-    const {error} = validateDevice(req.body);
-
-    if(error){
-        res.status('404').send(error.details[0].message)
-        console.log(error.details[0].message);
-        return; 
-    } 
-
-    let device = new Device();
-    device.pcname = req.body.pcname;
-    device.ipaddress = req.body.ipaddress;
-    device.macaddress = req.body.macaddress;
-    device.status = req.body.status;
-    device.timestamp = req.body.timestamp;
-
-
-    device.save(function(err){
-        if(err){
-            console.log(err);
-            return;
-        }
-        else{
-            res.send(device);
-            console.log(device , ' Created 200');
-        };
-
     });
 });
 

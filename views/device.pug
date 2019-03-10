@@ -208,38 +208,48 @@ block content
                     input.btn.btn-primary(type='submit', value='Submit')
                     a.btn.btn-danger(href='/devices/'+device._id) Cancel                                               
   #editSetting.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editSettingLabel', aria-hidden='true')
-    .modal-dialog(role='document')
+    .modal-dialog.modal-lg(role='document')
         .modal-content
             .modal-header
-                h5#editSettingLabel.modal-title Edit Settings
+                h5#editSettingLabel.modal-title Device Settings
                 button.close(type='button', data-dismiss='modal', aria-label='Close')
                     span(aria-hidden='true')
             .modal-body
-                form(method='POST', action='/devices/settings/'+device.id)
-
-                    #form-group
-                    label File Transfer
-                        .checkbox
-                        label 
-                        | Activate: 
-                        input(name='ftStatus', type='checkbox', value='true', id="myCheck" , onclick="myFunction()" checked=check)
-                        
-                        p#text(style='display:none') Checkbox is CHECKED!
-                  
-                    #form-group
-                        label 
-                        label.radio-inline
-                            input#optionsRadiosInline1(name='type' type='radio', value='server true' checked=serverSetTure)
-                            | Server 
-                        label.radio-inline
-                            input#optionsRadiosInline2(name='type' type='radio', value='client true' checked=clientSetTrue)
-                            | Client
-                            br
-                    #form-group
-                        label File Path:
-                        input.form-control(name='path', type='text', value=device.deviceSettings.fileTransfer.path)       
-                    br
-                    input.btn.btn-primary(type='submit', value='Submit')
-                    |
-                    a.btn.btn-danger(href='/devices/'+device._id) Cancel  
+              ul#myTab.nav.nav-tabs(role='tablist')
+                li.nav-item
+                  a#home-tab.nav-link.active(data-toggle='tab', href='#home', role='tab', aria-controls='home', aria-selected='true') IP Settings
+                li.nav-item
+                  a#profile-tab.nav-link(data-toggle='tab', href='#profile', role='tab', aria-controls='profile', aria-selected='false') Profile
+                li.nav-item
+                  a#contact-tab.nav-link(data-toggle='tab', href='#contact', role='tab', aria-controls='contact', aria-selected='false') Power Bi Settings
+              #myTabContent.tab-content
+                #home.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='home-tab') ...
+                #profile.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab') ...
+                #contact.tab-pane.fade(role='tabpanel', aria-labelledby='contact-tab')
+                  .container
+                    .card.shadow.mb-4
+                      .card-header.py-3
+                        h6.m-0.font-weight-bold.text-primary File Transfer
+                      .card-body
+                        form(method='POST', action='/devices/settings/'+device.id)
+                          #form-group
+                            .checkbox
+                            label 
+                            | Activate: 
+                            input(name='ftStatus', type='checkbox', value='true', id="myCheck" , onclick="myFunction()" checked=check)
+                          #form-group
+                            .form-check
+                              input#exampleRadios1.form-check-input(type='radio', name='type', value='server', checked=serverSetTure)
+                              label.form-check-label
+                                | Server
+                            .form-check
+                              input#exampleRadios2.form-check-input(type='radio', name='type', value='client' ,checked=clientSetTrue)
+                              label.form-check-label
+                                | Clents  
+                          br      
+                          input.btn.btn-primary(type='submit', value='Update')
+            .modal-footer
+              
+              |
+              a.btn.btn-danger(href='/devices/'+device._id) Cancel  
   
