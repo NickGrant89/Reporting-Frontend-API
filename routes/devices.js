@@ -199,13 +199,21 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
 
  router.post('/settings/:id', ensureAuthenticated, (req, res) => {
     
+    //console.log(req.body.ftStatus);
+    function f(){
+        if(req.body.ftStatus == 'true'){
+            return true;
+        }
+        return false;
+    }
+    
     //console.log(hello(device));
     var settings = {
         deviceSettings: {
             fileTransfer: {
                 type: req.body.type,
                 path: req.body.path,
-                ftStatus: req.body.ftStatus
+                ftStatus: f()
             }
         },
     }

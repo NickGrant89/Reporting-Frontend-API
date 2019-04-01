@@ -198,7 +198,11 @@ router.post('/register', [
   if (!errors.isEmpty()) {
     req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
     res.redirect('/users');
-
+    User.find({email:req.body.email}, function(err, user){
+        if(user.length >= 1){
+        }
+                
+            });
     //res.render('register',)
 
    return { errors: errors.mapped() };
