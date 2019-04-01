@@ -85,7 +85,7 @@ router.get('/checkin', ensureAuthenticated, function(req, res){
 router.get('/sites', ensureAuthenticated, function(req, res){
     Company.find({}, function(err, companies){
     User.findById(req.user.id, function(err, user){
-        if(err){res.redirect('/');}
+        //if(err){res.redirect('/');}
         if(user.admin == 'Super Admin'){
             Site.find({}, function(err, sites){
                 
@@ -169,7 +169,7 @@ router.get('/users', ensureAuthenticated, function(req, res){
         else{
             User.find({}, function(err, users){
                 Company.find({}, function(err, companies){
-                res.render('users', {
+                res.render('admin_users', {
                     title:'Users',
                     users: users,
                     companies:companies,
@@ -213,9 +213,6 @@ router.get('/device/:id', ensureAuthenticated, (req, res) => {
                     
                     });
                 });
-          
-             
-            
         });     
     });
 });

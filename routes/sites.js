@@ -75,18 +75,7 @@ router.get('/', ensureAuthenticated, function(req, res){
     User.findById(req.user.id, function(err, user){
         if(err){res.redirect('/');}
         if(user.admin == 'Super Admin'){
-            Site.find({}, function(err, sites){
-                
-                if(err){
-                    console.log(err)
-                }else{
-                    res.render('sites', {
-                        title:'Sites',
-                        sites: sites,
-                        companies: companies,
-                    });
-                }
-            });
+            return res.redirect('/admin/sites')
         }
         if(user.admin == 'Admin' || 'User'){
             const q = ({"name": user.sites});

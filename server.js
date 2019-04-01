@@ -10,6 +10,9 @@ const session = require('express-session');
 const config = require('./config/database')
 const passport = require('passport');
 
+const helmet = require('helmet');
+
+
 // This calls the Device model to intergate the DB
 
 const ensureAuthenticated = require('../onecEnterprise/middleware/login-auth')
@@ -43,6 +46,8 @@ db.on('error', function(err){
 const app = express();
 app.use(express.json());
 
+app.use(helmet());
+
 //Logs all requests to the consol.
 app.use(morgan('dev'));
 
@@ -58,7 +63,7 @@ app.use(bodyParser.json())
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(express.static(path.join(__dirname, 'sbadmin')))
+app.use(express.static(path.join(__dirname, 'NewSB')))
 
 //Express session Middleware
 
@@ -95,7 +100,7 @@ app.get('/', ensureAuthenticated, function(req, res){
     User.findById(req.user.id, function(err, user){
         if(user.admin == 'Super Admin'){
            return res.redirect('/admin/dashboard')
-        }
+        } 
         //console.log(user)
     Site.find({'name': user.sites}, function(err, sites){
         User.find({}, function(err, users){
@@ -134,6 +139,7 @@ app.get('/', ensureAuthenticated, function(req, res){
 let devices = require('./routes/devices');
 let users = require('./routes/users');
 let jwt = require('./routes/apiJWT');
+let apiFileTf = require('./routes/apiFileTransfer');
 let apiDevices = require('./routes/apiDevices');
 let apiCompany = require('./routes/apiCompany');
 let companies = require('./routes/companies');
@@ -142,6 +148,7 @@ let admin = require('./routes/admin');
 
 app.use('/devices', devices);
 app.use('/users', users);
+app.use('/api/v1/filetransfer/', apiFileTf);
 app.use('/api/v1/devices/', apiDevices);
 app.use('/api/v1/company/', apiCompany);
 app.use('/api/v1/auth/', jwt);
@@ -149,10 +156,12 @@ app.use('/companies', companies);
 app.use('/sites', site);
 app.use('/admin', admin);
 
-app.get('*', function(req, res) {
+app.use('*', function(req, res) {
     res.status(404).end();
     res.redirect('/');
-  });
+  }); 
+ 
+ 
 
 const port = process.env.Port || 3000;
 

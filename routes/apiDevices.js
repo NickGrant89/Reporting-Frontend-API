@@ -36,7 +36,7 @@ router.get('/nick', checkAuth, (req, res) => {
 
 //GET Singel device :id
 
-router.get('/:id', checkAuth, (req, res) => {
+router.get('/:id', (req, res) => {
     Device.findById(req.params.id, function(err, device){
         if(!device) return res.status(404).send('The device with the given ID cannot be found!'), console.log('ID not found!')
             res.send(device);           
