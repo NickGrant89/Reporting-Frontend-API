@@ -26,29 +26,21 @@ router.get('/', ensureAuthenticated, function(req, res){
             console.log(err)
         }
         if(user.admin == 'Super Admin'){
-            User.find({}, function(err, users){
-                Company.find({}, function(err, companies){
-                res.render('users', {
-                    title:'Users',
-                    users: users,
-                    companies:companies,
-                });
+            return res.redirect('/admin/users')
+        } 
+        
+        const q = {'company': user.company}
+        console.log(q);
+        User.find(q, function(err, users){
+            Company.find({'name': user.company}, function(err, companies){
+            res.render('users', {
+                title:'Users',
+                users: users,
+                companies:companies,
             });
         });
-        }
-        else{
-            const q = {'company': user.company}
-            console.log(q);
-            User.find(q, function(err, users){
-                Company.find({'name': user.company}, function(err, companies){
-                res.render('users', {
-                    title:'Users',
-                    users: users,
-                    companies:companies,
-                });
-            });
-        });
-        }
+    });
+        
     });
 });
 
@@ -88,13 +80,14 @@ router.get('/register', ensureAuthenticated,  function(req, res){
 
 //login form
 router.get('/login', function(req, res){
-    res.render('login');
+    res.render('login', {title:'Login'});
+
 })
 
 //login form
 router.get('/logout', function(req, res){
     req.logout();
-    req.flash('success', 'You have logged out');
+    //req.flash('success', 'You have logged out');
     res.redirect('/users/login');
 });
 
@@ -205,9 +198,11 @@ router.post('/register', [
   if (!errors.isEmpty()) {
     req.flash('danger', 'Please try again' ,{errors:errors.mapped()} );
     res.redirect('/users');
-
-   
-
+    User.find({email:req.body.email}, function(err, user){
+        if(user.length >= 1){
+        }
+                
+            });
     //res.render('register',)
 
    return { errors: errors.mapped() };

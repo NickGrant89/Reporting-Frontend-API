@@ -1,249 +1,255 @@
-extends layout2
+extends layout
 
 block content
-  #page-wrapper
-        .row
-          .col-lg-12
-            h3.page-header 
-            if user
-                if user.admin == "Super Admin" || user.admin == "Admin"
-                    a.btn.btn-primary( href='#exampleModal', data-toggle='modal', data-target='#exampleModal') Edit
-                    a.btn.btn-danger.delete-device(href='#', data-id=device._id) Delete
-            br
-          .row
-            .col-lg-12
-                
+  // Begin Page Content
+  .container-fluid
+    // Page Heading
+    .d-sm-flex.align-items-center.justify-content-between.mb-4
+      h1.h3.mb-0.text-gray-800 #{title} - 
+        a.btn.btn-primary(href='#editDevice', data-toggle='modal', data-target='#editDevice') Edit   
+      a.d-none.d-sm-inline-block.btn.btn-sm.btn-primary.shadow-sm(href='#editSetting', data-toggle='modal', data-target='#editSetting')
+        i.fas.fa-download.fa-sm.text-white-50
+        |  Settings
+    // Content Row
+    .row
+      // Content Column
+      .col-lg-12.mb-4
+        // DataTales Example
+        .card.shadow.mb-4
+          .card-header.py-3
+            h6.m-0.font-weight-bold.text-primary Device Info
+          .card-body
+            .table-responsive
+              table#dataTable.table.table-bordered(width='100%', cellspacing='15')
+                thead
+                  tr
+                    th IP Address
+                    th MAC Address
+                    th Company
+                    th Site
+                    th Last Updated
+                    th Status
+                tbody
+                  tr
+                    td #{device.ipaddress}
+                    td #{device.macaddress}
+                    td #{device.company}
+                    td #{device.site}
+                    td #{device.deviceinfo.lastupdated}
+                    td 
+                        if device.status == "Active"
+                            span.label.label-success #{device.status}
+                        else
+                            span.label.label-danger #{device.status}    
+    // Content Row
+    .row
+      // Content Column
+      .col-lg-6.mb-4
+        .card.shadow.mb-4
+          .card-header.py-3
+            h6.m-0.font-weight-bold.text-primary Device Information
+          .card-body
 
-            // /.col-lg-12
-          // /.row
-          .row
-            .col-lg-12
-              != messages('message', locals)
-              .panel.panel-default
-                .panel-heading
-                  h4 Device Name - #{title}
-                // /.panel-heading
-                .panel-body
-                    .table-responsive
-                        table.table.table-striped.table-bordered.table-hover
-                            thead
-                                tr
-                                th IP Address
-                                th MAC Address
-                                th Company
-                                th Site
-                                th Last Updated
-                                th Status
-                            tbody
-                                tr
-                                td #{device.ipaddress}
-                                td #{device.macaddress}
-                                td #{device.company}
-                                td #{device.site}
-                                td #{device.deviceinfo.lastupdated}
-                                td 
-                                    if device.status == "Active"
-                                        span.label.label-success #{device.status}
-                                    else
-                                        span.label.label-danger #{device.status}
-                                tr    
-                    .col-sm-6
-                        .card.border-primary.mb-4(style='padding-left: 0px')
-                            .card-body.text-primary 
-                                .h3 Device Information
-                                p.card-text 
-                                div(style='list-style-type:none')
-                                ul
-                                    i.fa.fa-windows(style='font-size:10px')
-                                    |  Windows Version - #{device.deviceinfo.windowsversion}
-                                ul
-                                    i.fa.fa-hdd-o(style='font-size:10px')
-                                    |  CPU - #{device.deviceinfo.cpu} 
-                                ul
-                                    i.material-icons(style='font-size:10px') memory
-                                    |  Available Memory - #{device.deviceinfo.availablememory}
-                                ul
-                                    i.material-icons(style='font-size:10px') security
-                                    |  Anti Virus - #{device.deviceinfo.antivirus}
-                                ul
-                                    i.material-icons(style='font-size:10px') router
-                                    |  Public IP - #{device.deviceinfo.exipaddress}
-                                ul
-                                    i.material-icons(style='font-size:10px') watch_later
-                                    |  Device Uptime - #{device.deviceinfo.deviceuptime}
-                                if user
-                                    if user.admin == 'Admin' || user.admin == 'Super Admin'    
-                                        a.btn.btn-primary(href='#editSetting', data-toggle='modal', data-target='#editSetting') Settings    
-                                br
-                                br
-                    .col-sm-5(style='padding-top: 20px; padding-right: 100px;') 
-                    .h3 Task Manager
-                        script(src='https://www.gstatic.com/charts/loader.js')
-                        script.
-                            google.charts.load('current', {'packages':['gauge']});
-                            google.charts.setOnLoadCallback(drawChart);
-                            function drawChart() {
-                            var data = google.visualization.arrayToDataTable([
-                            ['Label', 'Value'],
-                            ['Memory', #{device.devicestatus.memory}],
-                            ['CPU', #{device.devicestatus.cpu}],
-                            ['Network', #{device.devicestatus.network}]
-                            ]);
-                            var options = {
-                            width: 400, height: 120,
-                            redFrom: 90, redTo: 100,
-                            yellowFrom:75, yellowTo: 90,
-                            minorTicks: 5
-                            };
-                            var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-                            chart.draw(data, options);
-                            setInterval(function() {
-                            data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-                            chart.draw(data, options);
-                            }, 13000);
-                            setInterval(function() {
-                            data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-                            chart.draw(data, options);
-                            }, 5000);
-                            setInterval(function() {
-                            data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-                            chart.draw(data, options);
-                            }, 26000);
-                            }
-                        #chart_div(style='width: 0px; height: 120px;')
-                                        
-                    br  
+            ul
+                i.fa.fa-windows(style='font-size:10px')
+                |  Windows Version - #{device.deviceinfo.windowsversion}
+            ul
+                i.fa.fa-hdd-o(style='font-size:10px')
+                |  CPU - #{device.deviceinfo.cpu} 
+            ul
+                i.material-icons(style='font-size:10px') memory
+                |  Available Memory - #{device.deviceinfo.availablememory}
+            ul
+                i.material-icons(style='font-size:10px') security
+                |  Anti Virus - #{device.deviceinfo.antivirus}
+            ul
+                i.material-icons(style='font-size:10px') router
+                |  Public IP - #{device.deviceinfo.exipaddress}
+            ul
+                i.material-icons(style='font-size:10px') watch_later
+                |  Device Uptime - #{device.deviceinfo.deviceuptime}
+      // Content Column
+      .col-lg-6.mb-4
+        .card.shadow.mb-4
+          .card-header.py-3
+            h6.m-0.font-weight-bold.text-primary Task Manager
+          .card-body
+            script(src='https://www.gstatic.com/charts/loader.js')
+            script.
+                google.charts.load('current', {'packages':['gauge']});
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                ['Label', 'Value'],
+                ['Memory', #{device.devicestatus.memory}],
+                ['CPU', #{device.devicestatus.cpu}],
+                ['Network', #{device.devicestatus.network}]
+                ]);
+                var options = {
+                width: 400, height: 120,
+                redFrom: 90, redTo: 100,
+                yellowFrom:75, yellowTo: 90,
+                minorTicks: 5
+                };
+                var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+                chart.draw(data, options);
+                setInterval(function() {
+                data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+                chart.draw(data, options);
+                }, 13000);
+                setInterval(function() {
+                data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+                chart.draw(data, options);
+                }, 5000);
+                setInterval(function() {
+                data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+                chart.draw(data, options);
+                }, 26000);
+                }
+            #chart_div(style='width: 0px; height: 120px;')
+    //Content Row                        
+    .row
+      .col-lg-12.mb-4
+        .card.shadow.mb-4
+          .card-header.py-3
+            h6.m-0.font-weight-bold.text-primary Device Information
+          .card-body
+            .row
+              // Content Column
+              .col-lg-6.mb-4
+                .row(style='padding-top: 100px;')
+                  .col-sm
+                    .text-primary
+                      h5.card-title Free Space
+                      p.card-text
+                      h1 #{device.harddrivespace.freespace}GB
+                      p
+                  .col-sm
+                    .text-danger
+                      h5.card-title Used Space
+                      p.card-text
+                      h1 #{device.harddrivespace.usedspace}GB
+                      p
+                  .col-sm
+                    .text-success
+                      h5.card-title Total Space
+                      p.card-text
+                      h1 #{device.harddrivespace.totalspace}GB
+                      p
+              // Content Column
+              .col-lg-4.mb-4
+                canvas#myChart(width='300px', height='300px', padding-right= '100px')
+                  script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
+                  script.
+                      var ctx = document.getElementById("myChart").getContext('2d');
+                      var myChart = new Chart(ctx, {
+                      type: 'doughnut',
+                      data: {
+                      labels: ["Used", "Free"],
+                      datasets: [{
+                      label: '# of Votes',
+                      data: [ #{device.harddrivespace.usedspace}, #{device.harddrivespace.freespace} ],
+                      backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                      ],
+                      borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                      ],
+                      borderWidth: 1
+                      }]
+                      },
+                      options: {
+                      yAxes: [{
+                      ticks: {
+                      beginAtZero:true
+                      }
+                      }]
+                      }
+                      });    
+  // /.container-fluid
+  // End of Main Content
+  #editDevice.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editDeviceLabel', aria-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5#editDeviceLabel.modal-title Edit Device
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true')
+            .modal-body
+                form(method='POST', action='/devices/edit/'+device.id)
+                    #form-group
+                        label Company:
+                        select.form-control(name='company', type='text')
+                            each company, i in companies
+                                option(value= company.name) #{company.name}
+                    #form-group
+                        label Site:
+                        select.form-control(name='site', type='text')
+                            each site, i in sites
+                                
+                                        option(value= site.name) #{site.name}
+                    #form-group
+                        label PC Name:
+                        input.form-control(name='pcname', type='text', value=device.pcname)
+                    #form-group
+                        label IP Address:
+                        input.form-control(name='ipaddress', type='text' value= device.ipaddress)   
                     br
-                    br  
-                    .col-sm-12   
-                        .h3 Hard Drive Space         
-                        .col-sm-5(style='padding-left: 15px;')
-                            canvas#myChart(width='300px', height='300px', padding-right= '100px')
-                                script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
-                                script.
-                                    var ctx = document.getElementById("myChart").getContext('2d');
-                                    var myChart = new Chart(ctx, {
-                                    type: 'doughnut',
-                                    data: {
-                                    labels: ["Used", "Free"],
-                                    datasets: [{
-                                    label: '# of Votes',
-                                    data: [ #{device.harddrivespace.usedspace}, #{device.harddrivespace.freespace} ],
-                                    backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
-                                    ],
-                                    borderColor: [
-                                    'rgba(255,99,132,1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderWidth: 1
-                                    }]
-                                    },
-                                    options: {
-                                    yAxes: [{
-                                    ticks: {
-                                    beginAtZero:true
-                                    }
-                                    }]
-                                    }
-                                    });
-                        .col-sm-7(style='padding-left: 20px;')
-                            .row
-                                .col-sm-3(style='padding-top: 100px;')
-                                        .card.border-primary.mb-3(style='max-width: 18rem;')
-                                        .card-body.text-primary
-                                            h5.card-title Free Space
-                                            p.card-text
-                                            h1 #{device.harddrivespace.freespace}GB
-                                            p
-                                .col-sm-3(style='padding-top: 100px;')
-                                    .card.border-danger.mb-3(style='max-width: 18rem;')
-                                    .card-body.text-danger
-                                        h5.card-title Used Space
-                                        p.card-text
-                                        h1 #{device.harddrivespace.usedspace}GB
-                                        p
-                                .col-sm-3(style='padding-top: 100px;')
-                                    .card.border-success.mb-3(style='max-width: 18rem;')
-                                    .card-body.text-success
-                                        h5.card-title Total Space
-                                        p.card-text
-                                        h1 #{device.harddrivespace.totalspace}GB
-                                        p                   
-
-                    .col-lg-12(style='padding-top: 20px;')
-                        #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
-                            .modal-dialog(role='document')
-                                .modal-content
-                                    .modal-header
-                                        h5#exampleModalLabel.modal-title Edit Device
-                                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                            span(aria-hidden='true')
-                                    .modal-body
-                                        form(method='POST', action='/devices/edit/'+device.id)
-                                            #form-group
-                                                label Company:
-                                                select.form-control(name='company', type='text')
-                                                    each company, i in companies
-                                                        option(value= company.name) #{company.name}
-                                            #form-group
-                                                label Site:
-                                                select.form-control(name='site', type='text')
-                                                    each site, i in sites
-                                                        
-                                                                option(value= site.name) #{site.name}
-                                            #form-group
-                                                label PC Name:
-                                                input.form-control(name='pcname', type='text', value=device.pcname)
-                                            #form-group
-                                                label IP Address:
-                                                input.form-control(name='ipaddress', type='text' value= device.ipaddress)   
-                                            br
-                                            input.btn.btn-primary(type='submit', value='Submit')
-                                            a.btn.btn-danger(href='/devices/'+device._id) Cancel                                               
-                        #editSetting.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editSettingLabel', aria-hidden='true')
-                            .modal-dialog(role='document')
-                                .modal-content
-                                    .modal-header
-                                        h5#editSettingLabel.modal-title Edit Settings
-                                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                            span(aria-hidden='true')
-                                    .modal-body
-                                        form(method='POST', action='/devices/settings/'+device.id)
-
-                                            #form-group
-                                            label File Transfer
-                                                .checkbox
-                                                label 
-                                                | Activate: 
-                                                input(name='ftStatus', type='checkbox', value='true', id="myCheck" , onclick="myFunction()" checked=check)
-                                                
-                                                p#text(style='display:none') Checkbox is CHECKED!
-                                          
-                                            #form-group
-                                                label 
-                                                label.radio-inline
-                                                    input#optionsRadiosInline1(name='type' type='radio', value='server true' checked=serverSetTure)
-                                                    | Server 
-                                                label.radio-inline
-                                                    input#optionsRadiosInline2(name='type' type='radio', value='client true' checked=clientSetTrue)
-                                                    | Client
-                                                    br
-                                            #form-group
-                                                label File Path:
-                                                input.form-control(name='path', type='text', value=device.deviceSettings.fileTransfer.path)       
-                                            br
-                                            input.btn.btn-primary(type='submit', value='Submit')
-                                            a.btn.btn-danger(href='/devices/'+device._id) Cancel
-                        // /#page-wrapper
-                        // /#wrapper
-                        // jQuery
+                    input.btn.btn-primary(type='submit', value='Submit')
+                    a.btn.btn-danger(href='/devices/'+device._id) Cancel                                               
+  #editSetting.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editSettingLabel', aria-hidden='true')
+    .modal-dialog.modal-lg(role='document')
+        .modal-content
+            .modal-header
+                h5#editSettingLabel.modal-title Device Settings
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true')
+            .modal-body
+              ul#myTab.nav.nav-tabs(role='tablist')
+                li.nav-item
+                  a#home-tab.nav-link.active(data-toggle='tab', href='#home', role='tab', aria-controls='home', aria-selected='true') IP Settings
+                li.nav-item
+                  a#profile-tab.nav-link(data-toggle='tab', href='#profile', role='tab', aria-controls='profile', aria-selected='false') Profile
+                li.nav-item
+                  a#contact-tab.nav-link(data-toggle='tab', href='#contact', role='tab', aria-controls='contact', aria-selected='false') Power Bi Settings
+              #myTabContent.tab-content
+                #home.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='home-tab') ...
+                #profile.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab') ...
+                #contact.tab-pane.fade(role='tabpanel', aria-labelledby='contact-tab')
+                  .container
+                    .card.shadow.mb-4
+                      .card-header.py-3
+                        h6.m-0.font-weight-bold.text-primary File Transfer
+                      .card-body
+                        form(method='POST', action='/devices/settings/'+device.id)
+                          #form-group
+                            .checkbox
+                            label 
+                            | Activate: 
+                            input(name='ftStatus', type='checkbox', value='true', id="myCheck" , onclick="myFunction()" checked=check)
+                          #form-group
+                            .form-check
+                              input#exampleRadios1.form-check-input(type='radio', name='type', value='server', checked=serverSetTure)
+                              label.form-check-label
+                                | Server
+                            .form-check
+                              input#exampleRadios2.form-check-input(type='radio', name='type', value='client' ,checked=clientSetTrue)
+                              label.form-check-label
+                                | Clents  
+                          br      
+                          input.btn.btn-primary(type='submit', value='Update')
+            .modal-footer
+              
+              |
+              a.btn.btn-danger(href='/devices/'+device._id) Cancel  
+  

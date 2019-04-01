@@ -4,6 +4,8 @@ const router = express.Router();
 //Access Control
 const ensureAuthenticated = require('../middleware/login-auth');
 
+const checkServer = require('../middleware/check-server');
+
 let Device = require('../models/device');
 
 let User = require('../models/user');
@@ -49,20 +51,9 @@ router.get('/', ensureAuthenticated, function(req, res){
    Company.find({}, function(err, companies){
     User.findById(req.user.id, function(err, user){
         if(err){res.redirect('/');}
-            if(user.admin == 'Super Admin'){
-                Device.find({'status':'Active'}, function(err, devices){
-                    if(err){
-                        console.log(err)
-                    }else{
-                        res.render('devices', {
-                            title:'Devices',
-                            devices: devices,
-                            companies:companies,
-                        
-                        });
-                    }
-                });
-            }
+        if(user.admin == 'Super Admin'){
+            return res.redirect('/admin/devices')
+        }
             if(user.admin == 'Admin' || 'User'){
 
                 const q = ({"site": user.sites, 'status':'Active'});
@@ -126,8 +117,8 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
                             companies: companies,
                             title: device.pcname,
                             check:check,
-                            clientSetTrue:hello2(device.deviceSettings.fileTransfer.type, 'server true'),
-                            serverSetTure:hello2(device.deviceSettings.fileTransfer.type, 'client true'),
+                            clientSetTrue:hello2(device.deviceSettings.fileTransfer.type, 'client'),
+                            serverSetTure:hello2(device.deviceSettings.fileTransfer.type, 'server'),
                         });
                         //console.log(device);
                     
@@ -194,7 +185,7 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
   
     let query = {_id:req.params.id}
 
-    Device.update(query, device, function(err){
+    Device.updateOne(query, device, function(err){
          if(err){
              console.log(err);
              return;
@@ -203,28 +194,26 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
              res.redirect('/devices')
          }
     });
-    console.log(req.body.pcname)
+    //console.log(req.body.pcname)
  });
 
- router.post('/settings/:id', ensureAuthenticated,  (req, res) => {
-    Device.find({}, function(err, device){
-
-        
-    if(of.checkFileServer(device)=='true'){
-            //console.log('check jkjldfhdskjfsdkj')
-            req.flash('danger', 'Server Exists')
-           res.redirect('/')
-            //return res.redirect('/');
-    } 
-
-
+ router.post('/settings/:id', ensureAuthenticated, (req, res) => {
+    
+    //console.log(req.body.ftStatus);
+    function f(){
+        if(req.body.ftStatus == 'true'){
+            return true;
+        }
+        return false;
+    }
+    
     //console.log(hello(device));
     var settings = {
         deviceSettings: {
             fileTransfer: {
                 type: req.body.type,
                 path: req.body.path,
-                ftStatus: req.body.ftStatus
+                ftStatus: f()
             }
         },
     }
@@ -237,13 +226,12 @@ router.post('/edit/:id', ensureAuthenticated,  (req, res) => {
              return;
          }
          else{
-             res.redirect('/')
+             res.redirect('/devices')
          }
     });
     //console.log()
 
  });
-});
 
  //Delete edit form
 router.delete('/:id', ensureAuthenticated, (req, res) => {
