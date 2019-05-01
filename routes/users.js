@@ -3,7 +3,29 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const multer = require('multer');
-const upload = multer({dest: 'uploads/'});
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, './uploads/');
+    },
+    filename: function(req, file, cb ){
+        cb(null, new Date().toISOString() + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) =>{
+    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpeg'){
+        cb(null, true);
+    }else{
+        cb(null, false);
+    }
+};
+
+const upload = multer({storage: storage, limits:{
+        fileSize: 1024 * 1024 * 5
+        },
+        fileFilter: fileFilter
+});
 
 //Passport Config
 require('../config/passport')(passport);
@@ -145,9 +167,9 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 
 //Edit User 
 router.post('/edit/:id', upload.single('userImage'),  (req, res) => {
-    console.log(req.userImage);
+    console.log(req.file);
     User.findById(req.user.id, function(err, users){ 
-        console.log(users);
+        //console.log(users);
     let user = {};
     user.admin = req.body.admin;
     user.name = req.body.name;
@@ -155,6 +177,7 @@ router.post('/edit/:id', upload.single('userImage'),  (req, res) => {
     //user.company = users.company;
     user.phone = req.body.phone;
     user.sites = req.body.sites;
+    user.userImage = req.file.path;
     console.log(req.body.sites);
   
     let query = {_id:req.params.id}
@@ -169,7 +192,7 @@ router.post('/edit/:id', upload.single('userImage'),  (req, res) => {
              
          }
     });
-    console.log()
+    //console.log()
  });
 });
 
