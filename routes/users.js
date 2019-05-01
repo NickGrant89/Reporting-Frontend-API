@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
 
 //Passport Config
 require('../config/passport')(passport);
@@ -142,8 +144,8 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 });
 
 //Edit User 
-router.post('/edit/:id',  (req, res) => {
-    
+router.post('/edit/:id', upload.single('userImage'),  (req, res) => {
+    console.log(req.userImage);
     User.findById(req.user.id, function(err, users){ 
         console.log(users);
     let user = {};

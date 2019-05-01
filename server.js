@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const config = require('./config/database')
 const passport = require('passport');
+const MongoStore = require('connect-mongo')(session);
 
 const helmet = require('helmet');
 
@@ -46,7 +47,9 @@ db.on('error', function(err){
 const app = express();
 app.use(express.json());
 
+
 app.use(helmet());
+app.disable('x-powered-by')
 
 //Logs all requests to the consol.
 app.use(morgan('dev'));
@@ -59,6 +62,16 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers', Origin, X-Requested-With, Content-Type, Authorization");
+    if(req.method === 'OPTIONS'){
+        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+        return res.status(200).json({})
+    }
+    next();
+});
+
 //Set Public folder
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -67,10 +80,13 @@ app.use(express.static(path.join(__dirname, 'NewSB')))
 
 //Express session Middleware
 
+app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-    secret: 'keyboard cat',
+    secret: 'Fam!lyGuy2o19',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new MongoStore({mongooseConnection: mongoose.connection, 
+                            ttl: 1 * 24 * 60 * 60 })
   }));
 
   //Express message middleware
@@ -156,13 +172,17 @@ app.use('/companies', companies);
 app.use('/sites', site);
 app.use('/admin', admin);
 
-app.use('*', function(req, res) {
+/* app.use('*', function(req, res) {
     res.status(404).end();
     res.redirect('/');
-  }); 
+  });  */
  
- 
+app.use(function (req, res, next) {
+//res.status(404).send("Sorry can't find that!")
+res.redirect('/');
+}); 
 
+const ip = process.env.IP ;
 const port = process.env.Port || 3000;
 
-app.listen(port, '192.168.178.23', () => console.log('Example app listening on port' + ' ' + port +  '!'))
+app.listen(port, ip, () => console.log('Example app listening on port' + ' ' + port +  '!'))
